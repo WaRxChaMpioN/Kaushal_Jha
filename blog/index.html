@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing — Kaushal Jha</title>
+  <meta name="description" content="Notes on research, computation, and life in the mountains by Kaushal Jha, PhD student at Colorado School of Mines.">
+
+  <!-- Favicon: KJ monogram -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='5' fill='%234a7c59'/><text x='50%' y='52%' dominant-baseline='central' text-anchor='middle' font-family='Georgia,serif' font-weight='bold' font-size='14' fill='white'>KJ</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <!-- Shared stylesheet — one level up -->
+  <link rel="stylesheet" href="../style.css">
+
+  <!-- Blog-specific overrides -->
+  <style>
+    .blog-hero {
+      padding: calc(var(--nav-h) + var(--sp-2xl)) var(--sp-lg) var(--sp-xl);
+      text-align: center;
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .blog-hero-topo {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .blog-hero-topo svg { width: 100%; height: 100%; }
+
+    .blog-hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .blog-hero-eyebrow {
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: var(--color-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: var(--sp-sm);
+    }
+
+    .blog-hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: var(--sp-sm);
+    }
+
+    .blog-hero-sub {
+      font-size: 1rem;
+      color: var(--color-muted);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* Filter tabs */
+    .blog-filters {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: var(--sp-xl);
+    }
+
+    .filter-btn {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 0.9rem;
+      border-radius: var(--radius-full);
+      border: 1.5px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-muted);
+      cursor: pointer;
+      transition: all var(--ease);
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #fff;
+    }
+
+    /* Blog listing posts */
+    .posts-section {
+      padding: var(--sp-2xl) 0;
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-lg);
+    }
+    @media (min-width: 768px)  { .posts-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .posts-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    /* Post card — same warm card style as main site */
+    .post-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--sp-lg);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: transform var(--ease), box-shadow var(--ease);
+    }
+    .post-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    /* Placeholder post — coming soon state */
+    .post-card.placeholder {
+      opacity: 0.6;
+      cursor: default;
+    }
+    .post-card.placeholder:hover {
+      transform: none;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .post-card-title {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.4;
+    }
+
+    .post-card-excerpt {
+      font-size: 0.88rem;
+      color: var(--color-muted);
+      line-height: 1.75;
+      flex: 1;
+    }
+
+    .post-card-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-sm);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--color-muted);
+    }
+
+    .post-card-link {
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--color-primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      margin-top: auto;
+      transition: color var(--ease), gap var(--ease);
+    }
+    .post-card-link:hover {
+      color: var(--color-primary-dark);
+      gap: 0.4rem;
+    }
+
+    .coming-soon-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--color-muted);
+      font-style: italic;
+    }
+
+    /* Back link */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--color-primary);
+      margin-bottom: var(--sp-xl);
+      transition: gap var(--ease), color var(--ease);
+    }
+    .back-link:hover {
+      gap: 0.6rem;
+      color: var(--color-primary-dark);
+    }
+    .back-link svg { width: 15px; height: 15px; }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: var(--sp-2xl) 0;
+      color: var(--color-muted);
+      font-size: 0.95rem;
+    }
+    .empty-state i {
+      display: block;
+      margin: 0 auto var(--sp-md);
+      width: 40px;
+      height: 40px;
+      opacity: 0.3;
+    }
+
+    /* Newsletter / subscribe teaser */
+    .subscribe-box {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--sp-xl);
+      text-align: center;
+      margin-top: var(--sp-2xl);
+      box-shadow: var(--shadow-sm);
+    }
+    .subscribe-box h3 {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .subscribe-box p {
+      font-size: 0.9rem;
+      color: var(--color-muted);
+      margin-bottom: var(--sp-lg);
+    }
+    .subscribe-row {
+      display: flex;
+      gap: 0.5rem;
+      max-width: 400px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .subscribe-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.72rem 1rem;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-full);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      background: var(--color-bg);
+      outline: none;
+      transition: border-color var(--ease);
+    }
+    .subscribe-input:focus {
+      border-color: var(--color-primary);
+    }
+    .subscribe-note {
+      font-size: 0.75rem;
+      color: var(--color-muted);
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll Progress Bar -->
+  <div id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- ══════════════════════════════════════════════════════
+       NAVIGATION (same as main site, paths go up one level)
+  ══════════════════════════════════════════════════════ -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo" aria-label="Kaushal Jha — Home">KJ</a>
+
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="../index.html#about"    class="nav-link">About</a></li>
+        <li><a href="../index.html#research" class="nav-link">Research</a></li>
+        <li><a href="../index.html#projects" class="nav-link">Projects</a></li>
+        <li><a href="../blog/"               class="nav-link active">Blog</a></li>
+        <li><a href="../index.html#cv"       class="nav-link">CV</a></li>
+        <li><a href="../index.html#contact"  class="nav-link">Contact</a></li>
+      </ul>
+
+      <button class="hamburger" id="hamburger"
+              aria-label="Toggle navigation"
+              aria-expanded="false"
+              aria-controls="nav-links">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- Blog hero header -->
+    <header class="blog-hero" aria-label="Blog header">
+      <div class="blog-hero-topo" aria-hidden="true">
+        <svg viewBox="0 0 1440 300" preserveAspectRatio="xMidYMid slice"
+             xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" stroke="#4a7c59" stroke-width="1" opacity="0.05">
+            <path d="M0,150 C200,80 400,200 600,150 C800,100 1000,200 1200,150 C1300,125 1380,155 1440,150"/>
+            <path d="M0,180 C200,110 400,220 600,180 C800,130 1000,225 1200,180 C1300,155 1380,182 1440,178"/>
+            <path d="M0,120 C200,55  400,175 600,120 C800,70  1000,172 1200,120 C1300,97 1380,124 1440,120"/>
+            <path d="M0,210 C200,140 400,245 600,210 C800,160 1000,248 1200,210 C1300,188 1380,212 1440,208"/>
+            <path d="M0,90  C200,28  400,148 600,90  C800,42  1000,146 1200,90  C1300,68 1380,94  1440,90"/>
+          </g>
+        </svg>
+      </div>
+      <div class="blog-hero-content">
+        <p class="blog-hero-eyebrow">Kaushal Jha · Writing</p>
+        <h1 class="blog-hero-title">Field Notes</h1>
+        <p class="blog-hero-sub">
+          Notes on research, computation, and life in the mountains.
+          Dispatches from a PhD in ML × CFD.
+        </p>
+      </div>
+    </header>
+
+    <!-- Posts section -->
+    <section class="posts-section" aria-label="Blog posts">
+      <div class="container">
+
+        <a href="../index.html" class="back-link">
+          <i data-lucide="arrow-left" aria-hidden="true"></i>
+          Back to main site
+        </a>
+
+        <!-- Category filter buttons -->
+        <div class="blog-filters" role="group" aria-label="Filter posts by category">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="research">Research</button>
+          <button class="filter-btn" data-filter="computing">Computing</button>
+          <button class="filter-btn" data-filter="outdoors">Outdoors</button>
+        </div>
+
+        <!-- Posts grid -->
+        <!--
+          TO ADD A NEW POST:
+          1. Create a new .html file in this /blog/ directory
+          2. Copy the post-card article block below
+          3. Set href to the new file path
+          4. Set data-category to "research", "computing", or "outdoors"
+          5. Fill in title, excerpt, and date
+          6. Remove the "placeholder" class so it appears as a live post
+        -->
+        <div class="posts-grid" id="posts-grid">
+
+          <!-- Post 1: Research — placeholder (not yet written) -->
+          <article class="post-card placeholder fade-in-section"
+                   data-category="research"
+                   aria-label="Blog post: What I Learned Reproducing a Published ML-CFD Paper">
+            <div class="blog-card-header">
+              <span class="status-badge badge-green">Research</span>
+            </div>
+            <h2 class="post-card-title">
+              What I Learned Reproducing a Published ML-CFD Paper
+            </h2>
+            <p class="post-card-excerpt">
+              A hands-on account of reproducing Wang et al. 2021 — from deciphering sparse methods
+              sections to getting the data pipeline right on an HPC cluster.
+            </p>
+            <div class="post-card-meta">
+              <span>Coming soon</span>
+            </div>
+            <span class="coming-soon-label">— drafting now</span>
+          </article>
+
+          <!-- Post 2: Computing — placeholder -->
+          <article class="post-card placeholder fade-in-section"
+                   data-category="computing"
+                   aria-label="Blog post: HPC for Beginners: My First Month on a Cluster">
+            <div class="blog-card-header">
+              <span class="status-badge badge-gray">Computing</span>
+            </div>
+            <h2 class="post-card-title">
+              HPC for Beginners: My First Month on a Cluster
+            </h2>
+            <p class="post-card-excerpt">
+              Slurm, modules, scratch space, and why your laptop is not a supercomputer. A practical
+              guide for researchers new to high-performance computing.
+            </p>
+            <div class="post-card-meta">
+              <span>Coming soon</span>
+            </div>
+            <span class="coming-soon-label">— drafting now</span>
+          </article>
+
+          <!-- Post 3: Outdoors — placeholder -->
+          <article class="post-card placeholder fade-in-section"
+                   data-category="outdoors"
+                   aria-label="Blog post: Hiking Chimney Gulch to Genesee">
+            <div class="blog-card-header">
+              <span class="status-badge badge-amber">Outdoors</span>
+            </div>
+            <h2 class="post-card-title">
+              Hiking Chimney Gulch to Genesee: A 12-Mile Lesson in Persistence
+            </h2>
+            <p class="post-card-excerpt">
+              The Rockies don't care about your timeline. Notes from a long day on the trail — and
+              what it taught me about pacing in research.
+            </p>
+            <div class="post-card-meta">
+              <span>Coming soon</span>
+            </div>
+            <span class="coming-soon-label">— drafting now</span>
+          </article>
+
+        </div><!-- /posts-grid -->
+
+        <!-- Newsletter / subscribe box -->
+        <div class="subscribe-box">
+          <h3>Get notified when I publish</h3>
+          <p>Occasional posts on ML, CFD, HPC, and the Colorado mountains.</p>
+          <!-- Replace action URL with your actual form handler (Formspree, Buttondown, etc.) -->
+          <form class="subscribe-row" action="#" method="POST" aria-label="Subscribe to blog updates">
+            <input type="email" name="email" class="subscribe-input"
+                   placeholder="your@email.com" required autocomplete="email"
+                   aria-label="Email address for subscription">
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </form>
+          <p class="subscribe-note">No spam. Unsubscribe anytime.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer (same as main site) -->
+  <footer id="footer" role="contentinfo">
+    <div class="footer-topo" aria-hidden="true">
+      <svg viewBox="0 0 1440 70" preserveAspectRatio="xMidYMid slice"
+           xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="#4a7c59" stroke-width="1" opacity="0.1">
+          <path d="M0,35 C180,12 360,58 540,35 C720,12 900,58 1080,35 C1200,20 1340,42 1440,35"/>
+          <path d="M0,48 C180,25 360,68 540,48 C720,25 900,68 1080,48 C1200,33 1340,52 1440,46"/>
+          <path d="M0,22 C180,4  360,45 540,22 C720,4  900,45 1080,22 C1200,10 1340,30 1440,22"/>
+        </g>
+      </svg>
+    </div>
+    <div class="footer-content">
+      <p class="footer-name">Kaushal Jha · PhD Researcher · Colorado School of Mines</p>
+      <p class="footer-built">Built with care · Hosted on GitHub Pages</p>
+      <div class="footer-social">
+        <a href="https://github.com/WaRxChaMpioN" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <i data-lucide="github"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/kaushal-jha892/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <i data-lucide="linkedin"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+
+  <script>
+    /* ─────────────────────────────────────────────
+       Blog-page only: category filter functionality
+       Filters post cards by data-category attribute.
+    ───────────────────────────────────────────── */
+    (function () {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const postCards  = document.querySelectorAll('#posts-grid .post-card');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const filter = btn.dataset.filter;
+
+          // Update active button
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          // Show/hide cards
+          postCards.forEach(card => {
+            const match = filter === 'all' || card.dataset.category === filter;
+            card.style.display = match ? '' : 'none';
+          });
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>

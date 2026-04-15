@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kaushal Jha — PhD Researcher · ML × CFD</title>
+  <meta name="description" content="Kaushal Jha is a PhD student in Hydrology at Colorado School of Mines, specializing in machine learning for computational fluid dynamics and porous media flow.">
+  <meta property="og:title" content="Kaushal Jha — PhD Researcher · ML × CFD">
+  <meta property="og:description" content="PhD student at Colorado School of Mines working at the intersection of machine learning and computational fluid dynamics.">
+  <meta property="og:type" content="website">
+  <!-- og:image: <meta property="og:image" content="./images/og-image.jpg"> -->
+
+  <!-- Favicon: KJ monogram via SVG data URI -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='5' fill='%234a7c59'/><text x='50%' y='52%' dominant-baseline='central' text-anchor='middle' font-family='Georgia,serif' font-weight='bold' font-size='14' fill='white'>KJ</text></svg>">
+
+  <!-- Google Fonts: Lora (serif) + Inter (sans-serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons via CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Scroll Progress Bar -->
+  <div id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- ══════════════════════════════════════════════════════
+       NAVIGATION
+  ══════════════════════════════════════════════════════ -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo" aria-label="Kaushal Jha — Home">KJ</a>
+
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="#about"    class="nav-link">About</a></li>
+        <li><a href="#research" class="nav-link">Research</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#blog"     class="nav-link">Blog</a></li>
+        <li><a href="#cv"       class="nav-link">CV</a></li>
+        <li><a href="#contact"  class="nav-link">Contact</a></li>
+      </ul>
+
+      <button class="hamburger" id="hamburger"
+              aria-label="Toggle navigation"
+              aria-expanded="false"
+              aria-controls="nav-links">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ══════════════════════════════════════════════════════
+         HERO
+    ══════════════════════════════════════════════════════ -->
+    <section id="hero" aria-label="Hero introduction">
+
+      <!-- Topographic contour line SVG background — mountain topology motif -->
+      <div class="topo-bg" aria-hidden="true">
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
+             xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" stroke="#4a7c59" stroke-width="1.2" opacity="0.06">
+            <!-- Outer rings -->
+            <path d="M720,450 C620,300 440,240 310,300 C180,360 130,490 190,590 C250,690 430,740 620,715 C810,690 940,615 990,510 C1040,405 1010,300 935,248 C860,196 820,340 720,450Z"/>
+            <path d="M720,420 C610,260 410,190 265,255 C120,320 65,465 130,575 C195,685 390,738 595,710 C800,682 940,600 995,485 C1050,370 1015,258 932,200 C849,142 830,310 720,420Z"/>
+            <path d="M720,480 C630,350 470,295 365,348 C260,401 220,508 282,603 C344,698 510,742 685,715 C860,688 975,610 1025,497 C1075,384 1040,278 960,230 C880,182 810,370 720,480Z"/>
+            <path d="M720,390 C600,230 390,158 235,228 C80,298 20,452 90,568 C160,684 368,742 582,712 C796,682 940,592 998,468 C1056,344 1018,226 926,162 C834,98 840,282 720,390Z"/>
+            <path d="M720,510 C648,395 510,345 415,390 C320,435 288,545 354,638 C420,731 598,768 758,738 C918,708 1015,630 1058,510 C1101,390 1062,282 982,232 C902,182 792,400 720,510Z"/>
+            <path d="M720,360 C590,190 360,112 192,188 C24,264 -42,432 36,554 C114,676 334,742 558,708 C782,674 940,578 1002,444 C1064,310 1022,186 922,118 C822,50 850,258 720,360Z"/>
+            <path d="M720,540 C658,440 540,395 450,434 C360,473 330,580 402,672 C474,764 660,796 808,762 C956,728 1050,648 1090,522 C1130,396 1086,284 1000,234 C914,184 782,430 720,540Z"/>
+            <path d="M720,330 C580,152 336,68 154,152 C-28,236 -98,420 -12,548 C74,676 312,748 544,710 C776,672 940,564 1006,420 C1072,276 1026,148 918,76 C810,4 862,234 720,330Z"/>
+            <path d="M720,570 C668,476 572,435 488,468 C404,501 374,606 450,698 C526,790 716,818 860,780 C1004,742 1095,660 1130,528 C1165,396 1116,280 1024,228 C932,176 772,460 720,570Z"/>
+            <!-- Inner rings — central peak -->
+            <path d="M720,600 C680,520 596,482 524,510 C452,538 424,630 504,722 C584,814 768,838 904,796 C1040,754 1124,666 1156,530 C1188,394 1132,272 1040,218 C948,164 760,490 720,600Z"/>
+            <path d="M720,300 C572,112 306,22 112,112 C-82,202 -152,400 -60,534 C32,668 286,750 530,710 C774,670 940,552 1010,398 C1080,244 1030,110 914,34 C798,-42 868,210 720,300Z"/>
+            <!-- Side ridges -->
+            <path d="M160,160 C270,108 430,140 550,208 C670,276 720,392 698,502 C676,612 594,696 468,716 C342,736 210,692 142,616 C74,540 68,432 112,344 C156,256 160,160 160,160Z"/>
+            <path d="M1140,150 C1250,216 1330,314 1352,432 C1374,550 1320,658 1226,722 C1132,786 996,796 878,752 C760,708 694,622 706,526 C718,430 780,354 868,312 C956,270 1030,84 1140,150Z"/>
+            <path d="M380,80 C510,36 660,58 768,122 C876,186 912,304 878,418 C844,532 758,614 640,642 C522,670 392,636 314,568 C236,500 228,396 274,304 C320,212 380,80 380,80Z"/>
+            <path d="M920,60 C1050,82 1158,168 1196,284 C1234,400 1200,518 1124,590 C1048,662 932,682 826,648 C720,614 656,538 658,444 C660,350 718,264 804,214 C890,164 920,60 920,60Z"/>
+            <!-- Extra detail lines for density -->
+            <path d="M500,50 C580,20 680,30 760,70 C840,110 880,190 862,290 C844,390 786,460 698,490 C610,520 512,500 456,444 C400,388 398,300 432,224 C466,148 500,50 500,50Z"/>
+            <path d="M880,40 C968,60 1048,120 1076,218 C1104,316 1076,420 1010,482 C944,544 848,556 762,522 C676,488 628,416 636,336 C644,256 704,190 778,158 C852,126 880,40 880,40Z"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="hero-content">
+        <p class="hero-location">Colorado School of Mines · Golden, CO</p>
+        <h1 class="hero-name">Kaushal Jha</h1>
+        <p class="hero-tagline">PhD Researcher · ML × Computational Fluid Dynamics</p>
+        <div class="hero-typing" aria-live="polite">
+          <span id="typed-text"></span><span class="cursor" aria-hidden="true">|</span>
+        </div>
+        <div class="hero-cta">
+          <a href="#research" class="btn btn-primary">View Research</a>
+          <!-- Replace cv.pdf with your actual resume file -->
+          <a href="cv.pdf" class="btn btn-outline" download>Download CV</a>
+        </div>
+      </div>
+
+      <!-- Animated scroll-down arrow -->
+      <a href="#about" class="scroll-arrow" aria-label="Scroll to About section">
+        <i data-lucide="chevron-down" aria-hidden="true"></i>
+      </a>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         ABOUT
+    ══════════════════════════════════════════════════════ -->
+    <section id="about" class="section fade-in-section" aria-labelledby="about-heading">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title" id="about-heading">About</h2>
+          <div class="section-divider" aria-hidden="true">
+            <svg width="140" height="22" viewBox="0 0 140 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="11" x2="50" y2="11" stroke="#e0dbd0" stroke-width="1"/>
+              <path d="M58,20 L63,4 L68,20 L73,9 L78,16 L83,2 L88,17 L93,9 L98,20" stroke="#4a7c59" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+              <line x1="106" y1="11" x2="140" y2="11" stroke="#e0dbd0" stroke-width="1"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="about-grid">
+
+          <!-- Bio text -->
+          <div class="about-text">
+            <p class="about-bio">
+              I'm a PhD student in Hydrology at Colorado School of Mines, advised by
+              <strong>Dr. Serveh Kamrava</strong>, working at the intersection of machine learning and
+              computational fluid dynamics for subsurface flow. My current research focuses on building
+              3D CNN surrogates for lattice Boltzmann simulations in porous media — making flow prediction
+              fast without solving the full physics. Best model: R² = 0.85 at 64³ resolution on Wendian HPC.
+            </p>
+            <p class="about-bio">
+              I hold a B.Tech (Mechanical Engineering) from AKTU and an M.Tech (Research) in Computational
+              Mechanics from IIT Mandi (advised by Dr. Pradeep Kumar), where I developed coupled
+              radiative-convective frameworks for volumetric solar receivers using MCRT and OpenFOAM.
+            </p>
+            <p class="about-beyond">
+              <strong>Beyond the lab:</strong> I grew up in Delhi, but Himachal Pradesh is my second home
+              — I've lived and explored the Himalayas more than anywhere else, and the mountains shaped how
+              I think. When I'm not debugging HPC jobs on the Wendian cluster, I'm hiking the Colorado
+              Rockies, lifting, or playing badminton. I believe being physically strong and intellectually
+              sharp are the same discipline.
+            </p>
+
+            <!-- Currently box -->
+            <div class="currently-box" aria-label="Current activities">
+              <h3 class="currently-title">Currently</h3>
+              <ul class="currently-list">
+                <li>
+                  <i data-lucide="cpu" aria-hidden="true"></i>
+                  Running ML-LBM experiments on Wendian HPC
+                </li>
+                <li>
+                  <i data-lucide="book-open" aria-hidden="true"></i>
+                  Reading: <em>[add your current read here]</em>
+                </li>
+                <li>
+                  <i data-lucide="mountain" aria-hidden="true"></i>
+                  Hiking: Exploring Colorado Rockies
+                </li>
+              </ul>
+            </div>
+
+            <!-- Skills -->
+            <div class="skills-section">
+              <h3 class="skills-title">Technical Skills</h3>
+              <div class="skill-tags" role="list" aria-label="Technical skills">
+                <span class="skill-tag" role="listitem">Python</span>
+                <span class="skill-tag" role="listitem">C / C++</span>
+                <span class="skill-tag" role="listitem">MATLAB</span>
+                <span class="skill-tag" role="listitem">TensorFlow / Keras</span>
+                <span class="skill-tag" role="listitem">XGBoost</span>
+                <span class="skill-tag" role="listitem">scikit-learn</span>
+                <span class="skill-tag" role="listitem">OpenFOAM</span>
+                <span class="skill-tag" role="listitem">ANSYS Fluent</span>
+                <span class="skill-tag" role="listitem">LBM</span>
+                <span class="skill-tag" role="listitem">CFD</span>
+                <span class="skill-tag" role="listitem">MCRT</span>
+                <span class="skill-tag" role="listitem">HPC / Slurm</span>
+                <span class="skill-tag" role="listitem">NumPy / SciPy</span>
+                <span class="skill-tag" role="listitem">Pandas</span>
+                <span class="skill-tag" role="listitem">Git</span>
+                <span class="skill-tag" role="listitem">LaTeX</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Photo column -->
+          <div class="about-photo-col">
+            <div class="photo-wrapper">
+              <!-- Replace the placeholder div below with:
+                   <img src="./images/kaushal-jha.jpg" alt="Kaushal Jha" class="profile-photo">
+                   and remove the photo-placeholder div -->
+              <div class="photo-placeholder" aria-label="Photo placeholder — replace with actual photo">
+                <i data-lucide="user" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="photo-caption">
+              <p>Kaushal Jha</p>
+              <p class="muted">PhD Researcher · CSM</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         RESEARCH & PUBLICATIONS
+    ══════════════════════════════════════════════════════ -->
+    <section id="research" class="section fade-in-section section-alt" aria-labelledby="research-heading">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title" id="research-heading">Research</h2>
+          <div class="section-divider" aria-hidden="true">
+            <svg width="140" height="22" viewBox="0 0 140 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="11" x2="50" y2="11" stroke="#e0dbd0" stroke-width="1"/>
+              <path d="M58,20 L63,4 L68,20 L73,9 L78,16 L83,2 L88,17 L93,9 L98,20" stroke="#4a7c59" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+              <line x1="106" y1="11" x2="140" y2="11" stroke="#e0dbd0" stroke-width="1"/>
+            </svg>
+          </div>
+        </div>
+
+        <p class="section-intro">
+          My work spans porous media flow, radiative heat transfer, and applied ML for scientific computing.
+        </p>
+
+        <div class="research-cards">
+
+          <!-- Card 1: PhD Research (active) -->
+          <article class="research-card fade-in-section"
+                   aria-label="PhD Research: CNN Surrogate for 3D Porous Media Flow">
+            <div class="research-card-header">
+              <span class="status-badge badge-green">Active · PhD Research</span>
+            </div>
+            <h3 class="research-card-title">
+              CNN Surrogate for 3D Porous Media Flow via Lattice Boltzmann Method
+            </h3>
+            <p class="research-card-desc">
+              Reproducing and extending Wang et al. 2021 (Transport in Porous Media 138:49-75). A 3D CNN
+              (K4N8 architecture) with a physics-informed continuity loss learns velocity fields from
+              CT-scanned pore geometries — achieving R² = 0.85 at 64³ resolution on Wendian HPC. Enables
+              fast, mesh-free flow prediction without full LBM solves.
+            </p>
+            <div class="research-tags" role="list" aria-label="Research tags">
+              <span class="tag" role="listitem">ML-LBM</span>
+              <span class="tag" role="listitem">3D CNN</span>
+              <span class="tag" role="listitem">Porous Media</span>
+              <span class="tag" role="listitem">HPC</span>
+              <span class="tag" role="listitem">TensorFlow</span>
+            </div>
+          </article>
+
+          <!-- Card 2: M.Tech publication -->
+          <article class="research-card fade-in-section"
+                   aria-label="M.Tech Publication: Pore-Scale Radiation Modeling in TPMS Solar Receivers">
+            <div class="research-card-header">
+              <span class="status-badge badge-amber">Under Review · Journal</span>
+            </div>
+            <h3 class="research-card-title">
+              Pore-Scale Radiation Modeling in TPMS-Based Volumetric Solar Receivers
+            </h3>
+            <p class="research-card-desc">
+              Monte Carlo Ray Tracing (MCRT) in ANSYS Fluent and a homogenized OpenFOAM model for
+              diamond-structured alumina TPMS absorbers. Characterizes radiation-conduction coupling
+              and LTNE in concentrated solar receivers.
+            </p>
+            <div class="research-tags" role="list" aria-label="Research tags">
+              <span class="tag" role="listitem">MCRT</span>
+              <span class="tag" role="listitem">OpenFOAM</span>
+              <span class="tag" role="listitem">TPMS</span>
+              <span class="tag" role="listitem">Solar Energy</span>
+              <span class="tag" role="listitem">Radiative Heat Transfer</span>
+            </div>
+          </article>
+
+          <!-- Card 3: Collaboration -->
+          <article class="research-card fade-in-section"
+                   aria-label="Collaboration: ML-Based Pipeline Risk Classification for ECMC Gathering Flowlines">
+            <div class="research-card-header">
+              <span class="status-badge badge-amber">In Preparation · SPE Journal</span>
+            </div>
+            <h3 class="research-card-title">
+              ML-Based Pipeline Risk Classification for ECMC Gathering Flowlines
+            </h3>
+            <p class="research-card-desc">
+              XGBoost pipeline for four-class pipeline risk classification (~15k flowlines, 24:1 class
+              imbalance). BorderlineSMOTE + TomekLinks resampling, isotonic probability calibration,
+              and Monte Carlo failure probability (μ = 2×MAOP, 10k samples) to generate physically
+              grounded Low/Medium/High/Severe risk labels.
+            </p>
+            <div class="research-tags" role="list" aria-label="Research tags">
+              <span class="tag" role="listitem">XGBoost</span>
+              <span class="tag" role="listitem">SMOTE</span>
+              <span class="tag" role="listitem">Risk Classification</span>
+              <span class="tag" role="listitem">Pipeline Integrity</span>
+              <span class="tag" role="listitem">Monte Carlo</span>
+            </div>
+          </article>
+
+          <!-- Card 4: M.Tech — Fog Laser Interaction -->
+          <article class="research-card fade-in-section"
+                   aria-label="M.Tech Research: Laser-Fog Interaction for Long-Distance Visibility">
+            <div class="research-card-header">
+              <span class="status-badge badge-green">Active · M.Tech Research</span>
+            </div>
+            <h3 class="research-card-title">
+              Tunnelling Through Fog: Laser Visibility via Monte Carlo Ray Tracing
+            </h3>
+            <p class="research-card-desc">
+              Analysing complex refractive indices of ice and water across microwave, infrared, and
+              visible spectra. Laser-fog interaction simulated using Volume-of-Fluid and Monte Carlo
+              ray-tracing in ANSYS Fluent, with Mie theory scattering phase functions for realistic
+              droplet modelling.
+            </p>
+            <div class="research-tags" role="list" aria-label="Research tags">
+              <span class="tag" role="listitem">MCRT</span>
+              <span class="tag" role="listitem">VOF</span>
+              <span class="tag" role="listitem">ANSYS Fluent</span>
+              <span class="tag" role="listitem">Mie Theory</span>
+              <span class="tag" role="listitem">Optics</span>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Publications list -->
+        <div class="publications-list fade-in-section" aria-label="Selected Publications">
+          <h3 class="pub-list-title">Selected Publications</h3>
+          <ol class="pub-entries">
+            <li class="pub-entry">
+              <span class="pub-authors"><strong>K. Jha</strong>, S. S. Rathore, B. Mehta, P. Kumar.</span>
+              "Investigating the role of radiation in porous medium for concentrated solar energy applications."
+              <span class="pub-status badge-amber-text">Under review.</span>
+            </li>
+            <li class="pub-entry">
+              <span class="pub-authors"><strong>K. Jha</strong>, S. S. Rathore, B. Mehta, P. Kumar.</span>
+              "Estimation of Effective Thermal Conductivity of Porous Medium for Volumetric Solar Receiver Cavity-like System."
+              <span class="pub-status badge-amber-text">Submitted, IHMTC 2025.</span>
+            </li>
+            <li class="pub-entry">
+              <span class="pub-authors"><strong>K. Jha</strong>, S. K. Tamang, R. Kumar, B. Choudhary.</span>
+              "Enhancing Resistance Spot Welding Weld Quality: A Comprehensive Analysis."
+              <em>New Materials, Processing and Manufacturability</em>, Wiley, Ch. 5, Jul 2024.
+              <a href="https://doi.org/10.1002/9781394212736.ch5"
+                 target="_blank" rel="noopener noreferrer" class="pub-doi">doi:10.1002/9781394212736.ch5</a>
+            </li>
+            <li class="pub-entry">
+              <span class="pub-authors"><strong>K. Jha</strong>, A. Jumde, G. Kumar et al.</span>
+              "Design and Development of a Portable Resistance Spot Welding Machine for Small-Scale Industries."
+              <em>Applied Mechanics and Materials</em>, Trans Tech, Feb 2024.
+              <a href="https://doi.org/10.4028/p-xcpkt9"
+                 target="_blank" rel="noopener noreferrer" class="pub-doi">doi:10.4028/p-xcpkt9</a>
+            </li>
+          </ol>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         PROJECTS / CODE
+    ══════════════════════════════════════════════════════ -->
+    <section id="projects" class="section fade-in-section" aria-labelledby="projects-heading">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title" id="projects-heading">Projects</h2>
+          <div class="section-divider" aria-hidden="true">
+            <svg width="140" height="22" viewBox="0 0 140 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="11" x2="50" y2="11" stroke="#e0dbd0" stroke-width="1"/>
+              <path d="M58,20 L63,4 L68,20 L73,9 L78,16 L83,2 L88,17 L93,9 L98,20" stroke="#4a7c59" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+              <line x1="106" y1="11" x2="140" y2="11" stroke="#e0dbd0" stroke-width="1"/>
+            </svg>
+          </div>
+        </div>
+
+        <p class="section-intro">
+          Tools, pipelines, and experiments — things I've built along the way.
+        </p>
+
+        <div class="projects-grid">
+
+          <!-- Project 1: HPC Monitor Daemon -->
+          <article class="project-card fade-in-section" aria-label="Project: HPC Monitor Daemon">
+            <div class="project-card-icon" aria-hidden="true">
+              <i data-lucide="activity"></i>
+            </div>
+            <h3 class="project-card-title">HPC Monitor Daemon</h3>
+            <p class="project-card-desc">
+              Autonomous Python daemon on MacBook Air M4 that monitors Slurm jobs on Wendian HPC
+              cluster, detects training stagnation, auto-restarts runs, and delivers Claude AI summaries.
+            </p>
+            <div class="project-tags" role="list" aria-label="Project tags">
+              <span class="tag" role="listitem">Python</span>
+              <span class="tag" role="listitem">HPC</span>
+              <span class="tag" role="listitem">Slurm</span>
+              <span class="tag" role="listitem">Automation</span>
+            </div>
+            <!-- Replace href="#" with your actual GitHub repo URL -->
+            <a href="#" class="project-link" aria-label="View HPC Monitor Daemon on GitHub (link placeholder)">
+              <i data-lucide="github" aria-hidden="true"></i> GitHub →
+            </a>
+          </article>
+
+          <!-- Project 2: ML-LBM 3D Pipeline -->
+          <article class="project-card fade-in-section" aria-label="Project: ML-LBM 3D Pipeline">
+            <div class="project-card-icon" aria-hidden="true">
+              <i data-lucide="layers"></i>
+            </div>
+            <h3 class="project-card-title">ML-LBM 3D Pipeline</h3>
+            <p class="project-card-desc">
+              End-to-end TensorFlow pipeline for 3D CNN velocity surrogates on porous media. Custom
+              TFRecords, checkpoint management, physics-informed continuity loss, and paper-quality
+              3D visualization.
+            </p>
+            <div class="project-tags" role="list" aria-label="Project tags">
+              <span class="tag" role="listitem">TensorFlow</span>
+              <span class="tag" role="listitem">3D CNN</span>
+              <span class="tag" role="listitem">LBM</span>
+              <span class="tag" role="listitem">Scientific Viz</span>
+            </div>
+            <!-- Replace href="#" with your actual GitHub repo URL -->
+            <a href="#" class="project-link" aria-label="View ML-LBM 3D Pipeline on GitHub (link placeholder)">
+              <i data-lucide="github" aria-hidden="true"></i> GitHub →
+            </a>
+          </article>
+
+          <!-- Project 3: OpenFOAM CFD Solver -->
+          <article class="project-card fade-in-section" aria-label="Project: OpenFOAM CFD Solver">
+            <div class="project-card-icon" aria-hidden="true">
+              <i data-lucide="wind"></i>
+            </div>
+            <h3 class="project-card-title">OpenFOAM CFD Solver</h3>
+            <p class="project-card-desc">
+              Modified chtMultiRegionFoam and icoFoam for fluid-solid heat transfer. Includes DOM
+              radiation solver and Mie theory phase function for porous absorbers.
+            </p>
+            <div class="project-tags" role="list" aria-label="Project tags">
+              <span class="tag" role="listitem">OpenFOAM</span>
+              <span class="tag" role="listitem">CFD</span>
+              <span class="tag" role="listitem">C++</span>
+              <span class="tag" role="listitem">Heat Transfer</span>
+            </div>
+            <!-- Replace href="#" with your actual GitHub repo URL -->
+            <a href="#" class="project-link" aria-label="View OpenFOAM CFD Solver on GitHub (link placeholder)">
+              <i data-lucide="github" aria-hidden="true"></i> GitHub →
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         BLOG / WRITING
+         Blog posts can be separate HTML files linked from here,
+         or a CMS like Forestry/Decap can be integrated later.
+    ══════════════════════════════════════════════════════ -->
+    <section id="blog" class="section fade-in-section section-alt" aria-labelledby="blog-heading">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title" id="blog-heading">Writing</h2>
+          <div class="section-divider" aria-hidden="true">
+            <svg width="140" height="22" viewBox="0 0 140 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="11" x2="50" y2="11" stroke="#e0dbd0" stroke-width="1"/>
+              <path d="M58,20 L63,4 L68,20 L73,9 L78,16 L83,2 L88,17 L93,9 L98,20" stroke="#4a7c59" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+              <line x1="106" y1="11" x2="140" y2="11" stroke="#e0dbd0" stroke-width="1"/>
+            </svg>
+          </div>
+        </div>
+
+        <p class="section-intro">
+          Notes on research, computation, and life in the mountains.
+        </p>
+
+        <div class="blog-grid">
+
+          <!-- Post 1: Research -->
+          <article class="blog-card fade-in-section"
+                   aria-label="Blog post: What I Learned Reproducing a Published ML-CFD Paper">
+            <div class="blog-card-header">
+              <span class="status-badge badge-green">Research</span>
+            </div>
+            <h3 class="blog-card-title">
+              What I Learned Reproducing a Published ML-CFD Paper
+            </h3>
+            <p class="blog-card-excerpt">
+              A hands-on account of reproducing Wang et al. 2021 — from deciphering sparse methods
+              sections to getting the data pipeline right on an HPC cluster.
+            </p>
+            <!-- Link to blog post: replace href with ./blog/reproducing-ml-cfd-paper.html when written -->
+            <a href="#" class="blog-read-more">Read more →</a>
+          </article>
+
+          <!-- Post 2: Computing -->
+          <article class="blog-card fade-in-section"
+                   aria-label="Blog post: HPC for Beginners: My First Month on a Cluster">
+            <div class="blog-card-header">
+              <span class="status-badge badge-gray">Computing</span>
+            </div>
+            <h3 class="blog-card-title">
+              HPC for Beginners: My First Month on a Cluster
+            </h3>
+            <p class="blog-card-excerpt">
+              Slurm, modules, scratch space, and why your laptop is not a supercomputer. A practical
+              guide for researchers new to high-performance computing.
+            </p>
+            <!-- Link to blog post: replace href with ./blog/hpc-for-beginners.html when written -->
+            <a href="#" class="blog-read-more">Read more →</a>
+          </article>
+
+          <!-- Post 3: Outdoors -->
+          <article class="blog-card fade-in-section"
+                   aria-label="Blog post: Hiking Chimney Gulch to Genesee">
+            <div class="blog-card-header">
+              <span class="status-badge badge-amber">Outdoors</span>
+            </div>
+            <h3 class="blog-card-title">
+              Hiking Chimney Gulch to Genesee: A 12-Mile Lesson in Persistence
+            </h3>
+            <p class="blog-card-excerpt">
+              The Rockies don't care about your timeline. Notes from a long day on the trail — and
+              what it taught me about pacing in research.
+            </p>
+            <!-- Link to blog post: replace href with ./blog/chimney-gulch-genesee.html when written -->
+            <a href="#" class="blog-read-more">Read more →</a>
+          </article>
+
+        </div>
+
+        <div class="blog-cta">
+          <a href="./blog/" class="btn btn-outline">View All Posts</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         CV / RESUME
+    ══════════════════════════════════════════════════════ -->
+    <section id="cv" class="section fade-in-section" aria-labelledby="cv-heading">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title" id="cv-heading">CV</h2>
+          <div class="section-divider" aria-hidden="true">
+            <svg width="140" height="22" viewBox="0 0 140 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="11" x2="50" y2="11" stroke="#e0dbd0" stroke-width="1"/>
+              <path d="M58,20 L63,4 L68,20 L73,9 L78,16 L83,2 L88,17 L93,9 L98,20" stroke="#4a7c59" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+              <line x1="106" y1="11" x2="140" y2="11" stroke="#e0dbd0" stroke-width="1"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="cv-card">
+
+          <div class="cv-education">
+            <h3 class="cv-section-label">Education</h3>
+
+            <div class="cv-entry">
+              <div class="cv-entry-meta">
+                <span class="cv-degree">PhD, Hydrology</span>
+                <span class="cv-year">Jan 2026 – present</span>
+              </div>
+              <span class="cv-institution">Colorado School of Mines · Advisor: Dr. Serveh Kamrava</span>
+            </div>
+
+            <div class="cv-entry">
+              <div class="cv-entry-meta">
+                <span class="cv-degree">M.Tech (Research), Computational Mechanics</span>
+                <span class="cv-year">Aug 2023 – Dec 2025</span>
+              </div>
+              <span class="cv-institution">IIT Mandi · Advisor: Dr. Pradeep Kumar · CGPA: 8.0/10</span>
+            </div>
+
+            <div class="cv-entry">
+              <div class="cv-entry-meta">
+                <span class="cv-degree">B.Tech, Mechanical Engineering</span>
+                <span class="cv-year">Jun 2023</span>
+              </div>
+              <span class="cv-institution">Dr. A.P.J. Abdul Kalam Technical University (AKTU) · CGPA: 7.51/10</span>
+            </div>
+          </div>
+
+          <div class="cv-interests">
+            <h3 class="cv-section-label">Research Interests</h3>
+            <p class="cv-interests-text">
+              ML for CFD · Porous Media · Radiative Heat Transfer · HPC · Scientific Computing
+            </p>
+          </div>
+
+          <!-- Replace cv.pdf with your actual resume file path -->
+          <a href="cv.pdf" class="btn btn-primary btn-full" download>
+            <i data-lucide="download" aria-hidden="true"></i>
+            Download CV
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         CONTACT
+    ══════════════════════════════════════════════════════ -->
+    <section id="contact" class="section fade-in-section section-alt" aria-labelledby="contact-heading">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title" id="contact-heading">Contact</h2>
+          <div class="section-divider" aria-hidden="true">
+            <svg width="140" height="22" viewBox="0 0 140 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="11" x2="50" y2="11" stroke="#e0dbd0" stroke-width="1"/>
+              <path d="M58,20 L63,4 L68,20 L73,9 L78,16 L83,2 L88,17 L93,9 L98,20" stroke="#4a7c59" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+              <line x1="106" y1="11" x2="140" y2="11" stroke="#e0dbd0" stroke-width="1"/>
+            </svg>
+          </div>
+        </div>
+
+        <p class="section-intro">
+          Open to research collaborations, industry internships, and conversations about ML × physics.
+        </p>
+
+        <div class="contact-grid">
+
+          <!-- Contact links -->
+          <div class="contact-info">
+            <div class="contact-item">
+              <i data-lucide="mail" aria-hidden="true"></i>
+              <a href="mailto:kaushal_jha@mines.edu">kaushal_jha@mines.edu</a>
+            </div>
+            <div class="contact-item">
+              <i data-lucide="linkedin" aria-hidden="true"></i>
+              <a href="https://www.linkedin.com/in/kaushal-jha892/"
+                 target="_blank" rel="noopener noreferrer">linkedin.com/in/kaushal-jha892</a>
+            </div>
+            <div class="contact-item">
+              <i data-lucide="github" aria-hidden="true"></i>
+              <a href="https://github.com/WaRxChaMpioN"
+                 target="_blank" rel="noopener noreferrer">github.com/WaRxChaMpioN</a>
+            </div>
+          </div>
+
+          <!-- Contact form — Formspree: replace YOUR_FORM_ID with your actual Formspree form ID -->
+          <form class="contact-form"
+                action="https://formspree.io/f/YOUR_FORM_ID"
+                method="POST"
+                aria-label="Contact form"
+                id="contact-form">
+            <div class="form-group">
+              <label for="contact-name">Name</label>
+              <input type="text" id="contact-name" name="name"
+                     placeholder="Your name" required autocomplete="name">
+            </div>
+            <div class="form-group">
+              <label for="contact-email">Email</label>
+              <input type="email" id="contact-email" name="email"
+                     placeholder="your@email.com" required autocomplete="email">
+            </div>
+            <div class="form-group">
+              <label for="contact-message">Message</label>
+              <textarea id="contact-message" name="message" rows="5"
+                        placeholder="What's on your mind?" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">
+              <i data-lucide="send" aria-hidden="true"></i>
+              Send Message
+            </button>
+          </form>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════════════ -->
+  <footer id="footer" role="contentinfo">
+
+    <!-- Topographic motif echoing the hero -->
+    <div class="footer-topo" aria-hidden="true">
+      <svg viewBox="0 0 1440 70" preserveAspectRatio="xMidYMid slice"
+           xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="#4a7c59" stroke-width="1" opacity="0.1">
+          <path d="M0,35 C180,12 360,58 540,35 C720,12 900,58 1080,35 C1200,20 1340,42 1440,35"/>
+          <path d="M0,48 C180,25 360,68 540,48 C720,25 900,68 1080,48 C1200,33 1340,52 1440,46"/>
+          <path d="M0,22 C180,4  360,45 540,22 C720,4  900,45 1080,22 C1200,10 1340,30 1440,22"/>
+          <path d="M0,58 C180,38 360,75 540,58 C720,38 900,75 1080,58 C1200,45 1340,62 1440,56"/>
+          <path d="M0,12 C180,-4 360,32 540,12 C720,-4 900,32 1080,12 C1200,2  1340,18 1440,12"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="footer-content">
+      <p class="footer-name">Kaushal Jha · PhD Researcher · Colorado School of Mines</p>
+      <p class="footer-built">Built with care · Hosted on GitHub Pages</p>
+      <div class="footer-social">
+        <a href="https://github.com/WaRxChaMpioN"
+           target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <i data-lucide="github"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/kaushal-jha892/"
+           target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <i data-lucide="linkedin"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
