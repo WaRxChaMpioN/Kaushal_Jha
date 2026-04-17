@@ -8,7 +8,7 @@
   <meta property="og:title" content="Kaushal Jha — PhD Researcher · ML × CFD">
   <meta property="og:description" content="PhD researcher at Colorado School of Mines building machine-learning surrogates for CFD, LBM, porous media, and hydrology workflows.">
   <meta property="og:type" content="website">
-  <!-- og:image: <meta property="og:image" content="./images/og-image.jpg"> -->
+  <meta property="og:image" content="./images/My_image.jpg">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -159,8 +159,7 @@
         </div>
         <div class="hero-cta">
           <a href="#research" class="btn btn-primary">View Research</a>
-          <!-- Replace cv.pdf with your actual resume file -->
-          <a href="cv.pdf" class="btn btn-outline" download>Download CV</a>
+          <a href="PhD Resume.pdf" class="btn btn-outline" download>Download CV</a>
         </div>
       </div>
 
@@ -276,12 +275,11 @@
           <!-- Photo column -->
           <div class="about-photo-col">
             <div class="photo-wrapper">
-              <!-- Replace the placeholder div below with:
-                   <img src="./images/kaushal-jha.jpg" alt="Kaushal Jha" class="profile-photo">
-                   and remove the photo-placeholder div -->
-              <div class="photo-placeholder" aria-label="Photo placeholder — replace with actual photo">
-                <i data-lucide="user" aria-hidden="true"></i>
-              </div>
+              <img src="./images/My_image.jpg"
+                   alt="Kaushal Jha"
+                   class="profile-photo"
+                   loading="lazy"
+                   decoding="async">
             </div>
             <div class="photo-caption">
               <p>Kaushal Jha</p>
@@ -434,8 +432,8 @@
                    aria-label="PhD Research: CNN Surrogate for 3D Porous Media Flow">
             <figure class="research-media">
               <div class="compare-slider" data-compare>
-                <img src="./assets/research/ml-lbm-velocity.svg"
-                     alt="LBM reference velocity-field slice"
+                <img src="./assets/research/ml-lbm.png"
+                     alt="ML-LBM 3D porous media velocity-field preview"
                      loading="lazy"
                      decoding="async">
                 <div class="compare-after" aria-hidden="true">
@@ -451,7 +449,7 @@
               <button class="media-play-btn" type="button" aria-label="Play velocity field preview" data-preview-label="Velocity preview">
                 <i data-lucide="play" aria-hidden="true"></i>
               </button>
-              <figcaption>Interactive LBM vs surrogate comparison · MP4/GIF previews lazy-load when added via <code>data-src</code>.</figcaption>
+              <figcaption>ML-LBM velocity preview from the current porous-media surrogate workflow.</figcaption>
             </figure>
             <div class="research-card-header">
               <span class="status-badge badge-green">Active · PhD Research</span>
@@ -504,14 +502,47 @@
           <article class="research-card fade-in-section"
                    aria-label="M.Tech Publication: Pore-Scale Radiation Modeling in TPMS Solar Receivers">
             <figure class="research-media">
-              <img src="./assets/research/tpms-radiation-map.svg"
-                   alt="Radiation absorption preview for a TPMS porous solar receiver"
+              <img class="research-gallery-main"
+                   src="./assets/research/Streamlines%20Representative%20-pore%20scale-radiation.png"
+                   alt="Streamlines through a pore-scale radiation simulation"
                    loading="lazy"
                    decoding="async">
+              <div class="research-gallery-thumbs" aria-label="TPMS radiation plot thumbnails">
+                <button type="button" class="gallery-thumb active"
+                        data-full="./assets/research/Streamlines%20Representative%20-pore%20scale-radiation.png"
+                        data-alt="Streamlines through a pore-scale radiation simulation">
+                  <img src="./assets/research/Streamlines%20Representative%20-pore%20scale-radiation.png" alt="" loading="lazy" decoding="async">
+                </button>
+                <button type="button" class="gallery-thumb"
+                        data-full="./assets/research/Temperature%20contour%20pore%20scale%20rad.png"
+                        data-alt="Temperature contour from pore-scale radiation simulation">
+                  <img src="./assets/research/Temperature%20contour%20pore%20scale%20rad.png" alt="" loading="lazy" decoding="async">
+                </button>
+                <button type="button" class="gallery-thumb"
+                        data-full="./assets/research/Radiation%20Iso%20pore%20scale.png"
+                        data-alt="Radiation iso-surface from pore-scale model">
+                  <img src="./assets/research/Radiation%20Iso%20pore%20scale.png" alt="" loading="lazy" decoding="async">
+                </button>
+                <button type="button" class="gallery-thumb"
+                        data-full="./assets/research/Irradiation%20openfoam%20isometric%20homogenised.png"
+                        data-alt="Homogenised OpenFOAM irradiation field">
+                  <img src="./assets/research/Irradiation%20openfoam%20isometric%20homogenised.png" alt="" loading="lazy" decoding="async">
+                </button>
+                <button type="button" class="gallery-thumb"
+                        data-full="./assets/research/Porous%20Inlet%20pore%20scale.png"
+                        data-alt="Pore-scale porous inlet view">
+                  <img src="./assets/research/Porous%20Inlet%20pore%20scale.png" alt="" loading="lazy" decoding="async">
+                </button>
+                <button type="button" class="gallery-thumb"
+                        data-full="./assets/research/Porous%20Outlet%20pore%20scale.png"
+                        data-alt="Pore-scale porous outlet view">
+                  <img src="./assets/research/Porous%20Outlet%20pore%20scale.png" alt="" loading="lazy" decoding="async">
+                </button>
+              </div>
               <button class="media-play-btn" type="button" aria-label="Play TPMS radiation preview" data-preview-label="Radiation preview">
                 <i data-lucide="play" aria-hidden="true"></i>
               </button>
-              <figcaption>Radiation absorption map · supports replacing this preview with MP4 or GIF output.</figcaption>
+              <figcaption>Representative pore-scale and homogenised TPMS radiation plots from the OpenFOAM/MCRT workflow.</figcaption>
             </figure>
             <div class="research-card-header">
               <span class="status-badge badge-amber">Under Review · Journal</span>
@@ -564,7 +595,7 @@
           <article class="research-card fade-in-section"
                    aria-label="Collaboration: ML-Based Pipeline Risk Classification for ECMC Gathering Flowlines">
             <figure class="research-media">
-              <img src="./assets/research/pipeline-risk-matrix.svg"
+              <img src="./assets/research/Pipeline-risk-matrix.png"
                    alt="Risk classification matrix preview for gathering flowline machine learning"
                    loading="lazy"
                    decoding="async">
@@ -624,14 +655,14 @@
           <article class="research-card fade-in-section"
                    aria-label="M.Tech Research: Laser-Fog Interaction for Long-Distance Visibility">
             <figure class="research-media">
-              <img src="./assets/research/fog-scattering-preview.svg"
-                   alt="Mie scattering and laser-fog interaction preview"
+              <img src="./assets/research/Tunneling_through_fog_iamge.png"
+                   alt="Tunneling through fog poster image showing laser-fog interaction"
                    loading="lazy"
                    decoding="async">
               <button class="media-play-btn" type="button" aria-label="Play laser fog preview" data-preview-label="Scattering preview">
                 <i data-lucide="play" aria-hidden="true"></i>
               </button>
-              <figcaption>Scattering response preview · compatible with short simulation videos.</figcaption>
+              <figcaption>Laser-fog interaction visual from the tunneling-through-fog poster workflow.</figcaption>
             </figure>
             <div class="research-card-header">
               <span class="status-badge badge-green">Active · M.Tech Research</span>
@@ -668,8 +699,11 @@
               <a href="https://github.com/WaRxChaMpioN" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-small">
                 <i data-lucide="github" aria-hidden="true"></i> View Code
               </a>
-              <a href="#selected-work" class="btn btn-outline btn-small">
-                <i data-lucide="file-text" aria-hidden="true"></i> View Paper
+              <a href="./assets/research/Tunneling%20through%20fog%20poster.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-small">
+                <i data-lucide="presentation" aria-hidden="true"></i> View Poster
+              </a>
+              <a href="./assets/research/Tunneling_through%20Fog_doc.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-small">
+                <i data-lucide="file-text" aria-hidden="true"></i> View Report
               </a>
             </div>
             <button class="card-expand-btn" aria-expanded="false" aria-controls="details-card4">
@@ -716,6 +750,13 @@
               <em>Applied Mechanics and Materials</em>, Trans Tech, Feb 2024.
               <a href="https://doi.org/10.4028/p-xcpkt9"
                  target="_blank" rel="noopener noreferrer" class="pub-doi">doi:10.4028/p-xcpkt9</a>
+              <a href="./images/Design Patent_Resistance spot welding.jpg"
+                 target="_blank" rel="noopener noreferrer"
+                 class="pub-patent-inline"
+                 aria-label="View design patent certificate granted March 2026">
+                <i data-lucide="award" aria-hidden="true"></i>
+                Design Patent granted · Mar 2026
+              </a>
             </li>
           </ol>
         </section>
@@ -805,6 +846,63 @@
             <a href="https://github.com/WaRxChaMpioN" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View OpenFOAM CFD Solver projects on GitHub">
               <i data-lucide="github" aria-hidden="true"></i> GitHub →
             </a>
+          </article>
+
+          <!-- Portable Resistance Spot Welder — B.Tech capstone, published + design patent -->
+          <article class="project-card fade-in-section" aria-label="Project: Portable Resistance Spot Welder">
+
+            <!-- Image strip at top — shows the actual hardware -->
+            <div class="project-card-img-wrap">
+              <img
+                src="./assets/research/Portable spot welding.png"
+                alt="Portable resistance spot welding machine designed and built during B.Tech"
+                class="project-card-img"
+                loading="lazy"
+                decoding="async"
+              >
+              <!-- Design patent badge overlaid on image -->
+              <span class="project-patent-badge" aria-label="Design patent granted">
+                <i data-lucide="award" aria-hidden="true"></i>
+                Design Patent · Mar 2026
+              </span>
+            </div>
+
+            <h3 class="project-card-title">Portable Resistance Spot Welder</h3>
+            <p class="project-card-desc">
+              Designed and built a compact, low-cost resistance spot welding machine for small-scale
+              industries during B.Tech (2019–2023). Published in <em>Applied Mechanics and Materials</em>
+              (Trans Tech, Feb 2024) and granted a Design Patent in March 2026.
+            </p>
+
+            <div class="project-tags" role="list" aria-label="Project tags">
+              <span class="tag" role="listitem">Mechanical Design</span>
+              <span class="tag" role="listitem">Manufacturing</span>
+              <span class="tag" role="listitem">Prototyping</span>
+              <span class="tag" role="listitem">B.Tech Capstone</span>
+            </div>
+
+            <!-- Links row -->
+            <div class="project-links-row">
+              <a href="https://a360.co/3ES2Cdo"
+                 target="_blank" rel="noopener noreferrer"
+                 class="project-link"
+                 aria-label="View 3D model of the spot welder on Autodesk 360">
+                <i data-lucide="box" aria-hidden="true"></i> 3D Model →
+              </a>
+              <a href="https://doi.org/10.4028/p-xcpkt9"
+                 target="_blank" rel="noopener noreferrer"
+                 class="project-link"
+                 aria-label="Read published paper on the portable spot welder">
+                <i data-lucide="file-text" aria-hidden="true"></i> Paper →
+              </a>
+              <a href="./images/Design Patent_Resistance spot welding.jpg"
+                 target="_blank" rel="noopener noreferrer"
+                 class="project-link"
+                 aria-label="View granted design patent certificate">
+                <i data-lucide="award" aria-hidden="true"></i> Patent →
+              </a>
+            </div>
+
           </article>
 
         </div>
@@ -1015,8 +1113,7 @@
             </p>
           </div>
 
-          <!-- Replace cv.pdf with your actual resume file path -->
-          <a href="cv.pdf" class="btn btn-primary btn-full" download>
+          <a href="PhD Resume.pdf" class="btn btn-primary btn-full" download>
             <i data-lucide="download" aria-hidden="true"></i>
             Download CV
           </a>
@@ -1055,14 +1152,29 @@
               <a href="mailto:kaushal_jha@mines.edu">kaushal_jha@mines.edu</a>
             </div>
             <div class="contact-item">
-              <i data-lucide="linkedin" aria-hidden="true"></i>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                <rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/>
+              </svg>
               <a href="https://www.linkedin.com/in/kaushal-jha892/"
                  target="_blank" rel="noopener noreferrer">linkedin.com/in/kaushal-jha892</a>
             </div>
             <div class="contact-item">
-              <i data-lucide="github" aria-hidden="true"></i>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.2c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                <path d="M9 18c-4.51 2-5-2-7-2"/>
+              </svg>
               <a href="https://github.com/WaRxChaMpioN"
                  target="_blank" rel="noopener noreferrer">github.com/WaRxChaMpioN</a>
+            </div>
+            <div class="contact-item">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+              </svg>
+              <a href="https://www.instagram.com/kaushal892jha/"
+                 target="_blank" rel="noopener noreferrer">instagram.com/kaushal892jha</a>
             </div>
           </div>
 
@@ -1135,11 +1247,25 @@
       <div class="footer-social">
         <a href="https://github.com/WaRxChaMpioN"
            target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-          <i data-lucide="github"></i>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.2c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+            <path d="M9 18c-4.51 2-5-2-7-2"/>
+          </svg>
         </a>
         <a href="https://www.linkedin.com/in/kaushal-jha892/"
            target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-          <i data-lucide="linkedin"></i>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+            <rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/>
+          </svg>
+        </a>
+        <a href="https://www.instagram.com/kaushal892jha/"
+           target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+            <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+          </svg>
         </a>
       </div>
     </div>

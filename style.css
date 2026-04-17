@@ -869,10 +869,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .timeline-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
 /* Active item glow */
+.timeline-item--active .timeline-marker {
+  align-self: start;
+}
 .timeline-item--active .timeline-content {
-  border-left: 2px solid rgba(74,124,89,0.3);
-  padding-left: var(--sp-sm);
-  margin-left: -var(--sp-sm);
+  padding-left: 0;
 }
 
 .timeline-dot:hover { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(74,124,89,0.15); }
@@ -927,6 +928,49 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   object-fit: cover;
   display: block;
   background: var(--color-alt);
+}
+
+.research-gallery-main {
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  padding: 0.35rem;
+}
+
+.research-gallery-thumbs {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.35rem;
+  padding: 0.45rem;
+  background: rgba(15,21,16,0.05);
+  border-top: 1px solid var(--color-border);
+}
+
+.gallery-thumb {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: var(--color-surface);
+  aspect-ratio: 1 / 1;
+  transition: transform 0.24s var(--ease-spring), border-color 0.24s ease, box-shadow 0.24s ease;
+}
+
+.gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.gallery-thumb:hover,
+.gallery-thumb.active {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(74,124,89,0.12);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 520px) {
+  .research-gallery-thumbs { grid-template-columns: repeat(3, 1fr); }
 }
 
 .research-media::before,
@@ -1591,4 +1635,94 @@ footer { background: var(--color-alt); border-top: 1px solid var(--color-border)
   .cfd-demo, footer { display: none; }
   .fade-in-section { opacity: 1; transform: none; }
   body { background: white; color: black; }
+}
+
+/* ──────────────────────────────────────────
+   PROJECT CARD — IMAGE VARIANT
+   For cards with a hardware/photo at top
+   (e.g. portable spot welder)
+────────────────────────────────────────── */
+.project-card-img-wrap {
+  position: relative;
+  margin: calc(-1 * var(--sp-lg)) calc(-1 * var(--sp-lg)) var(--sp-sm);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  overflow: hidden;
+  height: 180px;
+  flex-shrink: 0;
+}
+
+.project-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover .project-card-img {
+  transform: scale(1.04);
+}
+
+/* Patent badge overlaid on the image */
+.project-patent-badge {
+  position: absolute;
+  bottom: 0.6rem;
+  right: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  padding: 0.3rem 0.65rem;
+  background: rgba(139, 105, 20, 0.92);
+  color: #fff9ed;
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}
+.project-patent-badge svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+/* Multiple links in one card */
+.project-links-row {
+  display: flex;
+  gap: var(--sp-md);
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: var(--sp-xs);
+}
+.project-links-row .project-link {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Patent inline badge in publications list */
+.pub-patent-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-secondary);
+  margin-left: 0.5rem;
+  white-space: nowrap;
+}
+.pub-patent-inline svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .project-patent-badge {
+  background: rgba(196, 154, 42, 0.88);
+  color: #1a1200;
 }
