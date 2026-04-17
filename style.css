@@ -350,12 +350,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   100% { background-position: 20% 50%, 80% 20%, 60% 80%, 0% 0%; }
 }
 
-/* Topographic SVG overlay */
-.topo-bg {
-  position: absolute; inset: 0;
-  z-index: 0; pointer-events: none;
+/* Animated flow-field canvas */
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
 }
-.topo-bg svg { width: 100%; height: 100%; }
 
 /* Hero text */
 .hero-content {
@@ -769,14 +773,26 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .cfd-canvas-wrap { display: flex; gap: 1rem; align-items: flex-start; }
 
 #cfd-canvas {
-  border-radius: var(--radius-sm); border: 1px solid var(--color-border);
-  max-width: 100%; height: auto; display: block;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  image-rendering: auto;
+  display: block;
 }
 
 .cfd-colorbar { display: flex; flex-direction: column; gap: 0.25rem; align-items: center; flex-shrink: 0; }
 .cfd-colorbar-gradient {
   width: 18px; height: 200px; border-radius: 9px;
-  background: linear-gradient(180deg, #3d2800, #8b6914, #4a7c59, #a8d5b5, #f7f5f0);
+  background: linear-gradient(180deg,
+    rgb(130, 75, 10)   0%,
+    rgb(210, 160, 45)  25%,
+    rgb(245, 243, 238) 50%,
+    rgb(100, 155, 210) 75%,
+    rgb(25,  70, 140)  100%
+  );
   border: 1px solid var(--color-border);
 }
 .cfd-colorbar-labels {

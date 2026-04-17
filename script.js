@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFadeInSections();
   initActiveNavLinks();
   initSmoothScroll();
+  initHeroCanvas();
   initThemeToggle();
   initExpandableCards();
   initSkillBars();
@@ -209,6 +210,124 @@ function initSmoothScroll() {
       scrollToSection(id);
     });
   });
+}
+
+/* ──────────────────────────────────────────
+   8. HERO CANVAS — ANIMATED FLOW FIELD
+   Perlin-like vector field drives 280 particles
+   whose trails accumulate into fluid streamlines.
+   Pauses when hero is off-screen.
+────────────────────────────────────────── */
+function initHeroCanvas() {
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let W, H, animId;
+  let particles = [];
+  const N_PARTICLES = 280;
+  const SPEED = 0.8;
+
+  /* Perlin-like flow field using layered sin/cos */
+  function flowAngle(x, y, t) {
+    const nx = x / W, ny = y / H;
+    return (
+      Math.sin(nx * 3.2 + t * 0.4) * Math.cos(ny * 2.1 + t * 0.25) * Math.PI +
+      Math.sin(nx * 1.4 + ny * 2.8 + t * 0.18) * Math.PI * 0.6 +
+      Math.cos(nx * 5.1 - ny * 1.7 + t * 0.3)  * Math.PI * 0.3
+    );
+  }
+
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    W = canvas.offsetWidth;
+    H = canvas.offsetHeight;
+    canvas.width  = W * dpr;
+    canvas.height = H * dpr;
+    ctx.scale(dpr, dpr);
+    initParticles();
+  }
+
+  function initParticles() {
+    particles = [];
+    for (let i = 0; i < N_PARTICLES; i++) {
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        life: Math.random() * 120,
+        maxLife: 80 + Math.random() * 100,
+        speed: SPEED * (0.6 + Math.random() * 0.8),
+        color: Math.random() > 0.75 ? 'rgba(139,105,20,' : 'rgba(74,124,89,',
+      });
+    }
+  }
+
+  let t = 0;
+
+  function draw() {
+    /* Fade trail — accumulates into visible streams */
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    ctx.fillStyle = dark ? 'rgba(15,21,16,0.06)' : 'rgba(247,245,240,0.06)';
+    ctx.fillRect(0, 0, W, H);
+
+    t += 0.008;
+
+    for (const p of particles) {
+      p.life++;
+      const angle = flowAngle(p.x, p.y, t);
+      const prevX = p.x, prevY = p.y;
+      p.x += Math.cos(angle) * p.speed;
+      p.y += Math.sin(angle) * p.speed;
+
+      const lr = p.life / p.maxLife;
+      const alpha = lr < 0.15 ? lr / 0.15 : lr > 0.75 ? (1 - lr) / 0.25 : 1;
+
+      ctx.beginPath();
+      ctx.moveTo(prevX, prevY);
+      ctx.lineTo(p.x, p.y);
+      ctx.strokeStyle = p.color + (alpha * 0.55) + ')';
+      ctx.lineWidth = 0.9;
+      ctx.stroke();
+
+      /* Respawn when life ends or goes off-screen */
+      if (p.life >= p.maxLife || p.x < -5 || p.x > W + 5 || p.y < -5 || p.y > H + 5) {
+        p.x = Math.random() * W;
+        p.y = Math.random() * H;
+        p.life = 0;
+        p.maxLife = 80 + Math.random() * 100;
+        p.speed = SPEED * (0.6 + Math.random() * 0.8);
+        p.color = Math.random() > 0.75 ? 'rgba(139,105,20,' : 'rgba(74,124,89,';
+      }
+    }
+
+    animId = requestAnimationFrame(draw);
+  }
+
+  /* Clear on theme switch so old-color trails don't linger */
+  new MutationObserver(() => {
+    ctx.clearRect(0, 0, W, H);
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  /* Pause when hero is off-screen */
+  const heroEl = document.getElementById('hero');
+  if (heroEl && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        if (!animId) animId = requestAnimationFrame(draw);
+      } else {
+        if (animId) { cancelAnimationFrame(animId); animId = null; }
+      }
+    }, { threshold: 0 }).observe(heroEl);
+  }
+
+  window.addEventListener('resize', () => {
+    if (animId) { cancelAnimationFrame(animId); animId = null; }
+    resize();
+    animId = requestAnimationFrame(draw);
+  });
+
+  resize();
+  animId = requestAnimationFrame(draw);
 }
 
 /* ──────────────────────────────────────────
@@ -670,17 +789,55 @@ function initCFDDemo() {
   }
 
   function colVorticity(t) {
-    // blue → white → red (diverging)
-    if (t < 0.5) {
-      const f = t * 2;
-      return [26+f*(255-26), 74+f*(255-74), 138+f*(255-138)];
-    }
-    const f = (t-0.5)*2;
-    return [255, 255+f*(32-255), 255+f*(32-255)];
+    // Diverging colormap: negative vorticity (t<0.5) → deep blue/indigo,
+    // zero vorticity (t=0.5) → warm off-white (site background),
+    // positive vorticity (t>0.5) → deep amber/ochre.
+    // t is already mapped as: bw/maxO * 0.5 + 0.5,
+    // so t=0 → most negative, t=0.5 → zero, t=1 → most positive.
+
+    // 5-stop diverging palette matching site colors:
+    // [deep blue,  mid blue,    neutral white,  mid amber,  deep amber]
+    const stops = [
+      [25,  70, 140],   // deep blue   — strong negative vorticity (CCW)
+      [100, 155, 210],  // light blue  — mild negative
+      [245, 243, 238],  // warm white  — zero vorticity (site --color-bg)
+      [210, 160,  45],  // light amber — mild positive
+      [130,  75,  10],  // deep amber  — strong positive vorticity (CW)
+    ];
+
+    const n   = stops.length - 1;          // 4 segments
+    const seg = Math.min(Math.floor(t * n), n - 1);
+    const f   = t * n - seg;               // fractional position within segment
+    const a   = stops[seg], b = stops[seg + 1];
+    return [
+      a[0] + f * (b[0] - a[0]),
+      a[1] + f * (b[1] - a[1]),
+      a[2] + f * (b[2] - a[2]),
+    ];
+  }
+
+  /* ── Bilinear interpolation helper ── */
+  function bilinearSample(arr, fi, fj) {
+    const i0 = Math.max(0, Math.min(N-2, Math.floor(fi)));
+    const j0 = Math.max(0, Math.min(N-2, Math.floor(fj)));
+    const tx = fi - i0, ty = fj - j0;
+    return (
+      arr[idx(i0,   j0  )] * (1-tx) * (1-ty) +
+      arr[idx(i0+1, j0  )] *    tx  * (1-ty) +
+      arr[idx(i0,   j0+1)] * (1-tx) *    ty  +
+      arr[idx(i0+1, j0+1)] *    tx  *    ty
+    );
   }
 
   /* ── Render to canvas ── */
   function render() {
+    const dpr  = window.devicePixelRatio || 1;
+    const cssW = canvas.clientWidth, cssH = canvas.clientHeight;
+    if (canvas.width  !== Math.round(cssW * dpr) ||
+        canvas.height !== Math.round(cssH * dpr)) {
+      canvas.width  = Math.round(cssW * dpr);
+      canvas.height = Math.round(cssH * dpr);
+    }
     const W = canvas.width, H = canvas.height;
     const viz = vizSelect ? vizSelect.value : 'velocity';
     const imgData = ctx.createImageData(W, H);
@@ -700,21 +857,28 @@ function initCFDDemo() {
 
     for (let py = 0; py < H; py++) {
       for (let px = 0; px < W; px++) {
-        const i  = Math.min(Math.floor(px / W * N), N-1);
-        const j  = Math.min(N-1 - Math.floor(py / H * N), N-1);  // flip y: j=0 is bottom
-        const k  = idx(Math.max(0,i), Math.max(0,j));
+        // Map pixel → float grid coords; y-flip (j=0 is bottom wall)
+        const fi = (px / (W - 1)) * (N - 1);
+        const fj = (1 - py / (H - 1)) * (N - 1);
         let r, g, b;
 
         if (viz === 'velocity') {
-          const spd = Math.sqrt(u[k]*u[k]+v[k]*v[k]);
-          [r,g,b] = colVelocity(Math.min(spd/maxV, 1));
+          const bu = bilinearSample(u, fi, fj);
+          const bv = bilinearSample(v, fi, fj);
+          const spd = Math.sqrt(bu*bu + bv*bv);
+          [r,g,b] = colVelocity(Math.min(spd / maxV, 1));
         } else if (viz === 'vorticity') {
-          [r,g,b] = colVorticity((omega[k]/maxO * 0.5 + 0.5));
+          const bw = bilinearSample(omega, fi, fj);
+          [r,g,b] = colVorticity(bw / maxO * 0.5 + 0.5);
         } else {
-          // Streamlines: alternating bands of ψ
-          const t = (psi[k] - minP) / (maxP - minP);
-          const band = Math.floor(t * 14);
-          [r,g,b] = band % 2 === 0 ? [74,124,89] : [168,213,181];
+          // Smooth sine-band streamlines
+          const bp   = bilinearSample(psi, fi, fj);
+          const t    = (bp - minP) / (maxP - minP);
+          const band = Math.sin(t * Math.PI * 14) * 0.5 + 0.5;
+          const a = [74,124,89], c = [168,213,181];
+          r = a[0] + band*(c[0]-a[0]);
+          g = a[1] + band*(c[1]-a[1]);
+          b = a[2] + band*(c[2]-a[2]);
         }
 
         const p = (py*W + px)*4;
@@ -722,6 +886,47 @@ function initCFDDemo() {
       }
     }
     ctx.putImageData(imgData, 0, 0);
+    drawVelocityArrows(W, H, maxV);
+  }
+
+  /* ── Velocity arrow overlay ── */
+  function drawVelocityArrows(W, H, maxV) {
+    const COLS = 12, ROWS = 12;
+    const cw = W / COLS, ch = H / ROWS;
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,255,255,0.72)';
+    ctx.lineWidth = Math.max(1, W / 300);
+    for (let row = 0; row < ROWS; row++) {
+      for (let col = 0; col < COLS; col++) {
+        const px = (col + 0.5) * cw;
+        const py = (row + 0.5) * ch;
+        const fi = (px / (W - 1)) * (N - 1);
+        const fj = (1 - py / (H - 1)) * (N - 1);
+        const bu  = bilinearSample(u, fi, fj);
+        const bv  = bilinearSample(v, fi, fj);
+        const spd = Math.sqrt(bu*bu + bv*bv);
+        if (spd < 1e-6) continue;
+        const scale = Math.min(spd / maxV, 1) * cw * 0.45;
+        const dx =  bu / spd * scale;
+        const dy = -bv / spd * scale;   // flip y for screen coords
+        const ex = px + dx, ey = py + dy;
+        // Arrow shaft
+        ctx.beginPath();
+        ctx.moveTo(px - dx*0.5, py - dy*0.5);
+        ctx.lineTo(ex, ey);
+        ctx.stroke();
+        // Arrowhead
+        const hLen = scale * 0.35;
+        const ang  = Math.atan2(dy, dx);
+        ctx.beginPath();
+        ctx.moveTo(ex, ey);
+        ctx.lineTo(ex - hLen*Math.cos(ang - 0.45), ey - hLen*Math.sin(ang - 0.45));
+        ctx.moveTo(ex, ey);
+        ctx.lineTo(ex - hLen*Math.cos(ang + 0.45), ey - hLen*Math.sin(ang + 0.45));
+        ctx.stroke();
+      }
+    }
+    ctx.restore();
   }
 
   /* ── Animation loop ── */
@@ -761,6 +966,10 @@ function initCFDDemo() {
     }, { threshold: 0 });
     obs.observe(demoEl);
   }
+
+  /* ── Re-render on resize (DPR-aware) ── */
+  const resizeObs = new ResizeObserver(() => render());
+  resizeObs.observe(canvas);
 
   /* ── Init ── */
   reset();

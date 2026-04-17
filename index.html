@@ -80,27 +80,8 @@
     ══════════════════════════════════════════════════════ -->
     <section id="hero" aria-label="Hero introduction">
 
-      <!-- Topographic SVG overlay — layered on top of CSS mesh gradient -->
-      <div class="topo-bg" aria-hidden="true">
-        <svg viewBox="0 0 1440 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-          <g fill="none" stroke="#4a7c59" stroke-width="1" opacity="0.13">
-            <path d="M0,400 C120,320 240,480 360,400 C480,320 600,480 720,400 C840,320 960,480 1080,400 C1200,320 1320,460 1440,400"/>
-            <path d="M0,440 C120,360 240,520 360,440 C480,360 600,520 720,440 C840,360 960,520 1080,440 C1200,360 1320,500 1440,440"/>
-            <path d="M0,360 C120,280 240,440 360,360 C480,280 600,440 720,360 C840,280 960,440 1080,360 C1200,280 1320,420 1440,360"/>
-            <path d="M0,480 C120,400 240,560 360,480 C480,400 600,560 720,480 C840,400 960,560 1080,480 C1200,400 1320,540 1440,480"/>
-            <path d="M0,320 C120,240 240,400 360,320 C480,240 600,400 720,320 C840,240 960,400 1080,320 C1200,240 1320,380 1440,320"/>
-            <path d="M0,520 C180,440 360,600 540,520 C720,440 900,600 1080,520 C1200,460 1340,560 1440,520"/>
-            <path d="M0,280 C180,200 360,360 540,280 C720,200 900,360 1080,280 C1200,220 1340,320 1440,280"/>
-            <path d="M0,560 C200,480 400,640 600,560 C800,480 1000,640 1200,560 C1300,520 1380,580 1440,560"/>
-            <path d="M0,240 C200,160 400,320 600,240 C800,160 1000,320 1200,240 C1300,200 1380,260 1440,240"/>
-          </g>
-          <g fill="none" stroke="#8b6914" stroke-width="0.8" opacity="0.07">
-            <path d="M0,600 C240,520 480,680 720,600 C960,520 1200,680 1440,600"/>
-            <path d="M0,200 C240,120 480,280 720,200 C960,120 1200,280 1440,200"/>
-            <path d="M0,640 C360,560 720,720 1080,640 C1260,600 1380,660 1440,640"/>
-          </g>
-        </svg>
-      </div>
+      <!-- Animated flow-field canvas — fluid streamlines matching CFD/research theme -->
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
 
       <div class="hero-content">
         <p class="hero-location">Colorado School of Mines · Golden, CO</p>
@@ -654,11 +635,13 @@
             </div>
           </div>
           <div class="cfd-canvas-wrap">
-            <canvas id="cfd-canvas" width="400" height="400" aria-label="CFD simulation canvas"></canvas>
+            <canvas id="cfd-canvas" aria-label="CFD simulation canvas"></canvas>
             <div class="cfd-colorbar" aria-hidden="true">
               <div class="cfd-colorbar-gradient"></div>
               <div class="cfd-colorbar-labels">
-                <span>High</span><span>Low</span>
+                <span title="Positive vorticity — clockwise rotation">+ω</span>
+                <span title="Zero vorticity">0</span>
+                <span title="Negative vorticity — counter-clockwise rotation">−ω</span>
               </div>
             </div>
           </div>
