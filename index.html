@@ -47,6 +47,7 @@
 
       <ul class="nav-links" id="nav-links" role="list">
         <li><a href="#about"    class="nav-link">About</a></li>
+        <li><a href="#timeline" class="nav-link">Timeline</a></li>
         <li><a href="#research" class="nav-link">Research</a></li>
         <li><a href="#projects" class="nav-link">Projects</a></li>
         <li><a href="#blog"     class="nav-link">Blog</a></li>
@@ -54,7 +55,10 @@
         <li><a href="#contact"  class="nav-link">Contact</a></li>
       </ul>
 
-      <!-- UPGRADE 2: Dark mode toggle — moon = go dark, sun = go light -->
+      <!-- Command palette hint — desktop only -->
+      <button id="cmd-hint" aria-label="Open command palette" title="Command palette (⌘K)">⌘K</button>
+
+      <!-- Dark mode toggle — moon = go dark, sun = go light -->
       <button id="theme-toggle" aria-label="Switch to dark mode">
         <i data-lucide="moon" aria-hidden="true"></i>
       </button>
@@ -76,8 +80,27 @@
     ══════════════════════════════════════════════════════ -->
     <section id="hero" aria-label="Hero introduction">
 
-      <!-- UPGRADE 1: Canvas-based particle system (replaces static .topo-bg SVG) -->
-      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <!-- Topographic SVG overlay — layered on top of CSS mesh gradient -->
+      <div class="topo-bg" aria-hidden="true">
+        <svg viewBox="0 0 1440 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" stroke="#4a7c59" stroke-width="1" opacity="0.13">
+            <path d="M0,400 C120,320 240,480 360,400 C480,320 600,480 720,400 C840,320 960,480 1080,400 C1200,320 1320,460 1440,400"/>
+            <path d="M0,440 C120,360 240,520 360,440 C480,360 600,520 720,440 C840,360 960,520 1080,440 C1200,360 1320,500 1440,440"/>
+            <path d="M0,360 C120,280 240,440 360,360 C480,280 600,440 720,360 C840,280 960,440 1080,360 C1200,280 1320,420 1440,360"/>
+            <path d="M0,480 C120,400 240,560 360,480 C480,400 600,560 720,480 C840,400 960,560 1080,480 C1200,400 1320,540 1440,480"/>
+            <path d="M0,320 C120,240 240,400 360,320 C480,240 600,400 720,320 C840,240 960,400 1080,320 C1200,240 1320,380 1440,320"/>
+            <path d="M0,520 C180,440 360,600 540,520 C720,440 900,600 1080,520 C1200,460 1340,560 1440,520"/>
+            <path d="M0,280 C180,200 360,360 540,280 C720,200 900,360 1080,280 C1200,220 1340,320 1440,280"/>
+            <path d="M0,560 C200,480 400,640 600,560 C800,480 1000,640 1200,560 C1300,520 1380,580 1440,560"/>
+            <path d="M0,240 C200,160 400,320 600,240 C800,160 1000,320 1200,240 C1300,200 1380,260 1440,240"/>
+          </g>
+          <g fill="none" stroke="#8b6914" stroke-width="0.8" opacity="0.07">
+            <path d="M0,600 C240,520 480,680 720,600 C960,520 1200,680 1440,600"/>
+            <path d="M0,200 C240,120 480,280 720,200 C960,120 1200,280 1440,200"/>
+            <path d="M0,640 C360,560 720,720 1080,640 C1260,600 1380,660 1440,640"/>
+          </g>
+        </svg>
+      </div>
 
       <div class="hero-content">
         <p class="hero-location">Colorado School of Mines · Golden, CO</p>
@@ -215,24 +238,113 @@
          Between About and Research — green band with animated counters.
     ══════════════════════════════════════════════════════ -->
     <div class="stats-strip fade-in-section" aria-label="Key statistics">
-      <div class="stat-item">
-        <!-- data-target and data-suffix drive the counter animation in initStatsCounter() -->
-        <span class="stat-number" data-target="4" data-suffix="+">0</span>
-        <span class="stat-label">Publications</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number" data-target="3" data-suffix="">0</span>
-        <span class="stat-label">Active Research Projects</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number" data-target="85" data-suffix="%" data-decimals="1">0</span>
-        <span class="stat-label">Best Model R²</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number" data-target="15331" data-suffix="">0</span>
-        <span class="stat-label">Pipeline Records Classified</span>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-number" data-target="4" data-suffix="+">0</span>
+          <span class="stat-label">Publications</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" data-target="3" data-suffix="">0</span>
+          <span class="stat-label">Active Research Projects</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" data-target="85" data-suffix="%" data-decimals="1">0</span>
+          <span class="stat-label">Best Model R²</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" data-target="15331" data-suffix="">0</span>
+          <span class="stat-label">Pipeline Records Classified</span>
+        </div>
       </div>
     </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         ACADEMIC TIMELINE
+         Visual journey: AKTU → IIT Mandi → CSM
+    ══════════════════════════════════════════════════════ -->
+    <section id="timeline" class="section fade-in-section" aria-labelledby="timeline-heading">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="timeline-heading">Journey</h2>
+          <div class="section-divider" aria-hidden="true">
+            <svg width="140" height="22" viewBox="0 0 140 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="11" x2="50" y2="11" stroke="#e0dbd0" stroke-width="1"/>
+              <path d="M58,20 L63,4 L68,20 L73,9 L78,16 L83,2 L88,17 L93,9 L98,20" stroke="#4a7c59" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+              <line x1="106" y1="11" x2="140" y2="11" stroke="#e0dbd0" stroke-width="1"/>
+            </svg>
+          </div>
+        </div>
+        <p class="section-intro">From a mechanical engineering student in UP to building ML models for fluid dynamics in Colorado.</p>
+
+        <div class="timeline" role="list">
+
+          <div class="timeline-item" role="listitem">
+            <div class="timeline-marker" aria-hidden="true">
+              <div class="timeline-dot"></div>
+              <div class="timeline-line"></div>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-meta">
+                <span class="timeline-year">2019 – 2023</span>
+                <span class="status-badge badge-gray">Undergraduate</span>
+              </div>
+              <h3 class="timeline-title">B.Tech, Mechanical Engineering</h3>
+              <p class="timeline-org">AKTU — Dr. A.P.J. Abdul Kalam Technical University</p>
+              <p class="timeline-desc">Foundation in thermodynamics, fluid mechanics, and manufacturing. CGPA 7.51/10. Developed interest in simulation and heat transfer that would drive the next chapter.</p>
+              <div class="timeline-tags">
+                <span class="tag">Thermodynamics</span>
+                <span class="tag">Fluid Mechanics</span>
+                <span class="tag">Manufacturing</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item" role="listitem">
+            <div class="timeline-marker" aria-hidden="true">
+              <div class="timeline-dot"></div>
+              <div class="timeline-line"></div>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-meta">
+                <span class="timeline-year">2023 – 2025</span>
+                <span class="status-badge badge-amber">Research</span>
+              </div>
+              <h3 class="timeline-title">M.Tech (Research), Computational Mechanics</h3>
+              <p class="timeline-org">IIT Mandi · Advisor: Dr. Pradeep Kumar · CGPA 8.0/10</p>
+              <p class="timeline-desc">Pore-scale radiation modeling in TPMS volumetric solar receivers. Developed MCRT simulations in ANSYS Fluent and homogenized OpenFOAM models. Poster won first prize in thermal domain, Nov 2024.</p>
+              <div class="timeline-tags">
+                <span class="tag">MCRT</span>
+                <span class="tag">OpenFOAM</span>
+                <span class="tag">TPMS</span>
+                <span class="tag">Solar Energy</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item timeline-item--active" role="listitem">
+            <div class="timeline-marker" aria-hidden="true">
+              <div class="timeline-dot timeline-dot--active"></div>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-meta">
+                <span class="timeline-year">Jan 2026 – present</span>
+                <span class="status-badge badge-green">Active</span>
+              </div>
+              <h3 class="timeline-title">PhD, Hydrology / Mechanical Engineering</h3>
+              <p class="timeline-org">Colorado School of Mines · Advisor: Dr. Serveh Kamrava · Golden, CO</p>
+              <p class="timeline-desc">Building 3D CNN surrogates for Lattice Boltzmann simulations in porous media. Best model: R² = 0.85 at 64³ resolution on Wendian HPC. Working toward a three-paper dissertation.</p>
+              <div class="timeline-tags">
+                <span class="tag">ML-LBM</span>
+                <span class="tag">3D CNN</span>
+                <span class="tag">HPC</span>
+                <span class="tag">TensorFlow</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
 
     <!-- ══════════════════════════════════════════════════════
          RESEARCH & PUBLICATIONS
@@ -508,6 +620,51 @@
           </article>
 
         </div>
+
+        <!-- ══════════════════════════════════════════════════════
+             INTERACTIVE CFD DEMO
+             Lid-driven cavity flow — vorticity-streamfunction solver
+             running live in the browser via canvas.
+        ══════════════════════════════════════════════════════ -->
+        <div class="cfd-demo fade-in-section" aria-label="Interactive CFD simulation">
+          <div class="cfd-demo-header">
+            <h3 class="cfd-demo-title">Live CFD: Lid-Driven Cavity Flow</h3>
+            <p class="cfd-demo-desc">
+              A real Navier-Stokes solver running in your browser. The top wall moves right at constant velocity,
+              driving a vortex. Adjust Reynolds number to see laminar → complex flow transition.
+              This is the same physics underlying my LBM research.
+            </p>
+          </div>
+          <div class="cfd-demo-controls">
+            <div class="cfd-control">
+              <label for="cfd-re">Reynolds number: <span id="cfd-re-val">100</span></label>
+              <input type="range" id="cfd-re" min="50" max="1000" value="100" step="50" aria-label="Reynolds number">
+            </div>
+            <div class="cfd-control">
+              <label for="cfd-viz">Visualize:</label>
+              <select id="cfd-viz" aria-label="Visualization mode">
+                <option value="velocity">Velocity magnitude</option>
+                <option value="vorticity">Vorticity (ω)</option>
+                <option value="streamlines">Streamlines</option>
+              </select>
+            </div>
+            <div class="cfd-buttons">
+              <button class="btn btn-primary" id="cfd-run">▶ Run</button>
+              <button class="btn btn-outline" id="cfd-reset">↺ Reset</button>
+            </div>
+          </div>
+          <div class="cfd-canvas-wrap">
+            <canvas id="cfd-canvas" width="400" height="400" aria-label="CFD simulation canvas"></canvas>
+            <div class="cfd-colorbar" aria-hidden="true">
+              <div class="cfd-colorbar-gradient"></div>
+              <div class="cfd-colorbar-labels">
+                <span>High</span><span>Low</span>
+              </div>
+            </div>
+          </div>
+          <p class="cfd-caption">Vorticity-streamfunction formulation on a <span id="cfd-grid-size">64×64</span> staggered grid. Re-solves from scratch when Reynolds number changes.</p>
+        </div>
+
       </div>
     </section>
 
@@ -802,6 +959,26 @@
   <button id="back-to-top" aria-label="Back to top" title="Back to top">
     <i data-lucide="arrow-up" aria-hidden="true"></i>
   </button>
+
+  <!-- ══════════════════════════════════════════════════════
+       COMMAND PALETTE
+       Triggered by Cmd+K (Mac) / Ctrl+K (Windows).
+  ══════════════════════════════════════════════════════ -->
+  <div id="cmd-palette-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Command palette">
+    <div id="cmd-palette">
+      <div class="cmd-search-wrap">
+        <i data-lucide="search" aria-hidden="true"></i>
+        <input type="text" id="cmd-input" placeholder="Search sections, actions, or content…" autocomplete="off" spellcheck="false">
+        <kbd class="cmd-esc-hint">ESC</kbd>
+      </div>
+      <div class="cmd-results" id="cmd-results" role="listbox"></div>
+      <div class="cmd-footer">
+        <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+        <span><kbd>↵</kbd> select</span>
+        <span><kbd>ESC</kbd> close</span>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
