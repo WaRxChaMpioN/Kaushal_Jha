@@ -18,15 +18,16 @@
      12. Dark mode theme toggle
      13. Lazy research media
      14. Research comparison slider + preview controls
-     15. Expandable research card details
-     16. Animated skill progress bars
-     17. Blog category filter
-     18. Contact form — validation + Formspree
-     19. Back-to-top button
-     20. Stats counter animation
-     21. Command palette (Cmd+K)
-     22. Premium interaction layer (tilt, magnetic buttons, cursor)
-     23. Interactive CFD demo (lid-driven cavity)
+     15. Research image galleries
+     16. Expandable research card details
+     17. Animated skill progress bars
+     18. Blog category filter
+     19. Contact form — validation + Formspree
+     20. Back-to-top button
+     21. Stats counter animation
+     22. Command palette (Cmd+K)
+     23. Premium interaction layer (tilt, magnetic buttons, cursor)
+     24. Interactive CFD demo (lid-driven cavity)
 ══════════════════════════════════════════════════════ */
 
 /* ──────────────────────────────────────────
@@ -100,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
   initLazyResearchMedia();
   initResearchComparisons();
+  initResearchGalleries();
   initPreviewButtons();
   initExpandableCards();
   initSkillBars();
@@ -527,7 +529,7 @@ function initLazyResearchMedia() {
   if (!figures.length) return;
 
   figures.forEach(figure => {
-    const imgs = Array.from(figure.querySelectorAll('img'));
+    const imgs = Array.from(figure.querySelectorAll('.research-gallery-main, .compare-slider > img, .research-media > img'));
     if (!imgs.length || imgs.every(img => img.complete)) {
       figure.classList.add('media-loaded');
       return;
@@ -587,6 +589,27 @@ function initResearchComparisons() {
   });
 }
 
+/* ──────────────────────────────────────────
+   15. RESEARCH IMAGE GALLERIES
+   Swaps existing loaded images only; no extra dependencies or eager preloading.
+────────────────────────────────────────── */
+function initResearchGalleries() {
+  document.querySelectorAll('.research-media').forEach(figure => {
+    const main = figure.querySelector('.research-gallery-main');
+    const thumbs = figure.querySelectorAll('.gallery-thumb[data-full]');
+    if (!main || !thumbs.length) return;
+
+    thumbs.forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        main.src = thumb.dataset.full;
+        main.alt = thumb.dataset.alt || main.alt;
+        thumbs.forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+      });
+    });
+  });
+}
+
 function initPreviewButtons() {
   document.querySelectorAll('.media-play-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -607,7 +630,7 @@ function initPreviewButtons() {
 }
 
 /* ──────────────────────────────────────────
-   15. EXPANDABLE RESEARCH CARDS
+   16. EXPANDABLE RESEARCH CARDS
 ────────────────────────────────────────── */
 function initExpandableCards() {
   const btns = document.querySelectorAll('.card-expand-btn');
@@ -637,7 +660,7 @@ function initExpandableCards() {
 }
 
 /* ──────────────────────────────────────────
-   16. SKILL BARS
+   17. SKILL BARS
 ────────────────────────────────────────── */
 function initSkillBars() {
   const bars = document.querySelectorAll('.skill-bar[data-skill]');
@@ -684,7 +707,7 @@ function initSkillBars() {
 }
 
 /* ──────────────────────────────────────────
-   17. BLOG FILTER
+   18. BLOG FILTER
 ────────────────────────────────────────── */
 function initBlogFilter() {
   const btns  = document.querySelectorAll('.filter-btn');
@@ -701,7 +724,7 @@ function initBlogFilter() {
 }
 
 /* ──────────────────────────────────────────
-   18. CONTACT FORM
+   19. CONTACT FORM
 ────────────────────────────────────────── */
 function initContactForm() {
   const form = document.getElementById('contact-form');
@@ -764,7 +787,7 @@ function initContactForm() {
 }
 
 /* ──────────────────────────────────────────
-   19. BACK TO TOP
+   20. BACK TO TOP
 ────────────────────────────────────────── */
 function initBackToTop() {
   const btn = document.getElementById('back-to-top');
@@ -774,7 +797,7 @@ function initBackToTop() {
 }
 
 /* ──────────────────────────────────────────
-   20. STATS COUNTER
+   21. STATS COUNTER
 ────────────────────────────────────────── */
 function initStatsCounter() {
   const counters = document.querySelectorAll('.stat-number[data-target]');
@@ -807,7 +830,7 @@ function initStatsCounter() {
 }
 
 /* ──────────────────────────────────────────
-   21. COMMAND PALETTE (Cmd+K / Ctrl+K)
+   22. COMMAND PALETTE (Cmd+K / Ctrl+K)
 ────────────────────────────────────────── */
 function initCommandPalette() {
   const overlay = document.getElementById('cmd-palette-overlay');
@@ -968,7 +991,7 @@ function initCommandPalette() {
 }
 
 /* ──────────────────────────────────────────
-   22. PREMIUM INTERACTION LAYER
+   23. PREMIUM INTERACTION LAYER
    Pointer effects are opt-in for fine pointers and reduced-motion safe.
 ────────────────────────────────────────── */
 function initCardTilt() {
@@ -1031,7 +1054,7 @@ function initCustomCursor() {
 }
 
 /* ──────────────────────────────────────────
-   23. INTERACTIVE CFD DEMO
+   24. INTERACTIVE CFD DEMO
    Vorticity-streamfunction solver for lid-driven cavity.
    Grid: N×N, h = 1/(N-1)
    Top wall (j=N-1) moves at U=1 (lid).
