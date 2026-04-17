@@ -633,7 +633,7 @@ function initContactForm() {
   if (!form) return;
 
   // Formspree endpoint — replace YOUR_ID with actual form ID
-  const ENDPOINT = 'https://formspree.io/f/xdkogvqb';
+  const ENDPOINT = 'https://formspree.io/f/xyklevwa';
 
   const nameInput    = form.querySelector('#name');
   const emailInput   = form.querySelector('#email');
