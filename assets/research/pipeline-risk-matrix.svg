@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Pipeline risk classification matrix</title>
+  <desc id="desc">A stylized risk matrix for machine-learning classification of gathering flowlines.</desc>
+  <rect width="960" height="540" fill="#f7f5f0"/>
+  <g transform="translate(120 80)">
+    <rect width="720" height="360" rx="8" fill="#ffffff" stroke="#e0dbd0"/>
+    <g font-family="Inter, Arial, sans-serif" font-size="16" fill="#1a1a1a" text-anchor="middle">
+      <text x="90" y="-24">Low</text>
+      <text x="270" y="-24">Medium</text>
+      <text x="450" y="-24">High</text>
+      <text x="630" y="-24">Severe</text>
+    </g>
+    <g>
+      <rect x="0" y="0" width="180" height="90" fill="#d7eadc"/>
+      <rect x="180" y="0" width="180" height="90" fill="#eef2d0"/>
+      <rect x="360" y="0" width="180" height="90" fill="#f2d691"/>
+      <rect x="540" y="0" width="180" height="90" fill="#d7896f"/>
+      <rect x="0" y="90" width="180" height="90" fill="#c9e2d1"/>
+      <rect x="180" y="90" width="180" height="90" fill="#e3e5bb"/>
+      <rect x="360" y="90" width="180" height="90" fill="#e8c66f"/>
+      <rect x="540" y="90" width="180" height="90" fill="#c9685b"/>
+      <rect x="0" y="180" width="180" height="90" fill="#b8d8c2"/>
+      <rect x="180" y="180" width="180" height="90" fill="#d6d69a"/>
+      <rect x="360" y="180" width="180" height="90" fill="#d9ac4d"/>
+      <rect x="540" y="180" width="180" height="90" fill="#a84242"/>
+      <rect x="0" y="270" width="180" height="90" fill="#a8cfb5"/>
+      <rect x="180" y="270" width="180" height="90" fill="#c7c579"/>
+      <rect x="360" y="270" width="180" height="90" fill="#bd862b"/>
+      <rect x="540" y="270" width="180" height="90" fill="#7f2d35"/>
+    </g>
+    <g fill="none" stroke="#ffffff" stroke-width="3">
+      <path d="M180 0V360M360 0V360M540 0V360M0 90H720M0 180H720M0 270H720"/>
+    </g>
+    <g fill="#1a1a1a" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700" text-anchor="middle">
+      <text x="90" y="56">0.91</text>
+      <text x="270" y="146">0.74</text>
+      <text x="450" y="236">0.68</text>
+      <text x="630" y="326" fill="#ffffff">0.59</text>
+    </g>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" fill="#1a1a1a">
+    <text x="48" y="46" font-size="28" font-weight="700">Calibrated risk labels</text>
+    <text x="48" y="504" font-size="18" fill="#6b6b6b">15,331 flowlines · XGBoost · Monte Carlo failure probability</text>
+  </g>
+</svg>

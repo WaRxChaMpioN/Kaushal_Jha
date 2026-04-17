@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">TPMS radiation absorption map</title>
+  <desc id="desc">A stylized thermal radiation map for a porous TPMS solar receiver.</desc>
+  <defs>
+    <linearGradient id="heat" x1="0" x2="1">
+      <stop offset="0" stop-color="#243b53"/>
+      <stop offset="0.42" stop-color="#4a7c59"/>
+      <stop offset="0.72" stop-color="#d0a234"/>
+      <stop offset="1" stop-color="#f6e6a8"/>
+    </linearGradient>
+    <pattern id="lattice" width="90" height="90" patternUnits="userSpaceOnUse">
+      <path d="M0 45 C24 10 66 10 90 45 C66 80 24 80 0 45Z" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.25"/>
+      <path d="M45 0 C80 24 80 66 45 90 C10 66 10 24 45 0Z" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.18"/>
+    </pattern>
+  </defs>
+  <rect width="960" height="540" fill="#111914"/>
+  <rect x="42" y="72" width="876" height="388" rx="8" fill="url(#heat)"/>
+  <rect x="42" y="72" width="876" height="388" rx="8" fill="url(#lattice)"/>
+  <g opacity="0.55">
+    <circle cx="740" cy="210" r="110" fill="#f6e6a8"/>
+    <circle cx="615" cy="310" r="92" fill="#d0a234"/>
+    <circle cx="292" cy="320" r="120" fill="#243b53"/>
+  </g>
+  <g fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.55">
+    <path d="M90 118 C260 210 372 175 515 244 C646 306 742 248 874 382"/>
+    <path d="M90 370 C222 278 350 328 474 245 C618 148 746 185 874 124"/>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" fill="#ffffff">
+    <text x="44" y="48" font-size="28" font-weight="700">Radiation absorption</text>
+    <text x="44" y="498" font-size="18" opacity="0.78">TPMS porous receiver · MCRT / OpenFOAM coupling</text>
+  </g>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">ML-LBM velocity-field preview</title>
+  <desc id="desc">A stylized scientific plot showing velocity magnitude streamlines through porous media.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#101712"/>
+      <stop offset="1" stop-color="#eef3ee"/>
+    </linearGradient>
+    <linearGradient id="vel" x1="0" x2="1">
+      <stop offset="0" stop-color="#2b6cb0"/>
+      <stop offset="0.48" stop-color="#4a7c59"/>
+      <stop offset="1" stop-color="#c49a2a"/>
+    </linearGradient>
+    <filter id="soft">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+  </defs>
+  <rect width="960" height="540" fill="url(#bg)"/>
+  <g opacity="0.2" fill="#fff">
+    <circle cx="150" cy="120" r="46"/>
+    <circle cx="300" cy="240" r="76"/>
+    <circle cx="520" cy="150" r="58"/>
+    <circle cx="710" cy="315" r="92"/>
+    <circle cx="840" cy="140" r="42"/>
+    <circle cx="180" cy="405" r="62"/>
+    <circle cx="460" cy="430" r="44"/>
+  </g>
+  <g fill="none" stroke="url(#vel)" stroke-width="5" stroke-linecap="round" opacity="0.9">
+    <path d="M38 115 C210 40 320 190 490 124 C665 56 757 105 925 72"/>
+    <path d="M28 196 C195 160 305 288 455 232 C620 172 743 210 930 162"/>
+    <path d="M34 282 C215 245 316 345 470 305 C630 260 770 296 926 250"/>
+    <path d="M36 365 C170 332 300 442 480 390 C650 340 775 388 924 338"/>
+    <path d="M42 452 C230 400 320 502 515 455 C674 416 812 456 922 412"/>
+  </g>
+  <g filter="url(#soft)" opacity="0.45">
+    <circle cx="636" cy="236" r="84" fill="#c49a2a"/>
+    <circle cx="328" cy="318" r="70" fill="#2b6cb0"/>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" fill="#ffffff">
+    <text x="44" y="58" font-size="28" font-weight="700">Velocity surrogate</text>
+    <text x="44" y="92" font-size="18" opacity="0.78">64^3 pore geometry · predicted flow field</text>
+  </g>
+</svg>

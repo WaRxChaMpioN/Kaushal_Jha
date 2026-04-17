@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Laser fog scattering preview</title>
+  <desc id="desc">A stylized preview of laser propagation and Mie scattering through fog droplets.</desc>
+  <defs>
+    <radialGradient id="fog" cx="50%" cy="50%" r="70%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#d7e2e7" stop-opacity="0.4"/>
+    </radialGradient>
+    <linearGradient id="beam" x1="0" x2="1">
+      <stop offset="0" stop-color="#2b6cb0" stop-opacity="0.1"/>
+      <stop offset="0.45" stop-color="#4a7c59" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#c49a2a" stop-opacity="0.95"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" fill="#101712"/>
+  <path d="M0 250 C210 205 380 228 565 210 C720 194 815 222 960 182 L960 350 C760 372 575 334 420 358 C250 384 128 340 0 380Z" fill="url(#beam)"/>
+  <g fill="url(#fog)" opacity="0.72">
+    <circle cx="125" cy="125" r="36"/>
+    <circle cx="258" cy="292" r="54"/>
+    <circle cx="382" cy="150" r="28"/>
+    <circle cx="512" cy="335" r="44"/>
+    <circle cx="662" cy="208" r="62"/>
+    <circle cx="804" cy="328" r="38"/>
+    <circle cx="872" cy="125" r="46"/>
+  </g>
+  <g fill="none" stroke="#ffffff" stroke-width="2" opacity="0.45">
+    <circle cx="662" cy="208" r="86"/>
+    <circle cx="662" cy="208" r="128"/>
+    <circle cx="258" cy="292" r="82"/>
+    <circle cx="258" cy="292" r="122"/>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" fill="#ffffff">
+    <text x="44" y="58" font-size="28" font-weight="700">Mie scattering response</text>
+    <text x="44" y="92" font-size="18" opacity="0.78">Laser-fog interaction · VOF / MCRT setup</text>
+  </g>
+</svg>

@@ -8,19 +8,25 @@
      2.  Scroll progress bar
      3.  Navbar scroll behavior
      4.  Hamburger menu (mobile)
-     5.  Typing animation (hero)
+     5.  Typing animation (hero, reduced-motion aware)
      6.  Fade-in on scroll
      7.  Active nav link tracking
-     8.  Smooth scroll with navbar offset
-     9.  Dark mode theme toggle
-     10. Expandable research card details
-     11. Animated skill progress bars
-     12. Blog category filter
-     13. Contact form — validation + Formspree
-     14. Back-to-top button
-     15. Stats counter animation
-     16. Command palette (Cmd+K)
-     17. Interactive CFD demo (lid-driven cavity)
+     8.  Section progress rail
+     9.  Smooth scroll with navbar offset
+     10. Hero canvas
+     11. Hero parallax
+     12. Dark mode theme toggle
+     13. Lazy research media
+     14. Research comparison slider + preview controls
+     15. Expandable research card details
+     16. Animated skill progress bars
+     17. Blog category filter
+     18. Contact form — validation + Formspree
+     19. Back-to-top button
+     20. Stats counter animation
+     21. Command palette (Cmd+K)
+     22. Premium interaction layer (tilt, magnetic buttons, cursor)
+     23. Interactive CFD demo (lid-driven cavity)
 ══════════════════════════════════════════════════════ */
 
 /* ──────────────────────────────────────────
@@ -52,7 +58,27 @@ function scrollToSection(id) {
   const target = document.querySelector(id);
   if (!target) return;
   const top = target.getBoundingClientRect().top + window.scrollY - NAV_H;
-  window.scrollTo({ top, behavior: 'smooth' });
+  window.scrollTo({ top, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+}
+
+function prefersReducedMotion() {
+  return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function supportsFinePointer() {
+  return window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+}
+
+function rafThrottle(fn) {
+  let queued = false;
+  return (...args) => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => {
+      queued = false;
+      fn(...args);
+    });
+  };
 }
 
 /* ──────────────────────────────────────────
@@ -67,9 +93,14 @@ document.addEventListener('DOMContentLoaded', () => {
   initTypingAnimation();
   initFadeInSections();
   initActiveNavLinks();
+  initSectionProgress();
   initSmoothScroll();
   initHeroCanvas();
+  initHeroParallax();
   initThemeToggle();
+  initLazyResearchMedia();
+  initResearchComparisons();
+  initPreviewButtons();
   initExpandableCards();
   initSkillBars();
   initBlogFilter();
@@ -78,6 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initStatsCounter();
   initCommandPalette();
   initCFDDemo();
+  initCardTilt();
+  initMagneticButtons();
+  initCustomCursor();
 });
 
 /* ──────────────────────────────────────────
@@ -147,7 +181,18 @@ function initHamburger() {
 function initTypingAnimation() {
   const el = document.getElementById('typed-text');
   if (!el) return;
-  const phrases = ['I simulate fluids.', 'I train neural networks.', 'I climb mountains.', 'I build things.'];
+  const phrases = [
+    'training continuity-aware 3D CNNs',
+    'reproducing ML-CFD benchmarks',
+    'turning pore geometry into velocity fields',
+    'scaling experiments on Wendian HPC'
+  ];
+  if (prefersReducedMotion()) {
+    el.textContent = phrases[0];
+    const cursor = el.parentElement?.querySelector('.cursor');
+    if (cursor) cursor.style.display = 'none';
+    return;
+  }
   let pi = 0, ci = 0, deleting = false, tid;
   const TYPE = 85, DEL = 48, PAUSE_END = 1900, PAUSE_START = 360;
 
@@ -167,8 +212,13 @@ function initTypingAnimation() {
    5. FADE-IN ON SCROLL
 ────────────────────────────────────────── */
 function initFadeInSections() {
+  document.querySelectorAll('.timeline-item').forEach(el => el.classList.add('fade-in-section'));
   const els = document.querySelectorAll('.fade-in-section');
   if (!('IntersectionObserver' in window)) { els.forEach(el => el.classList.add('visible')); return; }
+  // Stagger repeated lists for orientation; sections still reveal once for performance.
+  document.querySelectorAll('.timeline-item, .research-card, .project-card, .blog-card').forEach((el, i) => {
+    el.style.setProperty('--reveal-delay', `${Math.min(i % 6, 5) * 55}ms`);
+  });
   const obs = new IntersectionObserver(
     (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }),
     { threshold: 0.12, rootMargin: '0px 0px -48px 0px' }
@@ -177,7 +227,7 @@ function initFadeInSections() {
 }
 
 /* ──────────────────────────────────────────
-   6. ACTIVE NAV LINK
+   7. ACTIVE NAV LINK
 ────────────────────────────────────────── */
 function initActiveNavLinks() {
   const sections = Array.from(document.querySelectorAll('section[id]'));
@@ -188,7 +238,7 @@ function initActiveNavLinks() {
     (entries) => {
       entries.forEach(e => e.isIntersecting ? active.add(e.target.id) : active.delete(e.target.id));
       let id = null;
-      for (const s of sections) { if (active.has(s.id)) { id = s.id; break; } }
+      for (const s of sections) { if (active.has(s.id)) id = s.id; }
       links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${id}`));
     },
     { rootMargin: '-64px 0px -35% 0px', threshold: 0 }
@@ -197,7 +247,37 @@ function initActiveNavLinks() {
 }
 
 /* ──────────────────────────────────────────
-   7. SMOOTH SCROLL
+   8. SECTION PROGRESS RAIL
+   Lightweight section dots mirror nav state without scroll polling.
+────────────────────────────────────────── */
+function initSectionProgress() {
+  const rail = document.getElementById('section-progress');
+  if (!rail || !('IntersectionObserver' in window)) return;
+  const sections = Array.from(document.querySelectorAll('main section[id]'));
+  if (!sections.length) return;
+
+  sections.forEach(section => {
+    const btn = document.createElement('button');
+    btn.className = 'section-progress-dot';
+    btn.type = 'button';
+    btn.dataset.target = section.id;
+    btn.setAttribute('aria-label', `Go to ${section.id.replace(/-/g, ' ')}`);
+    btn.addEventListener('click', () => scrollToSection(`#${section.id}`));
+    rail.appendChild(btn);
+  });
+
+  const dots = Array.from(rail.querySelectorAll('.section-progress-dot'));
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      dots.forEach(dot => dot.classList.toggle('active', dot.dataset.target === entry.target.id));
+    });
+  }, { rootMargin: '-35% 0px -50% 0px', threshold: 0 });
+  sections.forEach(section => obs.observe(section));
+}
+
+/* ──────────────────────────────────────────
+   9. SMOOTH SCROLL
 ────────────────────────────────────────── */
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -213,20 +293,26 @@ function initSmoothScroll() {
 }
 
 /* ──────────────────────────────────────────
-   8. HERO CANVAS — ANIMATED FLOW FIELD
-   Perlin-like vector field drives 280 particles
-   whose trails accumulate into fluid streamlines.
-   Pauses when hero is off-screen.
+   10. HERO CANVAS — ANIMATED FLOW FIELD
+   Perlin-like vector field drives an adaptive particle
+   count whose trails accumulate into fluid streamlines.
+   Pauses when hero is off-screen or the tab is hidden.
 ────────────────────────────────────────── */
 function initHeroCanvas() {
   const canvas = document.getElementById('hero-canvas');
   if (!canvas) return;
+  if (prefersReducedMotion()) {
+    canvas.style.display = 'none';
+    return;
+  }
 
   const ctx = canvas.getContext('2d');
-  let W, H, animId;
+  let W, H, animId, visible = true;
   let particles = [];
-  const N_PARTICLES = 280;
+  let particleTarget = 180;
   const SPEED = 0.8;
+  let lastFpsCheck = performance.now();
+  let framesSinceCheck = 0;
 
   /* Perlin-like flow field using layered sin/cos */
   function flowAngle(x, y, t) {
@@ -238,33 +324,82 @@ function initHeroCanvas() {
     );
   }
 
+  function clamp(n, min, max) {
+    return Math.max(min, Math.min(max, n));
+  }
+
+  function computeParticleTarget() {
+    const area = Math.max(W * H, 1);
+    const cores = navigator.hardwareConcurrency || 4;
+    const isSmall = W < 720;
+    let target = Math.round(area / 4300);
+    if (isSmall) target *= 0.68;
+    if (cores <= 4) target *= 0.72;
+    if ((window.devicePixelRatio || 1) > 1.5) target *= 0.85;
+    return clamp(Math.round(target), 70, 260);
+  }
+
+  function syncParticles() {
+    while (particles.length > particleTarget) particles.pop();
+    while (particles.length < particleTarget) particles.push(makeParticle());
+  }
+
+  function makeParticle() {
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      life: Math.random() * 120,
+      maxLife: 80 + Math.random() * 100,
+      speed: SPEED * (0.6 + Math.random() * 0.8),
+      color: Math.random() > 0.75 ? 'rgba(139,105,20,' : 'rgba(74,124,89,',
+    };
+  }
+
   function resize() {
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     W = canvas.offsetWidth;
     H = canvas.offsetHeight;
     canvas.width  = W * dpr;
     canvas.height = H * dpr;
     ctx.scale(dpr, dpr);
+    particleTarget = computeParticleTarget();
     initParticles();
   }
 
   function initParticles() {
     particles = [];
-    for (let i = 0; i < N_PARTICLES; i++) {
-      particles.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        life: Math.random() * 120,
-        maxLife: 80 + Math.random() * 100,
-        speed: SPEED * (0.6 + Math.random() * 0.8),
-        color: Math.random() > 0.75 ? 'rgba(139,105,20,' : 'rgba(74,124,89,',
-      });
-    }
+    for (let i = 0; i < particleTarget; i++) particles.push(makeParticle());
   }
 
   let t = 0;
 
-  function draw() {
+  function startCanvas() {
+    if (!animId && visible && !document.hidden) animId = requestAnimationFrame(draw);
+  }
+
+  function stopCanvas() {
+    if (animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+    }
+  }
+
+  function reduceParticlesIfNeeded(now) {
+    framesSinceCheck++;
+    const elapsed = now - lastFpsCheck;
+    if (elapsed < 1200) return;
+    const fps = framesSinceCheck / (elapsed / 1000);
+    if (fps < 42 && particleTarget > 70) {
+      particleTarget = clamp(Math.round(particleTarget * 0.78), 70, 260);
+      syncParticles();
+    }
+    framesSinceCheck = 0;
+    lastFpsCheck = now;
+  }
+
+  function draw(now) {
+    reduceParticlesIfNeeded(now);
+
     /* Fade trail — accumulates into visible streams */
     const dark = document.documentElement.getAttribute('data-theme') === 'dark';
     ctx.fillStyle = dark ? 'rgba(15,21,16,0.06)' : 'rgba(247,245,240,0.06)';
@@ -312,26 +447,57 @@ function initHeroCanvas() {
   const heroEl = document.getElementById('hero');
   if (heroEl && 'IntersectionObserver' in window) {
     new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
       if (entry.isIntersecting) {
-        if (!animId) animId = requestAnimationFrame(draw);
+        startCanvas();
       } else {
-        if (animId) { cancelAnimationFrame(animId); animId = null; }
+        stopCanvas();
       }
     }, { threshold: 0 }).observe(heroEl);
   }
 
   window.addEventListener('resize', () => {
-    if (animId) { cancelAnimationFrame(animId); animId = null; }
+    stopCanvas();
     resize();
-    animId = requestAnimationFrame(draw);
+    startCanvas();
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopCanvas();
+    else startCanvas();
   });
 
   resize();
-  animId = requestAnimationFrame(draw);
+  startCanvas();
 }
 
 /* ──────────────────────────────────────────
-   8. DARK MODE TOGGLE
+   11. HERO PARALLAX
+   Scroll-linked transform is rAF-throttled and disabled for reduced motion.
+────────────────────────────────────────── */
+function initHeroParallax() {
+  const hero = document.getElementById('hero');
+  const content = document.querySelector('.hero-content[data-parallax]');
+  if (!hero || !content || prefersReducedMotion()) return;
+
+  const rate = parseFloat(content.dataset.parallax) || 0.12;
+  const update = rafThrottle(() => {
+    const rect = hero.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+    const progress = Math.max(0, Math.min(1, -rect.top / Math.max(rect.height, 1)));
+    content.style.transform = `translate3d(0, ${progress * rect.height * rate}px, 0)`;
+  });
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) update();
+  });
+  update();
+}
+
+/* ──────────────────────────────────────────
+   12. DARK MODE TOGGLE
 ────────────────────────────────────────── */
 function initThemeToggle() {
   const btn = document.getElementById('theme-toggle');
@@ -351,7 +517,97 @@ function initThemeToggle() {
 }
 
 /* ──────────────────────────────────────────
-   9. EXPANDABLE RESEARCH CARDS
+   13. LAZY RESEARCH MEDIA
+   Native lazy-loading covers images; this module adds opt-in
+   data-src support for heavier MP4/GIF previews.
+────────────────────────────────────────── */
+function initLazyResearchMedia() {
+  const figures = document.querySelectorAll('.research-media');
+  const media = document.querySelectorAll('.research-media img[data-src], .research-media video[data-src], .research-media source[data-src]');
+  if (!figures.length) return;
+
+  figures.forEach(figure => {
+    const imgs = Array.from(figure.querySelectorAll('img'));
+    if (!imgs.length || imgs.every(img => img.complete)) {
+      figure.classList.add('media-loaded');
+      return;
+    }
+    let remaining = imgs.length;
+    const markOne = () => {
+      remaining--;
+      if (remaining <= 0) figure.classList.add('media-loaded');
+    };
+    imgs.forEach(img => {
+      img.addEventListener('load', markOne, { once: true });
+      img.addEventListener('error', markOne, { once: true });
+    });
+  });
+
+  function loadMedia(el) {
+    if (el.dataset.src) {
+      el.src = el.dataset.src;
+      el.removeAttribute('data-src');
+    }
+    const video = el.tagName === 'VIDEO' ? el : el.closest('video');
+    if (video) {
+      video.load();
+      video.addEventListener('loadeddata', () => video.closest('.research-media')?.classList.add('media-loaded'), { once: true });
+    }
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    media.forEach(loadMedia);
+    return;
+  }
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const root = entry.target;
+      if (root.matches('[data-src]')) loadMedia(root);
+      if (root.querySelectorAll) root.querySelectorAll('[data-src]').forEach(loadMedia);
+      obs.unobserve(root);
+    });
+  }, { rootMargin: '250px 0px', threshold: 0.01 });
+
+  document.querySelectorAll('.research-media').forEach(el => obs.observe(el));
+}
+
+/* ──────────────────────────────────────────
+   14. RESEARCH COMPARISON + PREVIEW CONTROLS
+   Range input updates a CSS split only; no canvas or heavy image processing.
+────────────────────────────────────────── */
+function initResearchComparisons() {
+  document.querySelectorAll('[data-compare]').forEach(compare => {
+    const input = compare.querySelector('input[type="range"]');
+    if (!input) return;
+    const update = () => compare.style.setProperty('--split', `${input.value}%`);
+    input.addEventListener('input', update, { passive: true });
+    update();
+  });
+}
+
+function initPreviewButtons() {
+  document.querySelectorAll('.media-play-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const figure = btn.closest('.research-media');
+      const video = figure?.querySelector('video');
+      if (video) {
+        if (video.paused) video.play().catch(() => {});
+        else video.pause();
+        btn.classList.toggle('is-active', !video.paused);
+        return;
+      }
+
+      // Static fallback: confirms the affordance without inventing a fake animation.
+      btn.classList.add('is-active');
+      setTimeout(() => btn.classList.remove('is-active'), 900);
+    });
+  });
+}
+
+/* ──────────────────────────────────────────
+   15. EXPANDABLE RESEARCH CARDS
 ────────────────────────────────────────── */
 function initExpandableCards() {
   const btns = document.querySelectorAll('.card-expand-btn');
@@ -368,20 +624,20 @@ function initExpandableCards() {
           const d = document.getElementById(b.getAttribute('aria-controls'));
           if (d) { d.classList.remove('expanded'); d.setAttribute('aria-hidden', 'true'); }
           b.setAttribute('aria-expanded', 'false');
-          b.querySelector('span').textContent = 'Show details';
+          b.querySelector('span').textContent = 'Technical details';
         }
       });
       // Toggle this one
       details.classList.toggle('expanded', !isOpen);
       details.setAttribute('aria-hidden', String(isOpen));
       btn.setAttribute('aria-expanded', String(!isOpen));
-      btn.querySelector('span').textContent = isOpen ? 'Show details' : 'Hide details';
+      btn.querySelector('span').textContent = isOpen ? 'Technical details' : 'Hide details';
     });
   });
 }
 
 /* ──────────────────────────────────────────
-   10. SKILL BARS
+   16. SKILL BARS
 ────────────────────────────────────────── */
 function initSkillBars() {
   const bars = document.querySelectorAll('.skill-bar[data-skill]');
@@ -400,6 +656,10 @@ function initSkillBars() {
 
   function ease(t) { return 1 - Math.pow(1 - t, 3); }
   function animate(fill, target, delay) {
+    if (prefersReducedMotion()) {
+      fill.style.width = target + '%';
+      return;
+    }
     setTimeout(() => {
       const dur = 900, start = performance.now();
       (function step(now) {
@@ -424,7 +684,7 @@ function initSkillBars() {
 }
 
 /* ──────────────────────────────────────────
-   11. BLOG FILTER
+   17. BLOG FILTER
 ────────────────────────────────────────── */
 function initBlogFilter() {
   const btns  = document.querySelectorAll('.filter-btn');
@@ -441,7 +701,7 @@ function initBlogFilter() {
 }
 
 /* ──────────────────────────────────────────
-   12. CONTACT FORM
+   18. CONTACT FORM
 ────────────────────────────────────────── */
 function initContactForm() {
   const form = document.getElementById('contact-form');
@@ -504,17 +764,17 @@ function initContactForm() {
 }
 
 /* ──────────────────────────────────────────
-   13. BACK TO TOP
+   19. BACK TO TOP
 ────────────────────────────────────────── */
 function initBackToTop() {
   const btn = document.getElementById('back-to-top');
   if (!btn) return;
   window.addEventListener('scroll', () => btn.classList.toggle('visible', window.scrollY > 400), { passive: true });
-  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' }));
 }
 
 /* ──────────────────────────────────────────
-   14. STATS COUNTER
+   20. STATS COUNTER
 ────────────────────────────────────────── */
 function initStatsCounter() {
   const counters = document.querySelectorAll('.stat-number[data-target]');
@@ -524,6 +784,10 @@ function initStatsCounter() {
     const target = parseFloat(el.dataset.target) || 0;
     const suffix = el.dataset.suffix || '';
     const dec    = parseInt(el.dataset.decimals, 10) || 0;
+    if (prefersReducedMotion()) {
+      el.textContent = target.toFixed(dec) + suffix;
+      return;
+    }
     const dur = 1800, start = performance.now();
     (function step(now) {
       const p = Math.min((now - start) / dur, 1);
@@ -543,7 +807,7 @@ function initStatsCounter() {
 }
 
 /* ──────────────────────────────────────────
-   15. COMMAND PALETTE (Cmd+K / Ctrl+K)
+   21. COMMAND PALETTE (Cmd+K / Ctrl+K)
 ────────────────────────────────────────── */
 function initCommandPalette() {
   const overlay = document.getElementById('cmd-palette-overlay');
@@ -557,6 +821,7 @@ function initCommandPalette() {
     { id: 'nav-about',     label: 'Go to About',              icon: 'user',          group: 'Navigate', action: () => { scrollToSection('#about');    closePalette(); } },
     { id: 'nav-timeline',  label: 'Go to Timeline',           icon: 'git-branch',    group: 'Navigate', action: () => { scrollToSection('#timeline'); closePalette(); } },
     { id: 'nav-research',  label: 'Go to Research',           icon: 'flask-conical', group: 'Navigate', action: () => { scrollToSection('#research'); closePalette(); } },
+    { id: 'nav-work',      label: 'Go to Selected Work',       icon: 'file-text',     group: 'Navigate', action: () => { scrollToSection('#selected-work'); closePalette(); } },
     { id: 'nav-projects',  label: 'Go to Projects',           icon: 'code-2',        group: 'Navigate', action: () => { scrollToSection('#projects'); closePalette(); } },
     { id: 'nav-blog',      label: 'Go to Writing',            icon: 'pen-line',      group: 'Navigate', action: () => { scrollToSection('#blog');     closePalette(); } },
     { id: 'nav-cv',        label: 'Go to CV',                 icon: 'file-text',     group: 'Navigate', action: () => { scrollToSection('#cv');       closePalette(); } },
@@ -564,6 +829,7 @@ function initCommandPalette() {
     { id: 'dl-cv',         label: 'Download CV',              icon: 'download',      group: 'Actions',  action: () => { const a = document.createElement('a'); a.href = 'cv.pdf'; a.download = ''; a.click(); closePalette(); } },
     { id: 'theme-light',   label: 'Switch to Light mode',     icon: 'sun',           group: 'Actions',  action: () => { setTheme('light'); closePalette(); } },
     { id: 'theme-dark',    label: 'Switch to Dark mode',      icon: 'moon',          group: 'Actions',  action: () => { setTheme('dark');  closePalette(); } },
+    { id: 'run-cfd',       label: 'Trigger CFD demo',          icon: 'play',          group: 'Actions',  action: () => { triggerCFDDemo(); closePalette(); } },
     { id: 'link-github',   label: 'Open GitHub',              icon: 'github',        group: 'Links',    action: () => { window.open('https://github.com/WaRxChaMpioN', '_blank'); closePalette(); } },
     { id: 'link-linkedin', label: 'Open LinkedIn',            icon: 'linkedin',      group: 'Links',    action: () => { window.open('https://www.linkedin.com/in/kaushal-jha892/', '_blank'); closePalette(); } },
     { id: 'link-email',    label: 'Send Email',               icon: 'send',          group: 'Links',    action: () => { window.open('mailto:kaushal_jha@mines.edu'); closePalette(); } },
@@ -588,10 +854,28 @@ function initCommandPalette() {
     overlay.setAttribute('aria-hidden', 'true');
   }
 
+  function fuzzyScore(text, q) {
+    if (!q) return 1;
+    const hay = text.toLowerCase();
+    const needle = q.toLowerCase();
+    let score = 0, last = -1;
+    for (const ch of needle) {
+      const at = hay.indexOf(ch, last + 1);
+      if (at === -1) return -1;
+      score += at === last + 1 ? 4 : 1;
+      if (at === 0 || hay[at - 1] === ' ' || hay[at - 1] === '-') score += 2;
+      last = at;
+    }
+    return score - hay.length * 0.01;
+  }
+
   function filter(q) {
     if (!q) return CMDS;
-    const lq = q.toLowerCase();
-    return CMDS.filter(c => c.label.toLowerCase().includes(lq) || c.group.toLowerCase().includes(lq));
+    return CMDS
+      .map(cmd => ({ cmd, score: Math.max(fuzzyScore(cmd.label, q), fuzzyScore(cmd.group, q)) }))
+      .filter(item => item.score >= 0)
+      .sort((a, b) => b.score - a.score)
+      .map(item => item.cmd);
   }
 
   function makeItem(cmd) {
@@ -622,7 +906,15 @@ function initCommandPalette() {
     } else {
       filtered.forEach(c => results.appendChild(makeItem(c)));
     }
+    if (!filtered.length) {
+      const empty = document.createElement('div');
+      empty.className = 'cmd-empty';
+      empty.textContent = 'No matching command.';
+      results.appendChild(empty);
+    }
     if (typeof lucide !== 'undefined') lucide.createIcons({ elements: [results] });
+    const first = getItems()[0];
+    if (first) setFocused(first);
   }
 
   function getItems() { return Array.from(results.querySelectorAll('.cmd-item')); }
@@ -665,10 +957,81 @@ function initCommandPalette() {
   overlay.addEventListener('click', (e) => { if (e.target === overlay) closePalette(); });
 
   if (hint) hint.addEventListener('click', openPalette);
+
+  function triggerCFDDemo() {
+    scrollToSection('#projects');
+    window.setTimeout(() => {
+      const run = document.getElementById('cfd-run');
+      if (run && !/Pause/.test(run.textContent || '')) run.click();
+    }, prefersReducedMotion() ? 0 : 520);
+  }
 }
 
 /* ──────────────────────────────────────────
-   16. INTERACTIVE CFD DEMO
+   22. PREMIUM INTERACTION LAYER
+   Pointer effects are opt-in for fine pointers and reduced-motion safe.
+────────────────────────────────────────── */
+function initCardTilt() {
+  if (!supportsFinePointer() || prefersReducedMotion()) return;
+  const cards = document.querySelectorAll('.research-card, .project-card, .blog-card');
+  cards.forEach(card => {
+    const update = rafThrottle((e) => {
+      const rect = card.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width - 0.5;
+      const py = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.setProperty('--tilt-y', `${px * 5}deg`);
+      card.style.setProperty('--tilt-x', `${py * -4}deg`);
+    });
+    card.addEventListener('pointermove', update, { passive: true });
+    card.addEventListener('pointerleave', () => {
+      card.style.setProperty('--tilt-x', '0deg');
+      card.style.setProperty('--tilt-y', '0deg');
+    });
+  });
+}
+
+function initMagneticButtons() {
+  if (!supportsFinePointer() || prefersReducedMotion()) return;
+  const buttons = document.querySelectorAll('.btn');
+  buttons.forEach(btn => {
+    const update = rafThrottle((e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = (e.clientX - rect.left - rect.width / 2) * 0.14;
+      const y = (e.clientY - rect.top - rect.height / 2) * 0.18;
+      btn.style.setProperty('--magnet-x', `${Math.max(-7, Math.min(7, x))}px`);
+      btn.style.setProperty('--magnet-y', `${Math.max(-5, Math.min(5, y))}px`);
+    });
+    btn.addEventListener('pointermove', update, { passive: true });
+    btn.addEventListener('pointerleave', () => {
+      btn.style.setProperty('--magnet-x', '0px');
+      btn.style.setProperty('--magnet-y', '0px');
+    });
+  });
+}
+
+function initCustomCursor() {
+  if (!supportsFinePointer() || prefersReducedMotion()) return;
+  const cursor = document.createElement('div');
+  cursor.className = 'custom-cursor';
+  document.body.appendChild(cursor);
+
+  const move = rafThrottle((e) => {
+    cursor.style.left = `${e.clientX}px`;
+    cursor.style.top = `${e.clientY}px`;
+    cursor.classList.add('visible');
+  });
+  document.addEventListener('pointermove', move, { passive: true });
+  document.addEventListener('pointerleave', () => cursor.classList.remove('visible'));
+  document.addEventListener('pointerover', (e) => {
+    if (e.target.closest('a, button, input, select, textarea, .cmd-item')) cursor.classList.add('cursor-hover');
+  });
+  document.addEventListener('pointerout', (e) => {
+    if (e.target.closest('a, button, input, select, textarea, .cmd-item')) cursor.classList.remove('cursor-hover');
+  });
+}
+
+/* ──────────────────────────────────────────
+   23. INTERACTIVE CFD DEMO
    Vorticity-streamfunction solver for lid-driven cavity.
    Grid: N×N, h = 1/(N-1)
    Top wall (j=N-1) moves at U=1 (lid).
@@ -696,6 +1059,7 @@ function initCFDDemo() {
   let Re      = 100;
   let running = false;
   let animId  = null;
+  let resumeAfterVisibility = false;
 
   // Float32Arrays — all size N*N, indexed as j*N + i (i=col/x, j=row/y)
   let psi     = new Float32Array(N * N);
@@ -966,6 +1330,15 @@ function initCFDDemo() {
     }, { threshold: 0 });
     obs.observe(demoEl);
   }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      resumeAfterVisibility = running;
+      stopLoop();
+    } else if (resumeAfterVisibility && running) {
+      startLoop();
+    }
+  });
 
   /* ── Re-render on resize (DPR-aware) ── */
   const resizeObs = new ResizeObserver(() => render());

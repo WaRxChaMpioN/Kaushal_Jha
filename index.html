@@ -3,12 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kaushal Jha — PhD Researcher · ML × CFD</title>
-  <meta name="description" content="Kaushal Jha is a PhD student in Hydrology at Colorado School of Mines, specializing in machine learning for computational fluid dynamics and porous media flow.">
+  <title>Kaushal Jha — ML-CFD Researcher · Porous Media · HPC</title>
+  <meta name="description" content="Kaushal Jha is a PhD researcher using CFD, machine learning, porous media simulation, LBM, hydrology, and HPC to build fast scientific surrogates for subsurface flow.">
   <meta property="og:title" content="Kaushal Jha — PhD Researcher · ML × CFD">
-  <meta property="og:description" content="PhD student at Colorado School of Mines working at the intersection of machine learning and computational fluid dynamics.">
+  <meta property="og:description" content="PhD researcher at Colorado School of Mines building machine-learning surrogates for CFD, LBM, porous media, and hydrology workflows.">
   <meta property="og:type" content="website">
   <!-- og:image: <meta property="og:image" content="./images/og-image.jpg"> -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Kaushal Jha",
+    "url": "https://warxchampion.github.io/",
+    "jobTitle": "PhD Researcher",
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "Colorado School of Mines"
+    },
+    "alumniOf": [
+      {
+        "@type": "CollegeOrUniversity",
+        "name": "Indian Institute of Technology Mandi"
+      },
+      {
+        "@type": "CollegeOrUniversity",
+        "name": "Dr. A.P.J. Abdul Kalam Technical University"
+      }
+    ],
+    "knowsAbout": [
+      "Computational Fluid Dynamics",
+      "Machine Learning",
+      "Porous Media",
+      "Lattice Boltzmann Method",
+      "Hydrology",
+      "High Performance Computing",
+      "Radiative Heat Transfer"
+    ],
+    "sameAs": [
+      "https://github.com/WaRxChaMpioN",
+      "https://www.linkedin.com/in/kaushal-jha892/"
+    ],
+    "subjectOf": {
+      "@type": "ResearchProject",
+      "name": "Machine-learning surrogates for porous media flow",
+      "description": "3D CNN surrogates for Lattice Boltzmann velocity prediction in CT-scanned porous media using HPC workflows."
+    }
+  }
+  </script>
 
   <!-- Favicon: KJ monogram via SVG data URI -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='5' fill='%234a7c59'/><text x='50%' y='52%' dominant-baseline='central' text-anchor='middle' font-family='Georgia,serif' font-weight='bold' font-size='14' fill='white'>KJ</text></svg>">
@@ -26,7 +67,7 @@
   <!-- Google Fonts: Lora (serif) + Inter (sans-serif) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 
   <!-- Lucide Icons via CDN -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
@@ -37,6 +78,8 @@
 
   <!-- Scroll Progress Bar -->
   <div id="scroll-progress" aria-hidden="true"></div>
+  <!-- Section progress gives orientation without adding another heavy animation layer. -->
+  <nav id="section-progress" aria-label="Section progress"></nav>
 
   <!-- ══════════════════════════════════════════════════════
        NAVIGATION
@@ -49,6 +92,7 @@
         <li><a href="#about"    class="nav-link">About</a></li>
         <li><a href="#timeline" class="nav-link">Timeline</a></li>
         <li><a href="#research" class="nav-link">Research</a></li>
+        <li><a href="#selected-work" class="nav-link">Selected Work</a></li>
         <li><a href="#projects" class="nav-link">Projects</a></li>
         <li><a href="#blog"     class="nav-link">Blog</a></li>
         <li><a href="#cv"       class="nav-link">CV</a></li>
@@ -82,12 +126,35 @@
 
       <!-- Animated flow-field canvas — fluid streamlines matching CFD/research theme -->
       <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-vignette" aria-hidden="true"></div>
 
-      <div class="hero-content">
+      <div class="hero-content" data-parallax="0.16">
         <p class="hero-location">Colorado School of Mines · Golden, CO</p>
         <h1 class="hero-name">Kaushal Jha</h1>
-        <p class="hero-tagline">PhD Researcher · ML × Computational Fluid Dynamics</p>
-        <div class="hero-typing" aria-live="polite">
+        <p class="hero-tagline">
+          I build fast 3D flow-field surrogates for porous media prediction using physics-aware machine learning and LBM data.
+        </p>
+        <p class="hero-subtext">
+          My work turns expensive pore-scale CFD into scalable neural models that preserve velocity structure,
+          continuity, and uncertainty-relevant details for hydrology and subsurface engineering.
+        </p>
+        <div class="hero-highlights" aria-label="Key research highlights">
+          <div class="hero-highlight">
+            <span class="highlight-value">R² 0.85 · 64³</span>
+            <span class="highlight-label">Best ML-LBM model</span>
+          </div>
+          <div class="hero-highlight">
+            <span class="highlight-value">Wendian HPC</span>
+            <span class="highlight-label">Training and data pipeline</span>
+          </div>
+          <div class="hero-highlight">
+            <span class="highlight-value">4 works</span>
+            <span class="highlight-label">Published / submitted</span>
+          </div>
+        </div>
+        <!-- Secondary animation: kept as a small status line so the hero story stays dominant. -->
+        <div class="hero-typing" aria-live="polite" aria-label="Current research focus">
+          <span class="typing-prefix">Current thread:</span>
           <span id="typed-text"></span><span class="cursor" aria-hidden="true">|</span>
         </div>
         <div class="hero-cta">
@@ -125,23 +192,35 @@
           <!-- Bio text -->
           <div class="about-text">
             <p class="about-bio">
-              I'm a PhD student in Hydrology at Colorado School of Mines, advised by
-              <strong>Dr. Serveh Kamrava</strong>, working at the intersection of machine learning and
-              computational fluid dynamics for subsurface flow. My current research focuses on building
-              3D CNN surrogates for lattice Boltzmann simulations in porous media — making flow prediction
-              fast without solving the full physics. Best model: R² = 0.85 at 64³ resolution on Wendian HPC.
+              I came into research through mechanical engineering: first through thermodynamics and fluid
+              mechanics, then through the uncomfortable realization that the most interesting engineering
+              questions rarely fit inside a clean textbook boundary condition.
             </p>
             <p class="about-bio">
-              I hold a B.Tech (Mechanical Engineering) from AKTU and an M.Tech (Research) in Computational
-              Mechanics from IIT Mandi (advised by Dr. Pradeep Kumar), where I developed coupled
-              radiative-convective frameworks for volumetric solar receivers using MCRT and OpenFOAM.
+              At IIT Mandi, that curiosity became radiation and porous media: Monte Carlo ray tracing,
+              OpenFOAM, and TPMS solar absorbers where heat transfer, geometry, and numerical modeling all
+              had to agree. That work taught me how much scientific progress depends on making simulations
+              both physically faithful and computationally usable.
             </p>
+            <p class="about-bio">
+              Now at Colorado School of Mines with <strong>Dr. Serveh Kamrava</strong>, I work on ML-CFD
+              for subsurface flow. My focus is building 3D CNN surrogates that learn velocity fields from
+              pore geometry and Lattice Boltzmann data, so researchers can explore flow behavior without
+              paying the full cost of every CFD solve.
+            </p>
+            <div class="research-vision">
+              <h3>Research Vision</h3>
+              <p>
+                Long-term, I want to build trustworthy scientific ML systems for multiscale flow: models
+                that are fast enough for screening and inverse design, accurate enough to respect physics,
+                and transparent enough that hydrologists, CFD researchers, and engineers can use them with
+                confidence.
+              </p>
+            </div>
             <p class="about-beyond">
-              <strong>Beyond the lab:</strong> I grew up in Delhi, but Himachal Pradesh is my second home
-              — I've lived and explored the Himalayas more than anywhere else, and the mountains shaped how
-              I think. When I'm not debugging HPC jobs on the Wendian cluster, I'm hiking the Colorado
-              Rockies, lifting, or playing badminton. I believe being physically strong and intellectually
-              sharp are the same discipline.
+              <strong>Outside the lab:</strong> I grew up in Delhi, but Himachal Pradesh became the place
+              that shaped how I think. Mountains made patience practical. When I am not debugging Wendian
+              jobs, I am usually hiking in Colorado, lifting, or playing badminton.
             </p>
 
             <!-- UPGRADE 9: Currently box — live status feel with pulsing dot + new checkpoint item -->
@@ -229,7 +308,7 @@
           <span class="stat-label">Active Research Projects</span>
         </div>
         <div class="stat-item">
-          <span class="stat-number" data-target="85" data-suffix="%" data-decimals="1">0</span>
+          <span class="stat-number" data-target="0.85" data-suffix="" data-decimals="2">0</span>
           <span class="stat-label">Best Model R²</span>
         </div>
         <div class="stat-item">
@@ -345,28 +424,59 @@
         </div>
 
         <p class="section-intro">
-          My work spans porous media flow, radiative heat transfer, and applied ML for scientific computing.
+          Case studies in ML-CFD, porous media, radiation modeling, and scientific computing. Each project is framed by the problem, method, quantitative result, and research value.
         </p>
 
         <div class="research-cards">
 
-          <!-- UPGRADE 3: Expandable research cards — each has .card-expand-btn + hidden .card-details -->
-
-          <!-- Card 1: PhD Research (active) -->
+          <!-- Case-study research cards: visual preview + structured evidence + expandable technical notes. -->
           <article class="research-card fade-in-section"
                    aria-label="PhD Research: CNN Surrogate for 3D Porous Media Flow">
+            <figure class="research-media">
+              <div class="compare-slider" data-compare>
+                <img src="./assets/research/ml-lbm-velocity.svg"
+                     alt="LBM reference velocity-field slice"
+                     loading="lazy"
+                     decoding="async">
+                <div class="compare-after" aria-hidden="true">
+                  <img src="./assets/research/ml-lbm-surrogate.svg"
+                       alt=""
+                       loading="lazy"
+                       decoding="async">
+                </div>
+                <span class="compare-label compare-label-left">LBM</span>
+                <span class="compare-label compare-label-right">Surrogate</span>
+                <input type="range" min="0" max="100" value="58" aria-label="Compare LBM reference with surrogate prediction">
+              </div>
+              <button class="media-play-btn" type="button" aria-label="Play velocity field preview" data-preview-label="Velocity preview">
+                <i data-lucide="play" aria-hidden="true"></i>
+              </button>
+              <figcaption>Interactive LBM vs surrogate comparison · MP4/GIF previews lazy-load when added via <code>data-src</code>.</figcaption>
+            </figure>
             <div class="research-card-header">
               <span class="status-badge badge-green">Active · PhD Research</span>
             </div>
             <h3 class="research-card-title">
               CNN Surrogate for 3D Porous Media Flow via Lattice Boltzmann Method
             </h3>
-            <p class="research-card-desc">
-              Reproducing and extending Wang et al. 2021 (Transport in Porous Media 138:49-75). A 3D CNN
-              (K4N8 architecture) with a physics-informed continuity loss learns velocity fields from
-              CT-scanned pore geometries — achieving R² = 0.85 at 64³ resolution on Wendian HPC. Enables
-              fast, mesh-free flow prediction without full LBM solves.
-            </p>
+            <dl class="case-study-grid">
+              <div>
+                <dt>Problem</dt>
+                <dd>Full LBM simulations are too expensive for repeated pore-scale flow prediction across CT-derived geometries.</dd>
+              </div>
+              <div>
+                <dt>Approach</dt>
+                <dd>Train a 3D CNN surrogate on pore geometry and LBM velocity fields, then add continuity-aware loss terms.</dd>
+              </div>
+              <div>
+                <dt>Results</dt>
+                <dd>Best checkpoint: R² = 0.85 at 64³ resolution after roughly 510 epochs on Wendian HPC.</dd>
+              </div>
+              <div>
+                <dt>Impact</dt>
+                <dd>Enables fast flow-field screening without running a fresh CFD solve for every candidate geometry.</dd>
+              </div>
+            </dl>
             <div class="research-tags" role="list" aria-label="Research tags">
               <span class="tag" role="listitem">ML-LBM</span>
               <span class="tag" role="listitem">3D CNN</span>
@@ -374,31 +484,59 @@
               <span class="tag" role="listitem">HPC</span>
               <span class="tag" role="listitem">TensorFlow</span>
             </div>
-            <!-- Expand button — toggles .card-details visibility -->
+            <div class="research-actions">
+              <a href="https://github.com/WaRxChaMpioN" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-small">
+                <i data-lucide="github" aria-hidden="true"></i> View Code
+              </a>
+              <a href="#selected-work" class="btn btn-outline btn-small">
+                <i data-lucide="file-text" aria-hidden="true"></i> View Paper
+              </a>
+            </div>
             <button class="card-expand-btn" aria-expanded="false" aria-controls="details-card1">
-              <span>Show details</span>
+              <span>Technical details</span>
               <i data-lucide="chevron-down" aria-hidden="true"></i>
             </button>
-            <!-- Hidden detail panel — revealed on expand -->
             <div class="card-details" id="details-card1" aria-hidden="true">
-              <p>Current status: R² = 0.85 at 64³ resolution, ~510 epochs. Next step: continuity loss (alpha=0.1) from ckpt-16 at LR=1e-5. Dataset: 64³ porous geometries on Wendian HPC (<code>/beegfs/scratch/kaushal_jha/ML_LBM_3D/</code>). Target: reproduce Wang et al. 2021 Fig. 13 velocity field.</p>
+              <p>Architecture reference: Wang et al. 2021 K4N8-style 3D CNN for pore-scale velocity prediction. Current experiment path: <code>/beegfs/scratch/kaushal_jha/ML_LBM_3D/</code>. Next run: continuity loss alpha = 0.1 from ckpt-16 at LR = 1e-5, with field-level comparisons against published velocity slices.</p>
             </div>
           </article>
 
-          <!-- Card 2: M.Tech publication -->
           <article class="research-card fade-in-section"
                    aria-label="M.Tech Publication: Pore-Scale Radiation Modeling in TPMS Solar Receivers">
+            <figure class="research-media">
+              <img src="./assets/research/tpms-radiation-map.svg"
+                   alt="Radiation absorption preview for a TPMS porous solar receiver"
+                   loading="lazy"
+                   decoding="async">
+              <button class="media-play-btn" type="button" aria-label="Play TPMS radiation preview" data-preview-label="Radiation preview">
+                <i data-lucide="play" aria-hidden="true"></i>
+              </button>
+              <figcaption>Radiation absorption map · supports replacing this preview with MP4 or GIF output.</figcaption>
+            </figure>
             <div class="research-card-header">
               <span class="status-badge badge-amber">Under Review · Journal</span>
             </div>
             <h3 class="research-card-title">
               Pore-Scale Radiation Modeling in TPMS-Based Volumetric Solar Receivers
             </h3>
-            <p class="research-card-desc">
-              Monte Carlo Ray Tracing (MCRT) in ANSYS Fluent and a homogenized OpenFOAM model for
-              diamond-structured alumina TPMS absorbers. Characterizes radiation-conduction coupling
-              and LTNE in concentrated solar receivers.
-            </p>
+            <dl class="case-study-grid">
+              <div>
+                <dt>Problem</dt>
+                <dd>Volumetric solar receivers need porous absorbers that capture radiation while controlling solid-fluid heat transfer.</dd>
+              </div>
+              <div>
+                <dt>Approach</dt>
+                <dd>Combine pore-scale MCRT in ANSYS Fluent with a homogenized OpenFOAM model for diamond TPMS absorbers.</dd>
+              </div>
+              <div>
+                <dt>Results</dt>
+                <dd>Journal manuscript resubmitted after 27 targeted revisions; poster won first prize in the thermal domain.</dd>
+              </div>
+              <div>
+                <dt>Impact</dt>
+                <dd>Connects geometry-resolved radiation physics to faster continuum-scale receiver analysis.</dd>
+              </div>
+            </dl>
             <div class="research-tags" role="list" aria-label="Research tags">
               <span class="tag" role="listitem">MCRT</span>
               <span class="tag" role="listitem">OpenFOAM</span>
@@ -406,30 +544,59 @@
               <span class="tag" role="listitem">Solar Energy</span>
               <span class="tag" role="listitem">Radiative Heat Transfer</span>
             </div>
+            <div class="research-actions">
+              <a href="https://github.com/WaRxChaMpioN" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-small">
+                <i data-lucide="github" aria-hidden="true"></i> View Code
+              </a>
+              <a href="#selected-work" class="btn btn-outline btn-small">
+                <i data-lucide="file-text" aria-hidden="true"></i> View Paper
+              </a>
+            </div>
             <button class="card-expand-btn" aria-expanded="false" aria-controls="details-card2">
-              <span>Show details</span>
+              <span>Technical details</span>
               <i data-lucide="chevron-down" aria-hidden="true"></i>
             </button>
             <div class="card-details" id="details-card2" aria-hidden="true">
-              <p>MCRT simulation of diamond-structured Al₂O₃ TPMS absorbers. Homogenized OpenFOAM model captures LTNE between solid/fluid phases. Poster won first prize in thermal domain, IIT Mandi, Nov 2024. Resubmitted to IJHMT after 27 targeted revisions.</p>
+              <p>MCRT simulation of diamond-structured Al₂O₃ TPMS absorbers. Homogenized OpenFOAM model captures LTNE between solid and fluid phases. Validation emphasizes radiation-conduction coupling, effective thermal behavior, and receiver-scale transport relevance.</p>
             </div>
           </article>
 
-          <!-- Card 3: Collaboration -->
           <article class="research-card fade-in-section"
                    aria-label="Collaboration: ML-Based Pipeline Risk Classification for ECMC Gathering Flowlines">
+            <figure class="research-media">
+              <img src="./assets/research/pipeline-risk-matrix.svg"
+                   alt="Risk classification matrix preview for gathering flowline machine learning"
+                   loading="lazy"
+                   decoding="async">
+              <button class="media-play-btn" type="button" aria-label="Play pipeline risk preview" data-preview-label="Risk preview">
+                <i data-lucide="play" aria-hidden="true"></i>
+              </button>
+              <figcaption>Risk-label calibration preview · static image, GIF, or MP4 can be lazy-loaded.</figcaption>
+            </figure>
             <div class="research-card-header">
               <span class="status-badge badge-amber">In Preparation · SPE Journal</span>
             </div>
             <h3 class="research-card-title">
               ML-Based Pipeline Risk Classification for ECMC Gathering Flowlines
             </h3>
-            <p class="research-card-desc">
-              XGBoost pipeline for four-class pipeline risk classification (~15k flowlines, 24:1 class
-              imbalance). BorderlineSMOTE + TomekLinks resampling, isotonic probability calibration,
-              and Monte Carlo failure probability (μ = 2×MAOP, 10k samples) to generate physically
-              grounded Low/Medium/High/Severe risk labels.
-            </p>
+            <dl class="case-study-grid">
+              <div>
+                <dt>Problem</dt>
+                <dd>Gathering flowline risk data are imbalanced, noisy, and difficult to convert into reliable integrity decisions.</dd>
+              </div>
+              <div>
+                <dt>Approach</dt>
+                <dd>Use XGBoost with BorderlineSMOTE, TomekLinks, isotonic calibration, and Monte Carlo failure probability.</dd>
+              </div>
+              <div>
+                <dt>Results</dt>
+                <dd>15,331 flowline records, 24:1 class imbalance, 10k Monte Carlo samples per failure-probability estimate.</dd>
+              </div>
+              <div>
+                <dt>Impact</dt>
+                <dd>Produces defensible Low/Medium/High/Severe labels for prioritizing pipeline integrity review.</dd>
+              </div>
+            </dl>
             <div class="research-tags" role="list" aria-label="Research tags">
               <span class="tag" role="listitem">XGBoost</span>
               <span class="tag" role="listitem">SMOTE</span>
@@ -437,8 +604,16 @@
               <span class="tag" role="listitem">Pipeline Integrity</span>
               <span class="tag" role="listitem">Monte Carlo</span>
             </div>
+            <div class="research-actions">
+              <a href="https://github.com/WaRxChaMpioN" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-small">
+                <i data-lucide="github" aria-hidden="true"></i> View Code
+              </a>
+              <a href="#selected-work" class="btn btn-outline btn-small">
+                <i data-lucide="file-text" aria-hidden="true"></i> View Paper
+              </a>
+            </div>
             <button class="card-expand-btn" aria-expanded="false" aria-controls="details-card3">
-              <span>Show details</span>
+              <span>Technical details</span>
               <i data-lucide="chevron-down" aria-hidden="true"></i>
             </button>
             <div class="card-details" id="details-card3" aria-hidden="true">
@@ -446,21 +621,42 @@
             </div>
           </article>
 
-          <!-- Card 4: M.Tech — Fog Laser Interaction -->
           <article class="research-card fade-in-section"
                    aria-label="M.Tech Research: Laser-Fog Interaction for Long-Distance Visibility">
+            <figure class="research-media">
+              <img src="./assets/research/fog-scattering-preview.svg"
+                   alt="Mie scattering and laser-fog interaction preview"
+                   loading="lazy"
+                   decoding="async">
+              <button class="media-play-btn" type="button" aria-label="Play laser fog preview" data-preview-label="Scattering preview">
+                <i data-lucide="play" aria-hidden="true"></i>
+              </button>
+              <figcaption>Scattering response preview · compatible with short simulation videos.</figcaption>
+            </figure>
             <div class="research-card-header">
               <span class="status-badge badge-green">Active · M.Tech Research</span>
             </div>
             <h3 class="research-card-title">
               Tunnelling Through Fog: Laser Visibility via Monte Carlo Ray Tracing
             </h3>
-            <p class="research-card-desc">
-              Analysing complex refractive indices of ice and water across microwave, infrared, and
-              visible spectra. Laser-fog interaction simulated using Volume-of-Fluid and Monte Carlo
-              ray-tracing in ANSYS Fluent, with Mie theory scattering phase functions for realistic
-              droplet modelling.
-            </p>
+            <dl class="case-study-grid">
+              <div>
+                <dt>Problem</dt>
+                <dd>Fog reduces long-distance visibility through wavelength-dependent absorption and scattering.</dd>
+              </div>
+              <div>
+                <dt>Approach</dt>
+                <dd>Model refractive-index behavior for water and ice, then combine VOF, MCRT, and Mie phase functions.</dd>
+              </div>
+              <div>
+                <dt>Results</dt>
+                <dd>Mapped optical behavior across microwave, infrared, and visible regimes for droplet-scale simulations.</dd>
+              </div>
+              <div>
+                <dt>Impact</dt>
+                <dd>Supports better simulation of laser transmission in degraded-visibility environments.</dd>
+              </div>
+            </dl>
             <div class="research-tags" role="list" aria-label="Research tags">
               <span class="tag" role="listitem">MCRT</span>
               <span class="tag" role="listitem">VOF</span>
@@ -468,8 +664,16 @@
               <span class="tag" role="listitem">Mie Theory</span>
               <span class="tag" role="listitem">Optics</span>
             </div>
+            <div class="research-actions">
+              <a href="https://github.com/WaRxChaMpioN" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-small">
+                <i data-lucide="github" aria-hidden="true"></i> View Code
+              </a>
+              <a href="#selected-work" class="btn btn-outline btn-small">
+                <i data-lucide="file-text" aria-hidden="true"></i> View Paper
+              </a>
+            </div>
             <button class="card-expand-btn" aria-expanded="false" aria-controls="details-card4">
-              <span>Show details</span>
+              <span>Technical details</span>
               <i data-lucide="chevron-down" aria-hidden="true"></i>
             </button>
             <div class="card-details" id="details-card4" aria-hidden="true">
@@ -479,36 +683,42 @@
 
         </div>
 
-        <!-- Publications list -->
-        <div class="publications-list fade-in-section" aria-label="Selected Publications">
-          <h3 class="pub-list-title">Selected Publications</h3>
+        <section id="selected-work" class="publications-list fade-in-section" aria-label="Selected work and publications">
+          <div class="selected-work-header">
+            <h3 class="pub-list-title">Selected Work</h3>
+            <a href="https://github.com/WaRxChaMpioN" target="_blank" rel="noopener noreferrer" class="github-inline-link">
+              <i data-lucide="github" aria-hidden="true"></i> GitHub Projects
+            </a>
+          </div>
           <ol class="pub-entries">
             <li class="pub-entry">
+              <span class="pub-title">Investigating the role of radiation in porous medium for concentrated solar energy applications.</span>
               <span class="pub-authors"><strong>K. Jha</strong>, S. S. Rathore, B. Mehta, P. Kumar.</span>
-              "Investigating the role of radiation in porous medium for concentrated solar energy applications."
-              <span class="pub-status">Under review.</span>
+              <span class="pub-status">Under review · journal manuscript.</span>
+              <a href="#research" class="pub-doi">Project context</a>
             </li>
             <li class="pub-entry">
+              <span class="pub-title">Estimation of Effective Thermal Conductivity of Porous Medium for Volumetric Solar Receiver Cavity-like System.</span>
               <span class="pub-authors"><strong>K. Jha</strong>, S. S. Rathore, B. Mehta, P. Kumar.</span>
-              "Estimation of Effective Thermal Conductivity of Porous Medium for Volumetric Solar Receiver Cavity-like System."
-              <span class="pub-status">Submitted, IHMTC 2025.</span>
+              <span class="pub-status">Submitted · IHMTC 2025.</span>
+              <a href="#research" class="pub-doi">Project context</a>
             </li>
             <li class="pub-entry">
+              <span class="pub-title">Enhancing Resistance Spot Welding Weld Quality: A Comprehensive Analysis.</span>
               <span class="pub-authors"><strong>K. Jha</strong>, S. K. Tamang, R. Kumar, B. Choudhary.</span>
-              "Enhancing Resistance Spot Welding Weld Quality: A Comprehensive Analysis."
               <em>New Materials, Processing and Manufacturability</em>, Wiley, Ch. 5, Jul 2024.
               <a href="https://doi.org/10.1002/9781394212736.ch5"
                  target="_blank" rel="noopener noreferrer" class="pub-doi">doi:10.1002/9781394212736.ch5</a>
             </li>
             <li class="pub-entry">
+              <span class="pub-title">Design and Development of a Portable Resistance Spot Welding Machine for Small-Scale Industries.</span>
               <span class="pub-authors"><strong>K. Jha</strong>, A. Jumde, G. Kumar et al.</span>
-              "Design and Development of a Portable Resistance Spot Welding Machine for Small-Scale Industries."
               <em>Applied Mechanics and Materials</em>, Trans Tech, Feb 2024.
               <a href="https://doi.org/10.4028/p-xcpkt9"
                  target="_blank" rel="noopener noreferrer" class="pub-doi">doi:10.4028/p-xcpkt9</a>
             </li>
           </ol>
-        </div>
+        </section>
 
       </div>
     </section>
@@ -551,8 +761,7 @@
               <span class="tag" role="listitem">Slurm</span>
               <span class="tag" role="listitem">Automation</span>
             </div>
-            <!-- Replace href="#" with your actual GitHub repo URL -->
-            <a href="#" class="project-link" aria-label="View HPC Monitor Daemon on GitHub (link placeholder)">
+            <a href="https://github.com/WaRxChaMpioN" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View HPC Monitor Daemon projects on GitHub">
               <i data-lucide="github" aria-hidden="true"></i> GitHub →
             </a>
           </article>
@@ -573,8 +782,7 @@
               <span class="tag" role="listitem">LBM</span>
               <span class="tag" role="listitem">Scientific Viz</span>
             </div>
-            <!-- Replace href="#" with your actual GitHub repo URL -->
-            <a href="#" class="project-link" aria-label="View ML-LBM 3D Pipeline on GitHub (link placeholder)">
+            <a href="https://github.com/WaRxChaMpioN" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View ML-LBM 3D Pipeline projects on GitHub">
               <i data-lucide="github" aria-hidden="true"></i> GitHub →
             </a>
           </article>
@@ -594,8 +802,7 @@
               <span class="tag" role="listitem">C++</span>
               <span class="tag" role="listitem">Heat Transfer</span>
             </div>
-            <!-- Replace href="#" with your actual GitHub repo URL -->
-            <a href="#" class="project-link" aria-label="View OpenFOAM CFD Solver on GitHub (link placeholder)">
+            <a href="https://github.com/WaRxChaMpioN" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View OpenFOAM CFD Solver projects on GitHub">
               <i data-lucide="github" aria-hidden="true"></i> GitHub →
             </a>
           </article>
