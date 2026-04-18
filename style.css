@@ -1274,9 +1274,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   display: block;
 }
 
-.cfd-colorbar { display: flex; flex-direction: column; gap: 0.25rem; align-items: center; flex-shrink: 0; }
+.cfd-colorbar {
+  --cfd-bar-size: 200px;
+  display: grid;
+  grid-template-columns: 18px max-content;
+  gap: 0.45rem;
+  align-items: stretch;
+  flex-shrink: 0;
+}
 .cfd-colorbar-gradient {
-  width: 18px; height: 200px; border-radius: 9px;
+  width: 18px; height: var(--cfd-bar-size); border-radius: 9px;
   background: linear-gradient(180deg,
     rgb(139,  68,   9)  0%,
     rgb(237, 142,  48)  25%,
@@ -1288,7 +1295,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .cfd-colorbar-labels {
   display: flex; flex-direction: column; justify-content: space-between;
-  height: 200px; font-size: 0.7rem; color: var(--color-muted);
+  height: var(--cfd-bar-size);
+  padding: 1px 0;
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .cfd-caption { font-size: 0.75rem; color: var(--color-muted); margin-top: 0.75rem; }
@@ -1296,9 +1308,19 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 @media (max-width: 767px) {
   .cfd-canvas-wrap { flex-direction: column; }
   #cfd-canvas { max-width: 100%; }
-  .cfd-colorbar { flex-direction: row; height: auto; }
+  .cfd-colorbar {
+    grid-template-columns: 1fr;
+    grid-template-rows: 14px auto;
+    width: 100%;
+    gap: 0.35rem;
+  }
   .cfd-colorbar-gradient { width: 100%; height: 14px; border-radius: 7px; }
-  .cfd-colorbar-labels { flex-direction: row; height: auto; width: 100%; }
+  .cfd-colorbar-labels {
+    flex-direction: row-reverse;
+    height: auto;
+    width: 100%;
+    padding: 0;
+  }
   .cfd-control input[type=range] { width: 140px; }
 }
 
