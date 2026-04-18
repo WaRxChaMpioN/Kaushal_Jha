@@ -312,17 +312,22 @@ function initHeroCanvas() {
   let W, H, animId, visible = true;
   let particles = [];
   let particleTarget = 180;
-  const SPEED = 0.8;
+  const SPEED = 0.92;
   let lastFpsCheck = performance.now();
   let framesSinceCheck = 0;
+
+  function applyStrokeStyle() {
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+  }
 
   /* Perlin-like flow field using layered sin/cos */
   function flowAngle(x, y, t) {
     const nx = x / W, ny = y / H;
     return (
-      Math.sin(nx * 3.2 + t * 0.4) * Math.cos(ny * 2.1 + t * 0.25) * Math.PI +
-      Math.sin(nx * 1.4 + ny * 2.8 + t * 0.18) * Math.PI * 0.6 +
-      Math.cos(nx * 5.1 - ny * 1.7 + t * 0.3)  * Math.PI * 0.3
+      Math.sin(nx * 2.2 + t * 0.34) * Math.cos(ny * 1.55 + t * 0.22) * Math.PI +
+      Math.sin(nx * 0.95 + ny * 1.9 + t * 0.16) * Math.PI * 0.62 +
+      Math.cos(nx * 3.0 - ny * 1.1 + t * 0.24)  * Math.PI * 0.28
     );
   }
 
@@ -350,8 +355,8 @@ function initHeroCanvas() {
     return {
       x: Math.random() * W,
       y: Math.random() * H,
-      life: Math.random() * 120,
-      maxLife: 80 + Math.random() * 100,
+      life: Math.random() * 150,
+      maxLife: 130 + Math.random() * 150,
       speed: SPEED * (0.6 + Math.random() * 0.8),
       color: Math.random() > 0.75 ? 'rgba(139,105,20,' : 'rgba(74,124,89,',
     };
@@ -364,6 +369,7 @@ function initHeroCanvas() {
     canvas.width  = W * dpr;
     canvas.height = H * dpr;
     ctx.scale(dpr, dpr);
+    applyStrokeStyle();
     particleTarget = computeParticleTarget();
     initParticles();
   }
@@ -404,7 +410,7 @@ function initHeroCanvas() {
 
     /* Fade trail — accumulates into visible streams */
     const dark = document.documentElement.getAttribute('data-theme') === 'dark';
-    ctx.fillStyle = dark ? 'rgba(15,21,16,0.06)' : 'rgba(247,245,240,0.06)';
+    ctx.fillStyle = dark ? 'rgba(15,21,16,0.045)' : 'rgba(247,245,240,0.045)';
     ctx.fillRect(0, 0, W, H);
 
     t += 0.008;
@@ -422,8 +428,8 @@ function initHeroCanvas() {
       ctx.beginPath();
       ctx.moveTo(prevX, prevY);
       ctx.lineTo(p.x, p.y);
-      ctx.strokeStyle = p.color + (alpha * 0.55) + ')';
-      ctx.lineWidth = 0.9;
+      ctx.strokeStyle = p.color + (alpha * 0.58) + ')';
+      ctx.lineWidth = 1.35;
       ctx.stroke();
 
       /* Respawn when life ends or goes off-screen */
@@ -431,7 +437,7 @@ function initHeroCanvas() {
         p.x = Math.random() * W;
         p.y = Math.random() * H;
         p.life = 0;
-        p.maxLife = 80 + Math.random() * 100;
+        p.maxLife = 130 + Math.random() * 150;
         p.speed = SPEED * (0.6 + Math.random() * 0.8);
         p.color = Math.random() > 0.75 ? 'rgba(139,105,20,' : 'rgba(74,124,89,';
       }
@@ -529,7 +535,13 @@ function initLazyResearchMedia() {
   if (!figures.length) return;
 
   figures.forEach(figure => {
-    const imgs = Array.from(figure.querySelectorAll('.research-gallery-main, .compare-slider > img, .research-media > img'));
+    const imgs = [];
+    const galleryMain = figure.querySelector('.research-gallery-main');
+    const compareMain = figure.querySelector('.compare-slider > img');
+    const directImage = Array.from(figure.children).find(el => el.tagName === 'IMG');
+    if (galleryMain) imgs.push(galleryMain);
+    if (compareMain) imgs.push(compareMain);
+    if (directImage) imgs.push(directImage);
     if (!imgs.length || imgs.every(img => img.complete)) {
       figure.classList.add('media-loaded');
       return;
@@ -601,6 +613,10 @@ function initResearchGalleries() {
 
     thumbs.forEach(thumb => {
       thumb.addEventListener('click', () => {
+        if (main.src.includes(thumb.dataset.full)) return;
+        figure.classList.remove('media-loaded');
+        main.addEventListener('load', () => figure.classList.add('media-loaded'), { once: true });
+        main.addEventListener('error', () => figure.classList.add('media-loaded'), { once: true });
         main.src = thumb.dataset.full;
         main.alt = thumb.dataset.alt || main.alt;
         thumbs.forEach(t => t.classList.remove('active'));
@@ -849,16 +865,17 @@ function initCommandPalette() {
     { id: 'nav-blog',      label: 'Go to Writing',            icon: 'pen-line',      group: 'Navigate', action: () => { scrollToSection('#blog');     closePalette(); } },
     { id: 'nav-cv',        label: 'Go to CV',                 icon: 'file-text',     group: 'Navigate', action: () => { scrollToSection('#cv');       closePalette(); } },
     { id: 'nav-contact',   label: 'Go to Contact',            icon: 'mail',          group: 'Navigate', action: () => { scrollToSection('#contact');  closePalette(); } },
-    { id: 'dl-cv',         label: 'Download CV',              icon: 'download',      group: 'Actions',  action: () => { const a = document.createElement('a'); a.href = 'cv.pdf'; a.download = ''; a.click(); closePalette(); } },
+    { id: 'dl-cv',         label: 'Download CV',              icon: 'download',      group: 'Actions',  action: () => { const a = document.createElement('a'); a.href = 'PhD Resume.pdf'; a.download = ''; a.click(); closePalette(); } },
     { id: 'theme-light',   label: 'Switch to Light mode',     icon: 'sun',           group: 'Actions',  action: () => { setTheme('light'); closePalette(); } },
     { id: 'theme-dark',    label: 'Switch to Dark mode',      icon: 'moon',          group: 'Actions',  action: () => { setTheme('dark');  closePalette(); } },
     { id: 'run-cfd',       label: 'Trigger CFD demo',          icon: 'play',          group: 'Actions',  action: () => { triggerCFDDemo(); closePalette(); } },
-    { id: 'link-github',   label: 'Open GitHub',              icon: 'github',        group: 'Links',    action: () => { window.open('https://github.com/WaRxChaMpioN', '_blank'); closePalette(); } },
+    { id: 'link-github',   label: 'Open GitHub Repos',        icon: 'github',        group: 'Links',    action: () => { window.open('https://github.com/WaRxChaMpioN?tab=repositories', '_blank'); closePalette(); } },
     { id: 'link-linkedin', label: 'Open LinkedIn',            icon: 'linkedin',      group: 'Links',    action: () => { window.open('https://www.linkedin.com/in/kaushal-jha892/', '_blank'); closePalette(); } },
     { id: 'link-email',    label: 'Send Email',               icon: 'send',          group: 'Links',    action: () => { window.open('mailto:kaushal_jha@mines.edu'); closePalette(); } },
-    { id: 'res-lbm',       label: 'Research: ML-LBM 3D CNN', icon: 'cpu',           group: 'Research', action: () => { scrollToSection('#research'); closePalette(); } },
-    { id: 'res-solar',     label: 'Research: TPMS Solar',    icon: 'sun',           group: 'Research', action: () => { scrollToSection('#research'); closePalette(); } },
-    { id: 'res-pipeline',  label: 'Research: Pipeline Risk', icon: 'activity',      group: 'Research', action: () => { scrollToSection('#research'); closePalette(); } },
+    { id: 'res-lbm',       label: 'Research: ML-LBM 3D CNN', icon: 'cpu',           group: 'Research', action: () => { scrollToSection('#research-ml-lbm'); closePalette(); } },
+    { id: 'res-solar',     label: 'Research: TPMS Solar',    icon: 'sun',           group: 'Research', action: () => { scrollToSection('#research-tpms-radiation'); closePalette(); } },
+    { id: 'res-pipeline',  label: 'Research: Pipeline Risk', icon: 'activity',      group: 'Research', action: () => { scrollToSection('#research-pipeline-risk'); closePalette(); } },
+    { id: 'res-fog',       label: 'Research: Laser Fog',     icon: 'cloud-fog',     group: 'Research', action: () => { scrollToSection('#research-laser-fog'); closePalette(); } },
   ];
 
   let focused = -1;
