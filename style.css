@@ -1278,11 +1278,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .cfd-colorbar-gradient {
   width: 18px; height: 200px; border-radius: 9px;
   background: linear-gradient(180deg,
-    rgb(130, 75, 10)   0%,
-    rgb(210, 160, 45)  25%,
-    rgb(245, 243, 238) 50%,
-    rgb(100, 155, 210) 75%,
-    rgb(25,  70, 140)  100%
+    rgb(255, 206, 86)  0%,
+    rgb(225, 116, 28)  25%,
+    rgb(18,  28,  40)  50%,
+    rgb(0,  118, 190)  75%,
+    rgb(5,   22,  64)  100%
   );
   border: 1px solid var(--color-border);
 }
