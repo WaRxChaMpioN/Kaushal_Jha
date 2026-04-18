@@ -358,7 +358,7 @@ function initHeroCanvas() {
       life: Math.random() * 150,
       maxLife: 130 + Math.random() * 150,
       speed: SPEED * (0.6 + Math.random() * 0.8),
-      color: Math.random() > 0.75 ? 'rgba(139,105,20,' : 'rgba(74,124,89,',
+      color: Math.random() > 0.75 ? 'rgba(180,121,24,' : 'rgba(36,107,159,',
     };
   }
 
@@ -410,7 +410,7 @@ function initHeroCanvas() {
 
     /* Fade trail — accumulates into visible streams */
     const dark = document.documentElement.getAttribute('data-theme') === 'dark';
-    ctx.fillStyle = dark ? 'rgba(15,21,16,0.045)' : 'rgba(247,245,240,0.045)';
+    ctx.fillStyle = dark ? 'rgba(11,22,32,0.045)' : 'rgba(244,248,251,0.045)';
     ctx.fillRect(0, 0, W, H);
 
     t += 0.008;
@@ -439,7 +439,7 @@ function initHeroCanvas() {
         p.life = 0;
         p.maxLife = 130 + Math.random() * 150;
         p.speed = SPEED * (0.6 + Math.random() * 0.8);
-        p.color = Math.random() > 0.75 ? 'rgba(139,105,20,' : 'rgba(74,124,89,';
+        p.color = Math.random() > 0.75 ? 'rgba(180,121,24,' : 'rgba(36,107,159,';
       }
     }
 
@@ -1185,8 +1185,8 @@ function initCFDDemo() {
 
   /* ── Colormaps ── */
   function colVelocity(t) {
-    // warm white → light green → forest green → amber → dark brown
-    const stops = [[247,245,240],[168,213,181],[74,124,89],[139,105,20],[61,40,0]];
+    // ice white → pale cyan → ocean blue → amber → deep ink
+    const stops = [[244,248,251],[168,220,238],[36,107,159],[180,121,24],[14,32,46]];
     const n = stops.length - 1, seg = Math.min(Math.floor(t*n), n-1), f = t*n - seg;
     const a = stops[seg], b = stops[seg+1];
     return [a[0]+f*(b[0]-a[0]), a[1]+f*(b[1]-a[1]), a[2]+f*(b[2]-a[2])];
@@ -1194,7 +1194,7 @@ function initCFDDemo() {
 
   function colVorticity(t) {
     // Diverging colormap: negative vorticity (t<0.5) → deep blue/indigo,
-    // zero vorticity (t=0.5) → warm off-white (site background),
+    // zero vorticity (t=0.5) → cool off-white (site background),
     // positive vorticity (t>0.5) → deep amber/ochre.
     // t is already mapped as: bw/maxO * 0.5 + 0.5,
     // so t=0 → most negative, t=0.5 → zero, t=1 → most positive.
@@ -1279,7 +1279,7 @@ function initCFDDemo() {
           const bp   = bilinearSample(psi, fi, fj);
           const t    = (bp - minP) / (maxP - minP);
           const band = Math.sin(t * Math.PI * 14) * 0.5 + 0.5;
-          const a = [74,124,89], c = [168,213,181];
+          const a = [36,107,159], c = [168,220,238];
           r = a[0] + band*(c[0]-a[0]);
           g = a[1] + band*(c[1]-a[1]);
           b = a[2] + band*(c[2]-a[2]);
