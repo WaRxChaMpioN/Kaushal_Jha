@@ -1110,7 +1110,34 @@ function initCFDDemo() {
 
   const idx = (i, j) => j * N + i;
 
-  function reset() { psi.fill(0); omega.fill(0); u.fill(0); v.fill(0); omgTmp.fill(0); }
+  function reset() {
+    psi.fill(0); omega.fill(0); u.fill(0); v.fill(0); omgTmp.fill(0);
+    seedCavityPreview();
+  }
+
+  function seedCavityPreview() {
+    // Non-physical preview field: gives the reset/base state meaningful contours
+    // while preserving the same solver, controls, and boundary conditions.
+    for (let j = 1; j < N - 1; j++) {
+      const y = j / (N - 1);
+      for (let i = 1; i < N - 1; i++) {
+        const x = i / (N - 1);
+        const roll = Math.sin(Math.PI * x) * Math.sin(Math.PI * y);
+        psi[idx(i,j)] = -0.055 * roll * (0.72 + 0.28 * y);
+      }
+    }
+    computeVelocity();
+    for (let j = 1; j < N - 1; j++) {
+      const y = j / (N - 1);
+      for (let i = 1; i < N - 1; i++) {
+        const x = i / (N - 1);
+        const core = Math.sin(Math.PI * x) * Math.sin(Math.PI * y);
+        const lidShear = Math.exp(-Math.pow((1 - y) / 0.12, 2)) * Math.sin(Math.PI * x);
+        omega[idx(i,j)] = -4.8 * core - 7.2 * lidShear;
+      }
+    }
+    updateBoundaryVorticity();
+  }
 
   /* ── Gauss-Seidel: ∇²ψ = -ω ── */
   function solvePoisson() {
@@ -1304,7 +1331,32 @@ function initCFDDemo() {
       }
     }
     ctx.putImageData(imgData, 0, 0);
+    drawCavityFrame(W, H);
     drawVelocityArrows(W, H, maxV);
+  }
+
+  function drawCavityFrame(W, H) {
+    ctx.save();
+    const pad = Math.max(2, W / 260);
+    ctx.lineWidth = Math.max(2, W / 260);
+    ctx.strokeStyle = 'rgba(12,42,70,0.58)';
+    ctx.strokeRect(pad, pad, W - 2 * pad, H - 2 * pad);
+
+    // Moving-lid cue at the top wall so the reset state never looks inert.
+    ctx.fillStyle = 'rgba(36,107,159,0.10)';
+    ctx.fillRect(pad, pad, W - 2 * pad, Math.max(8, H * 0.035));
+    ctx.strokeStyle = 'rgba(36,107,159,0.85)';
+    ctx.lineWidth = Math.max(2, W / 180);
+    const y = Math.max(10, H * 0.055);
+    const x0 = W * 0.28, x1 = W * 0.72;
+    ctx.beginPath();
+    ctx.moveTo(x0, y);
+    ctx.lineTo(x1, y);
+    ctx.lineTo(x1 - W * 0.035, y - H * 0.018);
+    ctx.moveTo(x1, y);
+    ctx.lineTo(x1 - W * 0.035, y + H * 0.018);
+    ctx.stroke();
+    ctx.restore();
   }
 
   /* ── Velocity arrow overlay ── */
@@ -1312,7 +1364,7 @@ function initCFDDemo() {
     const COLS = 12, ROWS = 12;
     const cw = W / COLS, ch = H / ROWS;
     ctx.save();
-    ctx.strokeStyle = 'rgba(255,255,255,0.72)';
+    ctx.strokeStyle = 'rgba(12,42,70,0.58)';
     ctx.lineWidth = Math.max(1, W / 300);
     for (let row = 0; row < ROWS; row++) {
       for (let col = 0; col < COLS; col++) {
