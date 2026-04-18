@@ -959,11 +959,11 @@
           <div class="cfd-canvas-wrap">
             <canvas id="cfd-canvas" aria-label="CFD simulation canvas"></canvas>
             <div class="cfd-colorbar" aria-hidden="true">
-              <div class="cfd-colorbar-gradient"></div>
+              <div class="cfd-colorbar-gradient" id="cfd-colorbar-gradient"></div>
               <div class="cfd-colorbar-labels">
-                <span title="Positive vorticity — clockwise rotation">+ω</span>
-                <span title="Zero vorticity">0</span>
-                <span title="Negative vorticity — counter-clockwise rotation">−ω</span>
+                <span id="cfd-colorbar-max">High |u|</span>
+                <span id="cfd-colorbar-mid">Speed</span>
+                <span id="cfd-colorbar-min">Low |u|</span>
               </div>
             </div>
           </div>
@@ -1313,6 +1313,6 @@
     </div>
   </div>
 
-  <script src="script.js?v=20260418-cfd-base-preview"></script>
+  <script src="script.js?v=20260418-cfd-legend"></script>
 </body>
 </html>

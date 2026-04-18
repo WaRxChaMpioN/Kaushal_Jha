@@ -1087,6 +1087,10 @@ function initCFDDemo() {
   const vizSelect = document.getElementById('cfd-viz');
   const runBtn    = document.getElementById('cfd-run');
   const resetBtn  = document.getElementById('cfd-reset');
+  const colorbarGradient = document.getElementById('cfd-colorbar-gradient');
+  const colorbarMax = document.getElementById('cfd-colorbar-max');
+  const colorbarMid = document.getElementById('cfd-colorbar-mid');
+  const colorbarMin = document.getElementById('cfd-colorbar-min');
   if (!reSlider || !runBtn || !resetBtn) return;
 
   const N       = 64;
@@ -1257,6 +1261,35 @@ function initCFDDemo() {
     ];
   }
 
+  function setColorbar(mode) {
+    if (!colorbarGradient || !colorbarMax || !colorbarMid || !colorbarMin) return;
+    const legends = {
+      velocity: {
+        gradient: 'linear-gradient(180deg, rgb(245,176,54) 0%, rgb(24,118,176) 38%, rgb(134,201,230) 68%, rgb(252,254,255) 100%)',
+        max: 'High |u|',
+        mid: 'Velocity',
+        min: 'Low |u|',
+      },
+      vorticity: {
+        gradient: 'linear-gradient(180deg, rgb(139,68,9) 0%, rgb(237,142,48) 25%, rgb(252,254,255) 50%, rgb(44,145,199) 75%, rgb(5,61,112) 100%)',
+        max: '+ω',
+        mid: '0',
+        min: '-ω',
+      },
+      streamlines: {
+        gradient: 'repeating-linear-gradient(180deg, rgb(36,107,159) 0 8px, rgb(168,220,238) 8px 16px, rgb(252,254,255) 16px 24px)',
+        max: 'ψ high',
+        mid: 'Streamlines',
+        min: 'ψ low',
+      },
+    };
+    const legend = legends[mode] || legends.velocity;
+    colorbarGradient.style.background = legend.gradient;
+    colorbarMax.textContent = legend.max;
+    colorbarMid.textContent = legend.mid;
+    colorbarMin.textContent = legend.min;
+  }
+
   /* ── Bilinear interpolation helper ── */
   function bilinearSample(arr, fi, fj) {
     const i0 = Math.max(0, Math.min(N-2, Math.floor(fi)));
@@ -1281,6 +1314,7 @@ function initCFDDemo() {
     }
     const W = canvas.width, H = canvas.height;
     const viz = vizSelect ? vizSelect.value : 'velocity';
+    setColorbar(viz);
     const imgData = ctx.createImageData(W, H);
     const data = imgData.data;
 
@@ -1425,7 +1459,10 @@ function initCFDDemo() {
     reset(); render();
   });
 
-  if (vizSelect) vizSelect.addEventListener('change', render);
+  if (vizSelect) {
+    vizSelect.addEventListener('change', render);
+    setColorbar(vizSelect.value);
+  }
 
   /* ── Pause when off-screen ── */
   const demoEl = document.querySelector('.cfd-demo');
