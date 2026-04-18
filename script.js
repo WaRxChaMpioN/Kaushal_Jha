@@ -1277,10 +1277,10 @@ function initCFDDemo() {
         min: '-ω',
       },
       streamlines: {
-        gradient: 'repeating-linear-gradient(180deg, rgb(36,107,159) 0 8px, rgb(168,220,238) 8px 16px, rgb(252,254,255) 16px 24px)',
-        max: 'ψ high',
-        mid: 'Streamlines',
-        min: 'ψ low',
+        gradient: 'linear-gradient(180deg, rgb(168,220,238) 0%, rgb(36,107,159) 50%, rgb(168,220,238) 100%)',
+        max: 'Light band',
+        mid: 'ψ bands',
+        min: 'Light band',
       },
     };
     const legend = legends[mode] || legends.velocity;
