@@ -1185,27 +1185,26 @@ function initCFDDemo() {
 
   /* ── Colormaps ── */
   function colVelocity(t) {
-    // Dark scientific speed map: ink → blue → cyan → amber.
-    t = Math.pow(Math.max(0, Math.min(t, 1)), 0.72);
-    const stops = [[8,18,32],[16,72,126],[18,135,184],[76,198,218],[246,178,58]];
+    // Paper-style speed map: white background, blue/cyan contours, amber high-speed lid.
+    t = Math.pow(Math.max(0, Math.min(t, 1)), 0.58);
+    const stops = [[252,254,255],[224,241,250],[134,201,230],[24,118,176],[245,176,54]];
     const n = stops.length - 1, seg = Math.min(Math.floor(t*n), n-1), f = t*n - seg;
     const a = stops[seg], b = stops[seg+1];
     return [a[0]+f*(b[0]-a[0]), a[1]+f*(b[1]-a[1]), a[2]+f*(b[2]-a[2])];
   }
 
   function colVorticity(t) {
-    // High-contrast diverging map: negative vorticity → blue,
-    // zero vorticity → dark neutral, positive vorticity → amber.
+    // Paper-style diverging map: white near zero, blue negative, amber positive.
     // t is already mapped as: bw/maxO * 0.5 + 0.5,
     // so t=0 → most negative, t=0.5 → zero, t=1 → most positive.
 
     // [strong negative, mild negative, near zero, mild positive, strong positive]
     const stops = [
-      [5,   22,  64],   // deep navy   — strong negative vorticity (CCW)
-      [0,  118, 190],   // saturated blue — mild negative
-      [18,  28,  40],   // dark neutral — near zero
-      [225, 116,  28],  // orange      — mild positive
-      [255, 206,  86],  // bright amber — strong positive vorticity (CW)
+      [5,   61, 112],   // deep blue   — strong negative vorticity (CCW)
+      [44, 145, 199],   // saturated blue — mild negative
+      [252,254,255],    // white       — near zero
+      [237, 142,  48],  // orange      — mild positive
+      [139,  68,   9],  // deep amber  — strong positive vorticity (CW)
     ];
 
     const n   = stops.length - 1;          // 4 segments
@@ -1216,6 +1215,18 @@ function initCFDDemo() {
       a[0] + f * (b[0] - a[0]),
       a[1] + f * (b[1] - a[1]),
       a[2] + f * (b[2] - a[2]),
+    ];
+  }
+
+  function applyContourLine(rgb, value, frequency, strength = 0.38) {
+    const wave = Math.abs(Math.sin(value * Math.PI * frequency));
+    if (wave > 0.055) return rgb;
+    const ink = 26;
+    const a = strength * (1 - wave / 0.055);
+    return [
+      rgb[0] * (1 - a) + ink * a,
+      rgb[1] * (1 - a) + ink * a,
+      rgb[2] * (1 - a) + ink * a,
     ];
   }
 
@@ -1269,12 +1280,14 @@ function initCFDDemo() {
           const bu = bilinearSample(u, fi, fj);
           const bv = bilinearSample(v, fi, fj);
           const spd = Math.sqrt(bu*bu + bv*bv);
-          [r,g,b] = colVelocity(Math.min(spd / maxV, 1));
+          const t = Math.min(spd / maxV, 1);
+          [r,g,b] = applyContourLine(colVelocity(t), Math.pow(t, 0.58), 16, 0.28);
         } else if (viz === 'vorticity') {
           const bw = bilinearSample(omega, fi, fj);
           const signed = Math.max(-1, Math.min(1, bw / maxO));
-          const stretched = Math.sign(signed) * Math.pow(Math.abs(signed), 0.58);
-          [r,g,b] = colVorticity(stretched * 0.5 + 0.5);
+          const stretched = Math.sign(signed) * Math.pow(Math.abs(signed), 0.48);
+          const t = stretched * 0.5 + 0.5;
+          [r,g,b] = applyContourLine(colVorticity(t), Math.abs(stretched), 18, 0.34);
         } else {
           // Smooth sine-band streamlines
           const bp   = bilinearSample(psi, fi, fj);
