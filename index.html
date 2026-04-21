@@ -485,8 +485,11 @@
               <span class="tag" role="listitem">TensorFlow</span>
             </div>
             <div class="research-actions">
-              <a href="https://github.com/WaRxChaMpioN?tab=repositories" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-small">
-                <i data-lucide="github" aria-hidden="true"></i> GitHub Repos
+              <a href="https://github.com/WaRxChaMpioN/ML-LBM-3D" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-small">
+                <i data-lucide="github" aria-hidden="true"></i> ML-LBM-3D
+              </a>
+              <a href="https://github.com/WaRxChaMpioN/ML-LBM-2D" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-small">
+                <i data-lucide="github" aria-hidden="true"></i> ML-LBM-2D
               </a>
               <a href="#pub-ml-lbm" class="btn btn-outline btn-small">
                 <i data-lucide="file-text" aria-hidden="true"></i> Manuscript Status
@@ -497,7 +500,16 @@
               <i data-lucide="chevron-down" aria-hidden="true"></i>
             </button>
             <div class="card-details" id="details-card1" aria-hidden="true">
-              <p>Architecture reference: Wang et al. 2021 K4N8-style 3D CNN for pore-scale velocity prediction. Current experiment path: <code>/beegfs/scratch/kaushal_jha/ML_LBM_3D/</code>. Next run: continuity loss alpha = 0.1 from ckpt-16 at LR = 1e-5, with field-level comparisons against published velocity slices.</p>
+              <p>
+                Two open-source repositories accompany this research:
+                <a href="https://github.com/WaRxChaMpioN/ML-LBM-3D" target="_blank" rel="noopener noreferrer"><strong>ML-LBM-3D</strong></a> —
+                D3Q19 MRT-LBM solver, 3D correlated geometry generation (Cirpka &amp; Attinger 2003), and a K4N8 encoder-decoder CNN (~18M params) for 64³ domains.
+                Best checkpoint: val loss 0.0076 at epoch 510, R² ≈ 0.85. Also includes fractured geometry generation via fBm (Dwinanda &amp; Dharmawan 2025).
+                <a href="https://github.com/WaRxChaMpioN/ML-LBM-2D" target="_blank" rel="noopener noreferrer"><strong>ML-LBM-2D</strong></a> —
+                D2Q9 LBM solver and K16N64 2D CNN (~200M params) for 256² domains, reproducing Wang et al. (2021) with R² &gt; 0.99.
+                CNN architecture follows Wang et al. (2021); all solver and geometry code is original.
+                Trained on Wendian HPC (Colorado School of Mines).
+              </p>
             </div>
           </article>
 
