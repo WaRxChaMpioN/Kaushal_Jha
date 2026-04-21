@@ -430,57 +430,58 @@
         <div class="research-cards">
 
           <!-- Case-study research cards: visual preview + structured evidence + expandable technical notes. -->
+
+          <!-- ML-LBM 3D card -->
           <article class="research-card fade-in-section"
-                   id="research-ml-lbm"
+                   id="research-ml-lbm-3d"
                    aria-label="PhD Research: CNN Surrogate for 3D Porous Media Flow">
             <figure class="research-media">
               <div class="compare-slider" data-compare>
-                <img src="./assets/research/ml-lbm.png"
-                     alt="ML-LBM 3D porous media velocity-field preview"
-                     width="3273"
-                     height="2008"
+                <img src="./assets/research/ml-lbm-3d-velocity.png"
+                     alt="3D LBM vs CNN surrogate velocity field comparison, sample 906"
                      loading="lazy"
                      decoding="async">
                 <div class="compare-after" aria-hidden="true">
-                  <img src="./assets/research/ml-lbm-surrogate.svg"
-                       alt=""
+                  <img src="./assets/research/ml-lbm-3d-accuracy.png"
+                       alt="3D ML-LBM training accuracy curves, checkpoint 23"
                        loading="lazy"
                        decoding="async">
                 </div>
-                <span class="compare-label compare-label-left">LBM</span>
-                <span class="compare-label compare-label-right">Surrogate</span>
-                <input type="range" min="0" max="100" value="58" aria-label="Compare LBM reference with surrogate prediction">
+                <span class="compare-label compare-label-left">Velocity</span>
+                <span class="compare-label compare-label-right">Accuracy</span>
+                <input type="range" min="0" max="100" value="50" aria-label="Compare 3D velocity field with accuracy curves">
               </div>
-              <figcaption>ML-LBM velocity preview from the current porous-media surrogate workflow.</figcaption>
+              <figcaption>Left: LBM vs CNN velocity comparison (sample 906, checkpoint 23). Right: training &amp; validation accuracy curves.</figcaption>
             </figure>
             <div class="research-card-header">
               <span class="status-badge badge-green">Active · PhD Research</span>
             </div>
             <h3 class="research-card-title">
-              CNN Surrogate for 3D Porous Media Flow via Lattice Boltzmann Method
+              3D CNN Surrogate for Porous Media Flow — D3Q19 LBM
             </h3>
             <dl class="case-study-grid">
               <div>
                 <dt>Problem</dt>
-                <dd>Full LBM simulations are too expensive for repeated pore-scale flow prediction across CT-derived geometries.</dd>
+                <dd>Full 3D LBM simulations are prohibitively expensive for repeated pore-scale flow prediction across large geometry datasets.</dd>
               </div>
               <div>
                 <dt>Approach</dt>
-                <dd>Train a 3D CNN surrogate on pore geometry and LBM velocity fields, then add continuity-aware loss terms.</dd>
+                <dd>K4N8 encoder-decoder 3D CNN (~18M params) trained on EDT-normalised 64³ geometries and D3Q19 MRT-LBM velocity fields, with continuity physics loss (α = 0.1).</dd>
               </div>
               <div>
                 <dt>Results</dt>
-                <dd>Best checkpoint: R² = 0.85 at 64³ resolution after roughly 510 epochs on Wendian HPC.</dd>
+                <dd>Val loss 0.0076 at epoch 510, R² ≈ 0.85 on 64³ test set. Extends to fractured geometries (fBm fractures, Dwinanda &amp; Dharmawan 2025).</dd>
               </div>
               <div>
                 <dt>Impact</dt>
-                <dd>Enables fast flow-field screening without running a fresh CFD solve for every candidate geometry.</dd>
+                <dd>Enables fast 3D flow-field screening — including fractured sandstone — without a fresh LBM solve per geometry.</dd>
               </div>
             </dl>
             <div class="research-tags" role="list" aria-label="Research tags">
               <span class="tag" role="listitem">ML-LBM</span>
               <span class="tag" role="listitem">3D CNN</span>
-              <span class="tag" role="listitem">Porous Media</span>
+              <span class="tag" role="listitem">D3Q19 MRT-LBM</span>
+              <span class="tag" role="listitem">Fractured Media</span>
               <span class="tag" role="listitem">HPC</span>
               <span class="tag" role="listitem">TensorFlow</span>
             </div>
@@ -488,6 +489,79 @@
               <a href="https://github.com/WaRxChaMpioN/ML-LBM-3D" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-small">
                 <i data-lucide="github" aria-hidden="true"></i> ML-LBM-3D
               </a>
+              <a href="#pub-ml-lbm" class="btn btn-outline btn-small">
+                <i data-lucide="file-text" aria-hidden="true"></i> Manuscript Status
+              </a>
+            </div>
+            <button class="card-expand-btn" aria-expanded="false" aria-controls="details-card-3d">
+              <span>Technical details</span>
+              <i data-lucide="chevron-down" aria-hidden="true"></i>
+            </button>
+            <div class="card-details" id="details-card-3d" aria-hidden="true">
+              <p>
+                <a href="https://github.com/WaRxChaMpioN/ML-LBM-3D" target="_blank" rel="noopener noreferrer"><strong>ML-LBM-3D</strong></a>:
+                D3Q19 MRT-LBM CUDA solver (CuPy, Zou-He pressure BCs), 3D correlated geometry generation via spectral Fourier method
+                (Cirpka &amp; Attinger 2003), and fractured geometry generation using fBm surfaces (Dwinanda &amp; Dharmawan 2025).
+                CNN architecture (K4N8, ~18M params) follows Wang et al. (2021); all solver and geometry code is original work.
+                Training on Wendian HPC (NVIDIA V100 32 GB), ~42 s/epoch.
+              </p>
+            </div>
+          </article>
+
+          <!-- ML-LBM 2D card -->
+          <article class="research-card fade-in-section"
+                   id="research-ml-lbm-2d"
+                   aria-label="Research: CNN Surrogate for 2D Porous Media Flow">
+            <figure class="research-media">
+              <div class="compare-slider" data-compare>
+                <img src="./assets/research/ml-lbm-2d-velocity.png"
+                     alt="2D LBM vs CNN surrogate velocity field comparison"
+                     loading="lazy"
+                     decoding="async">
+                <div class="compare-after" aria-hidden="true">
+                  <img src="./assets/research/ml-lbm-2d-permeability.png"
+                       alt="2D ML-LBM permeability scatter: CNN predicted vs LBM ground truth"
+                       loading="lazy"
+                       decoding="async">
+                </div>
+                <span class="compare-label compare-label-left">Velocity</span>
+                <span class="compare-label compare-label-right">Permeability</span>
+                <input type="range" min="0" max="100" value="50" aria-label="Compare 2D velocity field with permeability scatter">
+              </div>
+              <figcaption>Left: 2D velocity field (LBM vs CNN). Right: CNN-predicted vs LBM permeability scatter (R² &gt; 0.99).</figcaption>
+            </figure>
+            <div class="research-card-header">
+              <span class="status-badge badge-blue">Completed · Baseline Study</span>
+            </div>
+            <h3 class="research-card-title">
+              2D CNN Surrogate for Porous Media Flow — D2Q9 LBM
+            </h3>
+            <dl class="case-study-grid">
+              <div>
+                <dt>Problem</dt>
+                <dd>Establish a validated 2D ML-LBM baseline before extending to 3D, reproducing results of Wang et al. (2021) on 256² domains.</dd>
+              </div>
+              <div>
+                <dt>Approach</dt>
+                <dd>K16N64 encoder-decoder 2D CNN (~200M params) trained on EDT-normalised 256² correlated porous geometries and D2Q9 LBM velocity fields.</dd>
+              </div>
+              <div>
+                <dt>Results</dt>
+                <dd>R² &gt; 0.99 on 256² test set, reproducing Wang et al. (2021) accuracy benchmarks.</dd>
+              </div>
+              <div>
+                <dt>Impact</dt>
+                <dd>Validated surrogate baseline and reusable geometry/solver pipeline that underpins the 3D extension.</dd>
+              </div>
+            </dl>
+            <div class="research-tags" role="list" aria-label="Research tags">
+              <span class="tag" role="listitem">ML-LBM</span>
+              <span class="tag" role="listitem">2D CNN</span>
+              <span class="tag" role="listitem">D2Q9 LBM</span>
+              <span class="tag" role="listitem">Porous Media</span>
+              <span class="tag" role="listitem">TensorFlow</span>
+            </div>
+            <div class="research-actions">
               <a href="https://github.com/WaRxChaMpioN/ML-LBM-2D" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-small">
                 <i data-lucide="github" aria-hidden="true"></i> ML-LBM-2D
               </a>
@@ -495,20 +569,17 @@
                 <i data-lucide="file-text" aria-hidden="true"></i> Manuscript Status
               </a>
             </div>
-            <button class="card-expand-btn" aria-expanded="false" aria-controls="details-card1">
+            <button class="card-expand-btn" aria-expanded="false" aria-controls="details-card-2d">
               <span>Technical details</span>
               <i data-lucide="chevron-down" aria-hidden="true"></i>
             </button>
-            <div class="card-details" id="details-card1" aria-hidden="true">
+            <div class="card-details" id="details-card-2d" aria-hidden="true">
               <p>
-                Two open-source repositories accompany this research:
-                <a href="https://github.com/WaRxChaMpioN/ML-LBM-3D" target="_blank" rel="noopener noreferrer"><strong>ML-LBM-3D</strong></a> —
-                D3Q19 MRT-LBM solver, 3D correlated geometry generation (Cirpka &amp; Attinger 2003), and a K4N8 encoder-decoder CNN (~18M params) for 64³ domains.
-                Best checkpoint: val loss 0.0076 at epoch 510, R² ≈ 0.85. Also includes fractured geometry generation via fBm (Dwinanda &amp; Dharmawan 2025).
-                <a href="https://github.com/WaRxChaMpioN/ML-LBM-2D" target="_blank" rel="noopener noreferrer"><strong>ML-LBM-2D</strong></a> —
-                D2Q9 LBM solver and K16N64 2D CNN (~200M params) for 256² domains, reproducing Wang et al. (2021) with R² &gt; 0.99.
-                CNN architecture follows Wang et al. (2021); all solver and geometry code is original.
-                Trained on Wendian HPC (Colorado School of Mines).
+                <a href="https://github.com/WaRxChaMpioN/ML-LBM-2D" target="_blank" rel="noopener noreferrer"><strong>ML-LBM-2D</strong></a>:
+                D2Q9 LBM solver with Zou-He pressure BCs and Darcy permeability computation.
+                2D geometry generation via spectral Fourier method (Cirpka &amp; Attinger 2003, 256² domain, 10 000 samples).
+                CNN architecture (K16N64, ~200M params) follows Wang et al. (2021); all solver and geometry code is original work.
+                Serves as the validated baseline for the ongoing 3D extension.
               </p>
             </div>
           </article>
