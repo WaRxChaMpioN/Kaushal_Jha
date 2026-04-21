@@ -436,22 +436,39 @@
                    id="research-ml-lbm-3d"
                    aria-label="PhD Research: CNN Surrogate for 3D Porous Media Flow">
             <figure class="research-media">
-              <div class="compare-slider" data-compare>
-                <img src="./assets/research/ml-lbm-3d-velocity.png"
-                     alt="3D LBM vs CNN surrogate velocity field comparison, sample 906"
-                     loading="lazy"
-                     decoding="async">
-                <div class="compare-after" aria-hidden="true">
-                  <img src="./assets/research/ml-lbm-3d-accuracy.png"
-                       alt="3D ML-LBM training accuracy curves, checkpoint 23"
-                       loading="lazy"
-                       decoding="async">
-                </div>
-                <span class="compare-label compare-label-left">Velocity</span>
-                <span class="compare-label compare-label-right">Accuracy</span>
-                <input type="range" min="0" max="100" value="50" aria-label="Compare 3D velocity field with accuracy curves">
+              <img class="research-gallery-main"
+                   src="./assets/research/ml-lbm-3d-velocity.png"
+                   alt="3D porous geometry with LBM vs CNN velocity comparison, sample 906"
+                   loading="lazy"
+                   decoding="async">
+              <div class="research-gallery-thumbs" aria-label="3D ML-LBM result thumbnails">
+                <button type="button" class="gallery-thumb active"
+                        data-full="./assets/research/ml-lbm-3d-velocity.png"
+                        data-alt="3D porous geometry with LBM vs CNN velocity comparison, sample 906">
+                  <img src="./assets/research/ml-lbm-3d-velocity.png" alt="" loading="lazy" decoding="async">
+                </button>
+                <button type="button" class="gallery-thumb"
+                        data-full="./assets/research/ml-lbm-3d-sample-912.png"
+                        data-alt="3D LBM vs CNN velocity comparison, sample 912">
+                  <img src="./assets/research/ml-lbm-3d-sample-912.png" alt="" loading="lazy" decoding="async">
+                </button>
+                <button type="button" class="gallery-thumb"
+                        data-full="./assets/research/ml-lbm-3d-sample-937.png"
+                        data-alt="3D LBM vs CNN velocity comparison, sample 937">
+                  <img src="./assets/research/ml-lbm-3d-sample-937.png" alt="" loading="lazy" decoding="async">
+                </button>
+                <button type="button" class="gallery-thumb"
+                        data-full="./assets/research/ml-lbm-3d-sample-977.png"
+                        data-alt="3D LBM vs CNN velocity comparison, sample 977">
+                  <img src="./assets/research/ml-lbm-3d-sample-977.png" alt="" loading="lazy" decoding="async">
+                </button>
+                <button type="button" class="gallery-thumb"
+                        data-full="./assets/research/ml-lbm-3d-accuracy.png"
+                        data-alt="3D ML-LBM training and validation accuracy curves, checkpoint 23">
+                  <img src="./assets/research/ml-lbm-3d-accuracy.png" alt="" loading="lazy" decoding="async">
+                </button>
               </div>
-              <figcaption>Left: LBM vs CNN velocity comparison (sample 906, checkpoint 23). Right: training &amp; validation accuracy curves.</figcaption>
+              <figcaption>Pore geometry, LBM vs CNN velocity comparisons across test samples, and training accuracy curves (checkpoint 23, 64³ domain).</figcaption>
             </figure>
             <div class="research-card-header">
               <span class="status-badge badge-green">Active · PhD Research</span>
@@ -513,22 +530,34 @@
                    id="research-ml-lbm-2d"
                    aria-label="Research: CNN Surrogate for 2D Porous Media Flow">
             <figure class="research-media">
-              <div class="compare-slider" data-compare>
-                <img src="./assets/research/ml-lbm-2d-velocity.png"
-                     alt="2D LBM vs CNN surrogate velocity field comparison"
-                     loading="lazy"
-                     decoding="async">
-                <div class="compare-after" aria-hidden="true">
-                  <img src="./assets/research/ml-lbm-2d-permeability.png"
-                       alt="2D ML-LBM permeability scatter: CNN predicted vs LBM ground truth"
-                       loading="lazy"
-                       decoding="async">
-                </div>
-                <span class="compare-label compare-label-left">Velocity</span>
-                <span class="compare-label compare-label-right">Permeability</span>
-                <input type="range" min="0" max="100" value="50" aria-label="Compare 2D velocity field with permeability scatter">
+              <img class="research-gallery-main"
+                   src="./assets/research/ml-lbm-2d-velocity.png"
+                   alt="2D porous geometry with LBM vs CNN velocity field comparison"
+                   loading="lazy"
+                   decoding="async">
+              <div class="research-gallery-thumbs" aria-label="2D ML-LBM result thumbnails">
+                <button type="button" class="gallery-thumb active"
+                        data-full="./assets/research/ml-lbm-2d-velocity.png"
+                        data-alt="2D porous geometry with LBM vs CNN velocity field comparison">
+                  <img src="./assets/research/ml-lbm-2d-velocity.png" alt="" loading="lazy" decoding="async">
+                </button>
+                <button type="button" class="gallery-thumb"
+                        data-full="./assets/research/ml-lbm-2d-velocity2.png"
+                        data-alt="2D LBM vs CNN velocity comparison, second sample">
+                  <img src="./assets/research/ml-lbm-2d-velocity2.png" alt="" loading="lazy" decoding="async">
+                </button>
+                <button type="button" class="gallery-thumb"
+                        data-full="./assets/research/ml-lbm-2d-velocity3.png"
+                        data-alt="2D LBM vs CNN velocity comparison, third sample">
+                  <img src="./assets/research/ml-lbm-2d-velocity3.png" alt="" loading="lazy" decoding="async">
+                </button>
+                <button type="button" class="gallery-thumb"
+                        data-full="./assets/research/ml-lbm-2d-permeability.png"
+                        data-alt="2D ML-LBM permeability scatter: CNN predicted vs LBM ground truth">
+                  <img src="./assets/research/ml-lbm-2d-permeability.png" alt="" loading="lazy" decoding="async">
+                </button>
               </div>
-              <figcaption>Left: 2D velocity field (LBM vs CNN). Right: CNN-predicted vs LBM permeability scatter (R² &gt; 0.99).</figcaption>
+              <figcaption>Pore geometry, LBM vs CNN velocity comparisons across test samples, and permeability scatter (R² &gt; 0.99, 256² domain).</figcaption>
             </figure>
             <div class="research-card-header">
               <span class="status-badge badge-blue">Completed · Baseline Study</span>
